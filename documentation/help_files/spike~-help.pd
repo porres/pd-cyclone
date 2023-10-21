@@ -26,7 +26,7 @@
 #X text 197 345 restarts the countdown of the refractory period from the time at which the bang was received;
 #X text 185 407 -;
 #X text 197 407 interval in ms since last 0 to non-0 transition (including the refractory period \, if one is set);
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 3 ./header spike~;
 #X text 24 59 Report zero to non-zero transition intervals;
 #X connect 12 0 13 1;

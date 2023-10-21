@@ -27,7 +27,7 @@
 #X text 93 117 Too similar to Pd Vanilla's [max~] (see "more info");
 #X text 205 556 - value to compare maximum with (default 0);
 #X obj 188 264 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 1 1 ./header maximmum~;
 #X text 22 61 Signal maximum of two values;
 #X obj 71 379 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;

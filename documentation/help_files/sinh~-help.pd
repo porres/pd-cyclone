@@ -26,7 +26,7 @@
 #X text 210 411 - input to hyperbolic sine function;
 #X text 210 450 - output of hyperbolic sine function;
 #X obj 60 169 osc~ 2;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 4 4 ./header sinh~;
 #X text 22 61 Signal hyperbolic sine function;
 #X obj 421 240 sig~;

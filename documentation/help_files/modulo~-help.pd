@@ -16,7 +16,7 @@
 #X text 194 399 - the modulo of the operation (remainder of the division);
 #X text 139 398 signal;
 #X text 178 438 a value by which to divide the incoming signal (default 0);
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 463 247 cyclone-help;
 #X text 461 226 Please check:;
 #X obj 2 5 ./header %~;

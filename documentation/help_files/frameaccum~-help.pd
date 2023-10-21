@@ -25,7 +25,7 @@
 #X text 186 434 - accumulated FFT frame;
 #X text 190 391 - incoming FFT frame;
 #X text 186 471 - "1" enables phase wrapping between -PI and PI. "0" (default) disables and values are accumulated without bounds.;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 4 4 ./header frameaccum~;
 #X text 22 61 FFT frame accumulation;
 #X obj 264 316 cyclone/snapshot~ 1;

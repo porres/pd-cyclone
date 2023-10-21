@@ -14,7 +14,7 @@
 #X text 293 189 What's the increment between successive samples of a phasor output at 10 Hz?, f 30;
 #X text 77 89 [delta~] outputs the difference between each incoming sample and the previous sample. So \, if the input signal contains 1 \, 0.5 \, 2 \, 0.5 \, the output would be 1 \, -0.5 \, 1.5 \, -1.5;
 #X text 213 338 - difference between the current and last sample;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 3 3 ./header delta~;
 #X text 22 61 Difference between samples;
 #X obj 148 224 cyclone/snapshot~ 1;

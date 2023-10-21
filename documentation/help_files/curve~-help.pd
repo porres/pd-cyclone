@@ -54,7 +54,7 @@
 #X text 41 86 you can set the parameter with: - the second argument: - the third inlet: - the "factor message": - the third value in a list.;
 #X msg 123 191 0 \, 1 1000;
 #X msg 133 221 1 \, 0 1000;
-#X obj 346 295 cyclone/setdsp~;
+#X obj 346 295 cyclone/dsponoff~;
 #X obj 123 296 cyclone/scope~ 149 107 256 3 128 0 1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X connect 0 0 13 2;
 #X connect 1 0 0 0;

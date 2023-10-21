@@ -42,7 +42,7 @@
 #X text 217 462 - slide-up value;
 #X text 217 481 - sets the current output sample value to 0 (the next incoming value will smoothly transition from that 0);
 #X msg 108 239 reset;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 2 2 ./header slide~;
 #X text 22 62 Smooth signals logarithmically;
 #X connect 8 0 20 2;

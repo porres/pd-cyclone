@@ -235,7 +235,7 @@
 #X connect 21 0 23 0;
 #X connect 22 0 20 0;
 #X restore 459 284 pd raw_bitmask;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 2 3 header bitxor~;
 #X text 22 63 Signal Bitwise-XOR;
 #X floatatom 92 177 13 0 0 0 - - - 0;

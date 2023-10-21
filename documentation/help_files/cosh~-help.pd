@@ -20,7 +20,7 @@
 #X text 209 448 - output of hyperbolic cosine function;
 #X obj 156 177 *~ 3.14159;
 #X obj 156 200 -~ 1.5708;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 156 255 cyclone/scope~ 123 117 256 3 128 0 3.14 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X obj 4 1 ./header cosh~;
 #X text 22 61 Signal hyperbolic cosine function;

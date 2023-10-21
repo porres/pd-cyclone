@@ -21,7 +21,7 @@
 #X text 199 389 - The input on which the deviation will be computed;
 #X text 365 217 properly check phase deviation;
 #X text 391 235 with [phasewrap~];
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 2 5 ./header framedelta~;
 #X text 22 61 FFT frame deviation;
 #X obj 75 281 cyclone/snapshot~ 1;

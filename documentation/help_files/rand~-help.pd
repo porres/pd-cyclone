@@ -26,7 +26,7 @@
 #X text 233 431 - sets frequency;
 #X text 75 102 [rand~] generates random values between -1 and 1 at a given frequency \, interpolating linearly between the generated values. The resulting sound is a bandlimited noise.;
 #X text 233 506 - sets initial frequency (default 0);
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 254 270 output~;
 #X obj 3 4 ./header rand~;
 #X text 21 64 Interpolated bandlimited noise;

@@ -26,7 +26,7 @@
 #X text 235 573 - onset phase offset from 0-1 (default 0), f 42;
 #X text 91 88 [train~] generates a pulse signal alternating from on (1) to off (0) at a period given in ms. It also sends a bang when going from 0 to 1 \, so it can be used as a metronome., f 57;
 #X text 91 129 A pulse width of 0 has the smallest "on" pulse size (a single sample) \, while a pulse width of 1 has the largest (the entire period except the last sample). The "onset phase" delays the "on" portion by a fraction of the total pulse period.;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #N canvas 748 119 376 520 example 0;
 #X obj 242 136 bng 30 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X obj 68 144 cyclone/sah~;

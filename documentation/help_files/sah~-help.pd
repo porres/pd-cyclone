@@ -71,7 +71,7 @@
 #X connect 14 0 5 1;
 #X connect 17 0 0 0;
 #X restore 448 410 pd arpeggiator \; example;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 132 383 output~;
 #X obj 2 3 ./header sah~;
 #X text 21 64 Sample and hold;

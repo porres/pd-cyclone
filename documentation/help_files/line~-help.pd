@@ -24,7 +24,7 @@
 #X text 175 425 - pauses the output, f 60;
 #X text 175 441 - restores the output after being paused, f 60;
 #X text 175 457 - stops and clears pending target-time parameter triples (but continues outputting its last value), f 60;
-#X obj 499 68 cyclone/setdsp~;
+#X obj 499 68 cyclone/dsponoff~;
 #X text 175 377 - pairs that specify target value and duration (in ms) to reach it (maximum is 128 target-time pairs). For an odd number of elements \, the last element is treated as another pair with 0 ms duration., f 60;
 #N canvas 723 166 410 218 name 0;
 #X text 197 171 <= from Pd Vanilla;

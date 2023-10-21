@@ -34,7 +34,7 @@
 #X obj 137 209 nbx 5 16 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12 #dcdcdc #000000 #000000 0 256;
 #X obj 8 541 cnv 3 550 3 empty empty more_info 8 12 0 13 #dcdcdc #000000 0;
 #X text 122 549 [bitshift~] can produce NaNs and +/-INFs - but denormals are zeroed out.;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 2 2 header bitshift~;
 #X text 23 60 Signal Bit-Shifting;
 #X floatatom 117 161 11 0 0 0 - - - 0;

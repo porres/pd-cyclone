@@ -17,7 +17,7 @@
 #X text 209 437 - corresponding linear amplitude value;
 #X text 243 347 Linear Amplitude;
 #X obj 150 240 sig~ -100;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 4 5 ./header dbtoa~;
 #X text 22 61 Convert dBFS to linear amplitude for signals;
 #X text 212 214 dBFS;

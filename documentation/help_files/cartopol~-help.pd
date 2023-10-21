@@ -50,7 +50,7 @@
 #X restore 457 227 pd spectral \; processing;
 #X obj 2 2 ./header cartopol~;
 #X text 24 61 Signal cartesian to polar conversion;
-#X obj 499 71 cyclone/setdsp~;
+#X obj 499 71 cyclone/dsponoff~;
 #X obj 110 239 cyclone/snapshot~ 1;
 #X floatatom 110 266 12 0 0 0 - - - 0;
 #X obj 239 239 cyclone/snapshot~ 1;

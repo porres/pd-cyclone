@@ -19,7 +19,7 @@
 #X text 107 358 -1;
 #X text 111 297 0;
 #X text 113 237 1;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 5 ./header sinx~;
 #X text 22 61 Signal sine function (radian input);
 #X obj 377 250 sig~;

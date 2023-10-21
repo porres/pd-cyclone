@@ -19,7 +19,7 @@
 #X obj 100 414 cnv 17 3 17 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X obj 100 414 cnv 17 3 17 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 450 177 similar to:;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 465 250 cyclone-help;
 #X text 374 250 Please check:;
 #X obj 4 3 ./header !-~;

@@ -29,7 +29,7 @@
 #X text 205 380 - the signal to analyse;
 #X text 205 416 - at zero to non-zero transition;
 #X text 205 439 - at non-zero to zero transition;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 5 2 ./header edge~;
 #X text 22 61 Detect signal transitions;
 #X text 463 248 1;

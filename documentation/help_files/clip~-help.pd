@@ -32,7 +32,7 @@
 #X text 214 448 - minimum constrain value;
 #X text 214 470 - maximum constrain value;
 #X text 68 92 Use the [cyclone/clip~]* object to constrain input signals between two specified values (minimum and maximum). If the maximum value is less than the minimum \, it becomes the minimum value and vice-versa.;
-#X obj 501 69 cyclone/setdsp~;
+#X obj 501 69 cyclone/dsponoff~;
 #N canvas 836 207 415 225 name 0;
 #X text 198 172 <= from Pd Vanilla;
 #X text 30 135 And still create the vanilla object from vanilla without namespaces as:;

@@ -30,7 +30,7 @@
 #X text 219 282 1;
 #X obj 384 276 cyclone/snapshot~ 1;
 #X text 325 212 internal value;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 72 283 cyclone/scope~ 130 130 256 3 128 -1.1 1.1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X obj 233 283 cyclone/scope~ 130 130 256 3 128 -1.1 1.1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X obj 2 3 ./header change~;

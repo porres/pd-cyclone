@@ -29,7 +29,7 @@
 #X text 193 451 - a signal value to round;
 #X text 135 554 signal;
 #X text 191 554 - rounded signal value;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 2 2 ./header round~;
 #X text 25 65 Rounds signals;
 #X connect 9 0 15 1;

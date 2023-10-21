@@ -101,7 +101,7 @@
 #X text 192 398 - resets minimum and maximum (to current input value);
 #X obj 68 227 vsl 17 80 -1 1 0 0 dfgj dkhkgk empty 0 -9 0 10 #dcdcdc #000000 #000000 0 1;
 #X obj 68 135 osc~ 0.1;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 4 ./header minmax~;
 #X text 22 61 Minimum/Maximum values of a signal;
 #X obj 68 205 cyclone/snapshot~ 1;

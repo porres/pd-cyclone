@@ -37,7 +37,7 @@
 #X obj 262 285 cyclone/sampstoms~, f 22;
 #X text 273 257 <= number of samples;
 #X text 55 248 <= number of samples;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 3 ./header sampstoms~;
 #X text 22 61 Convert samples to milliseconds;
 #X obj 174 308 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;

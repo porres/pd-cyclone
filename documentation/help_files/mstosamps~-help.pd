@@ -37,7 +37,7 @@
 #X connect 3 0 1 0;
 #X restore 481 307 pd example;
 #X msg 261 195 0 \, 1000 1000;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 2 4 ./header mstosamps~;
 #X text 22 61 Convert milliseconds to samples;
 #X obj 37 273 cyclone/snapshot~ 1;

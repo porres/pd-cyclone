@@ -30,7 +30,7 @@
 #X text 191 525 - the input signal's absolute average.;
 #X obj 299 296 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 165 324 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 3 3 header avg~;
 #X text 22 60 Signal absolute average;
 #X connect 7 0 21 0;

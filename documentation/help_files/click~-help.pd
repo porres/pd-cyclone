@@ -26,7 +26,7 @@
 #X msg 124 233 set 1;
 #X text 204 567 - amplitude value(s) of the impulse (default 1);
 #X text 204 492 - sets impulse amplitude value(s) \, maximum of 256 values;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 124 382 output~;
 #X text 146 568 1) list;
 #X obj 2 3 ./header click~;

@@ -233,7 +233,7 @@
 #X text 184 437 - signal as result of the "Bitwise-OR" operation;
 #X obj 98 239 cyclone/bitor~;
 #X text 122 519 [bitor~] can produce NaNs and +/-INFs - but denormals are zeroed out.;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 1 2 header bitor~;
 #X text 26 62 Signal Bitwise-OR;
 #X floatatom 98 188 12 0 0 0 - - - 0;

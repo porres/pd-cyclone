@@ -39,7 +39,7 @@
 #X text 339 168 ramp-down;
 #X obj 157 300 cyclone/scope~ 178 100 512 3 128 0 1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X text 61 90 [rampsmooth~] smooths an incoming signal across a number 'n' of samples. Each time an incoming value changes \, it begins a linear ramp of the given 'n' samples to reach this value. It is also useful for envelope following and lowpass filtering.;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X text 188 531 float;
 #X obj 3 3 ./header rampsmooth~;
 #X text 22 61 Smooth signals linearly;

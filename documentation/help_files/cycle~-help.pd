@@ -124,7 +124,7 @@
 #X text 201 535 sets array used as the wavetable (but only reads 512 points from the buffer) \, default: internal cosine table, f 58;
 #X text 20 210 *;
 #X text 32 209 [cyclone/wave~] provides other interpolation types., f 26;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #N canvas 874 112 403 264 [buffer~] 0;
 #X msg 137 81 open;
 #X text 15 15 The [cycle~] object works with any kind of array set in Pd as well with arrays set in the [buffer~] object. In the case of a multi channel [buffer~] \, [cycle~] will only read its first channel.;

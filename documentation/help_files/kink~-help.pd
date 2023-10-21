@@ -28,7 +28,7 @@
 #X obj 137 167 phasor~ 220;
 #X obj 137 198 cyclone/kink~ 0.5;
 #X obj 236 176 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 265 226 cyclone/scope~ 183 82 4 3 128 0 1 150 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X obj 267 320 cyclone/scope~ 180 81 4 3 128 -1 1 150 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X obj 137 336 output~;

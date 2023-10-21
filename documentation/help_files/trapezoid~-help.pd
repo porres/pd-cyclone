@@ -47,7 +47,7 @@
 #X text 211 543 - changes highest point (default 1);
 #X text 96 142 The default lo/hi values are 0 and 1 \, but may be changed using the lo/hi messages or attributes to any given range.;
 #X text 95 81 [trapezoid~] is a trapezoidal wavetable that is read with phase values from 0 to 1 into the first inlet- a [phasor~] input turns it into a wavetable oscillator. A second and third inlet change the position of ramp up/down points.;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 30 401 output~;
 #X obj 3 2 ./header trapezoid~;
 #X text 30 58 Trapezoidal wavetable;

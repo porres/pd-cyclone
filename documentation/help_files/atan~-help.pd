@@ -29,7 +29,7 @@
 #X text 110 188 * pi;
 #X text 301 180 * 2pi;
 #X text 305 198 - pi;
-#X obj 496 69 ./setdsp~;
+#X obj 496 69 ./dsponoff~;
 #X text 22 61 Signal arc-tangent function;
 #X obj 1 2 header atan~;
 #X obj 428 268 sig~;

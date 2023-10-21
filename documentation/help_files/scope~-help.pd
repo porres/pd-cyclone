@@ -211,7 +211,7 @@
 #X text 72 441 gridcolor <f \, f \, f>;
 #X obj 218 141 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 219 163 nbx 4 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #N canvas 954 174 335 328 Y_Mode 0;
 #X obj 93 144 cyclone/scope~ 130 130 11 3 128 -1 1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X text 53 33 If a signal is only fed to the second inlet \, [scope~] displays in "Y Mode" only., f 31;

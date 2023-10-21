@@ -18,7 +18,7 @@
 #X text 62 129 Conversion formula: dbFS = log10(amp) * 20 (minimum output value is -999)., f 42;
 #X text 146 330 dBFS;
 #X obj 182 209 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 4 2 header atodb~;
 #X text 20 59 Linear amplitude to dBFS conversion for signals;
 #X obj 182 302 cyclone/snapshot~ 1;

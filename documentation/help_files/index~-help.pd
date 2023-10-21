@@ -142,7 +142,7 @@
 #X obj 44 225 cyclone/index~ \$0-table;
 #X text 217 409 - array channel (1-64) default 1;
 #X text 77 84 [index~] reads an array without interpolation. The input signal specifies the table index. It's like [tabread~] but works with multi channel arrays and index values are rounded isntead of being truncated.;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 1 2 ./header index~;
 #X text 22 60 Non-interpolating array reader;
 #X obj 44 279 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;

@@ -29,7 +29,7 @@
 #X obj 181 225 cyclone/train~ 2000 0;
 #X text 321 224 <= impulse (value of 1;
 #X text 362 240 every 2 seconds);
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 455 345 cyclone-help;
 #X text 450 324 Please check:;
 #X obj 254 291 cyclone/+=~;

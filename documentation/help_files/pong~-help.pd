@@ -54,7 +54,7 @@
 #X text 48 89 Use [pong~] to fold \, wrap or clip its input signal within a given low-high range.;
 #X obj 143 322 cnv 5 5 5 empty empty 0 6 2 0 14 #fcfcfc #000000 0;
 #X obj 162 275 cyclone/scope~ 198 100 256 3 128 -1 1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 4 ./header pong~;
 #X text 23 62 Signal range limiter (fold \, wrap & clip);
 #X connect 11 0 44 0;

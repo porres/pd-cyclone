@@ -65,7 +65,7 @@
 #X connect 29 0 28 0;
 #X restore 470 274 pd example;
 #X text 81 87 Use [phasewrap~] ro wrap the input between π (pi) and -π (-pi) - useful for wrapping phase values. When the input exceeds π (around 3.14159) \, the output signal value is "wrapped" to a range whose lower bound is -π (around -3.14159)., f 54;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 1 1 ./header phasewrap~;
 #X text 19 62 Wrap between π & -π;
 #X floatatom 222 161 7 0 0 0 - - - 12;

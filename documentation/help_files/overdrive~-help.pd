@@ -25,7 +25,7 @@
 #X obj 245 289 cyclone/overdrive~;
 #X text 250 474 - the signal to be distorted;
 #X text 87 91 [overdrive~] simulates the "soft clipping" of and overdriven tube-based circuit by applying a non-linear transfer function to the incoming signal.;
-#X obj 502 72 cyclone/setdsp~;
+#X obj 502 72 cyclone/dsponoff~;
 #X obj 119 370 output~;
 #X obj 2 2 ./header overdrive~;
 #X text 22 61 Analog overdrive simulation;

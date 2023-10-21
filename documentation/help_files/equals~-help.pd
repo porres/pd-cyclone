@@ -22,7 +22,7 @@
 #X obj 273 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 378 164 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X text 59 93 [equals~] or [==~] outputs a signal that is "1" when the left input is equal to the right input/argument or "0" when it isn't.;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 451 298 cyclone-help;
 #X text 449 277 Please check:;
 #X obj 2 4 ./header ==~;

@@ -29,7 +29,7 @@
 #X text 224 527 - bit depth (default 24);
 #X obj 137 212 cyclone/degrade~;
 #X obj 257 243 cyclone/scope~ 182 107 2 3 128 -1 1 250 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 137 272 output~;
 #X obj 4 5 ./header degrade~;
 #X text 22 61 Signal quality reducer;

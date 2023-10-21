@@ -25,7 +25,7 @@
 #X text 93 118 Too similar to Pd Vanilla's [min~] (see "more info");
 #X text 212 543 - value to compare minimum with (default 0);
 #X text 212 505 - The minimum value (smaller of the two);
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 3 ./header minimum~;
 #X text 22 61 Signal minimum of two values;
 #X obj 187 255 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;

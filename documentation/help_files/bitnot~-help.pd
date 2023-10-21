@@ -28,7 +28,7 @@
 #X restore 367 238 pd signal_conversion_to_int;
 #X obj 8 433 cnv 3 550 3 empty empty more_info 8 12 0 13 #dcdcdc #000000 0;
 #X text 122 441 [bitand~] can produce NaNs and +/-INFs - but denormals are zeroed out.;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 2 2 header bitnot~;
 #X text 18 59 Signal Bitwise-NOT;
 #X floatatom 136 168 13 0 0 0 - - - 0;

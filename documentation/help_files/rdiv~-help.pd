@@ -20,7 +20,7 @@
 #X obj 251 212 cyclone/rdiv~ 10, f 20;
 #X text 468 180 similar to:;
 #X obj 451 201 expr~ 10 / $v1;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 457 262 cyclone-help;
 #X text 452 241 Please check:;
 #X obj 3 3 ./header !/~;

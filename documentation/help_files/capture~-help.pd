@@ -38,7 +38,7 @@
 #X text 166 138 start [count~] =>;
 #X text 165 154 and clear data;
 #X text 345 199 write to a text file;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 1 3 ./header capture~;
 #X text 22 59 Store samples;
 #X connect 6 0 30 0;

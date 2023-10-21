@@ -31,7 +31,7 @@
 #X text 107 352 difference;
 #X text 191 389 - any signal whose changes will be clipped;
 #X text 191 406 - sets the last value to "0";
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 441 187 samplerate~;
 #X obj 426 210 /;
 #X obj 298 209 /;

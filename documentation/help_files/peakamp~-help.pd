@@ -30,7 +30,7 @@
 #X text 79 213 report;
 #X text 91 99 Use the [peakamp~] object to report the absolute value of the peak amplitude of a signal since the last time it was reported. It outputs the peak amplitude when banged or via its own internal clock.;
 #X text 185 490 - sets the internal clock \, the interval in milliseconds to output the peak amplitude. If it is 0 (default) \, the clock isn't used and it only outputs when receiving a bang.;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 4 ./header peakamp~;
 #X text 22 61 Signal's peak amplitude;
 #X connect 13 0 20 0;

@@ -46,7 +46,7 @@
 #X text 58 89 [gate~] routes an input signal from the second inlet to one of 'n' specified outlets or none of them. If an outlet is not selected \, it outputs zero values.;
 #X text 220 349 -;
 #X text 231 349 outlet number to route to - values are truncated to integers and clipped from 0 to number of outlets, f 52;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X text 22 61 Route a signal to 'n' outlet(s);
 #X obj 3 1 ./header gate~;
 #X connect 9 0 23 0;

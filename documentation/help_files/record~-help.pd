@@ -221,7 +221,7 @@
 #X obj 287 225 cyclone/record~ \$0-array;
 #X text 196 328 - signal to record into an array (1 \, 2 or 4 channels), f 58;
 #X text 208 633 channels to record \, max 64 \, default 1, f 56;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X text 51 91 [record~] records up to 64 signal channels into arrays. By default \, recording stops when the array is filled.;
 #X obj 3 2 ./header record~;
 #X text 22 61 Record signals in arrays;

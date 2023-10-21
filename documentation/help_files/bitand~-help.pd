@@ -231,7 +231,7 @@
 #X text 122 519 [bitand~] can produce NaNs and +/-INFs - but denormals are zeroed out.;
 #X text 184 487 - mode [0-3] (details above) - default 0;
 #X text 184 437 - signal as result of the "Bitwise-AND" operation;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 2 3 header bitand~;
 #X text 22 59 Signal Bitwise-AND;
 #X floatatom 98 185 13 0 0 0 - - - 0;

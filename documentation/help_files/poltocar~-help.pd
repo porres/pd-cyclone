@@ -41,7 +41,7 @@
 #X text 200 401 - imaginary part of the signal in the cartesian form;
 #X text 202 344 - phase (in radians) of the signal in the polar form;
 #X text 201 322 - amplitude of the signal in the polar form;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 2 3 ./header poltocar~;
 #X text 24 61 Signal polar to cartesian conversion;
 #X text 80 277 Real;

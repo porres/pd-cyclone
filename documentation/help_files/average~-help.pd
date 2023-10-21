@@ -101,7 +101,7 @@
 #X obj 173 170 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12 #dcdcdc #000000 #000000 0 256;
 #X obj 231 212 cyclone/average~ 50;
 #X obj 59 240 cyclone/scope~ 165 107 2 3 64 -1 1 300 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 2 3 header average~;
 #X text 22 56 Signal moving average;
 #X connect 6 0 36 0;

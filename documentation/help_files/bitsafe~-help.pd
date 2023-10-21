@@ -11,7 +11,7 @@
 #X text 181 393 - input signals to have nan/inf values replaced with 0;
 #X text 181 430 - the signal which has 0 values where nan/inf values existed;
 #X text 215 465 (none);
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X obj 298 190 expr~ atanh(1);
 #X text 47 94 [bitsafe~] replaces NaN (not a number) and +/- infinity values of an incoming signal with zero \, which is useful in conjunction with the bitwise operators in cyclone or any other situation where these values are possible. Also \, bitsafe~ in cyclone filters out denormals and turns them to zero \, even though the original MAX object doesn't., f 68;
 #X obj 4 4 header bitsafe~;

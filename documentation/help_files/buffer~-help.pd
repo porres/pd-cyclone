@@ -146,7 +146,7 @@
 #X text 64 189 sr <float>;
 #X text 139 189 - sets sample rate for writing a file (default: Patch's), f 59;
 #X restore 374 290 pd All_Messages;
-#X obj 500 69 cyclone/setdsp~;
+#X obj 500 69 cyclone/dsponoff~;
 #X text 124 291 click to open and check all messages: =>;
 #X text 175 352 - buffer name, f 60;
 #X text 176 398 - channels (1 to 64) default 1 or audio file's (if given);

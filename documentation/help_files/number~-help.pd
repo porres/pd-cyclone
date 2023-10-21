@@ -45,7 +45,7 @@
 #X text 345 176 ramp time:;
 #X obj 308 209 cyclone/number~ 1;
 #A saved 1 0 100 -inf inf #2a3434 #ffffff #b6fefd;
-#X obj 499 71 cyclone/setdsp~;
+#X obj 499 71 cyclone/dsponoff~;
 #X text 242 209 generator;
 #X text 39 225 monitor;
 #X text 111 257 float output:;

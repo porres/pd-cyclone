@@ -95,7 +95,7 @@
 #X text 229 394 - sets the vector/block size, f 52;
 #X text 229 311 - output index of the processed vector/block, f 52;
 #X text 71 87 [vectral~] is useful for smoothening/filtering frame based signal data such as the output of [fft~] \, mostly for viewing purposes.;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 2 2 ./header vectral~;
 #X text 22 61 Smooth/filter frame changes;
 #X connect 13 0 25 2;

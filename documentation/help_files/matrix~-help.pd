@@ -134,7 +134,7 @@
 #X obj 246 183 cyclone/matrix~ 2 2, f 25;
 #X obj 262 154 sig~ 1;
 #X obj 393 154 sig~ 2;
-#X obj 488 71 ./setdsp~;
+#X obj 488 71 ./dsponoff~;
 #X obj 246 126 r \$0-matrix;
 #X text 106 621 @ramp <float> -;
 #X text 190 586 -;

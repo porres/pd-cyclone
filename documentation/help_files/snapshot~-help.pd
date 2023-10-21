@@ -99,7 +99,7 @@
 #X connect 24 0 25 0;
 #X connect 28 0 14 0;
 #X restore 446 198 pd all_features;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X text 92 528 @interval <float>;
 #X text 204 527 - sets interval in ms (default 0 - stopped);
 #N canvas 851 184 455 289 name 0;

@@ -211,7 +211,7 @@
 #X text 210 337 -;
 #X text 213 448 - channel (default 1 \, maximum 64);
 #X text 222 336 index to record to (if negative or larger than the buffer \, no data is written), f 54;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 2 4 ./header poke~;
 #X text 23 65 Write to an array;
 #X obj 275 192 cyclone/selector~ 2 2;

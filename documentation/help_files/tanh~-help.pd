@@ -37,7 +37,7 @@
 #X connect 5 0 3 0;
 #X connect 6 0 1 0;
 #X restore 410 381 pd waveshaping \; analog distortion;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 3 3 ./header tanh~;
 #X text 22 61 Signal hyperbolic tangent function;
 #X obj 362 220 sig~;

@@ -40,7 +40,7 @@
 #X text 202 556 - phase input signal;
 #X text 202 574 - changes lowest point (default -1);
 #X text 174 733 @lo <f> (default -1) - same as "lo" message;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 47 447 output~;
 #X obj 1 4 ./header triangle~;
 #X text 22 61 Variable duty triangular wavetable;

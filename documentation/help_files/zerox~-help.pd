@@ -64,7 +64,7 @@
 #X connect 4 0 5 0;
 #X connect 5 0 1 0;
 #X restore 449 357 pd transient \; detection;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 243 323 output~;
 #X obj 2 3 ./header zerox~;
 #X text 24 59 Detect zero crossings;

@@ -20,7 +20,7 @@
 #X text 171 398 - input to cosine function (in radians);
 #X text 129 503 Like [cyclone/sinx~] & [cyclone/tanx~] \, it expects input values in radians. Thus \, unlike [cos~] (from vanilla and max/msp) \, it's not designed to work with [phasor~]'s output (from 0 to 1).;
 #X text 62 93 Properly designed for mathematical operations \, [cosx~] it expects an input in radians to calculate the cosine of each input sample.;
-#X obj 497 71 cyclone/setdsp~;
+#X obj 497 71 cyclone/dsponoff~;
 #X obj 195 232 cyclone/scope~ 130 130 256 3 128 -1 1 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X obj 4 4 ./header cosx~;
 #X text 22 61 Signal cosine function (radian input);

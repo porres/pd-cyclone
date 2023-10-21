@@ -22,7 +22,7 @@
 #X obj 264 171 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 393 171 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 264 220 cyclone/lessthaneq~ 30;
-#X obj 499 69 cyclone/setdsp~;
+#X obj 499 69 cyclone/dsponoff~;
 #X obj 451 297 cyclone-help;
 #X text 449 276 Please check:;
 #X obj 3 2 ./header <=~;

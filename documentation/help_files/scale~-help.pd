@@ -143,7 +143,7 @@
 #X text 210 584 - 0 loads "modern" \, 1 loads "classic" (default 0 \, modern);
 #X text 322 150 <= input;
 #X text 257 263 <= scaled value;
-#X obj 505 69 cyclone/setdsp~;
+#X obj 505 69 cyclone/dsponoff~;
 #X obj 7 5 ./header scale~;
 #X text 30 59 Map signals to an output range;
 #X obj 181 236 cyclone/snapshot~ 1;
