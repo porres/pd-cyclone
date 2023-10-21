@@ -1,4 +1,4 @@
-#N canvas 473 74 570 516 10;
+#N canvas 473 74 565 519 10;
 #X obj 2 316 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 369 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 400 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -90,8 +90,8 @@
 #X restore 479 282 pd example;
 #X text 183 348 time value for line objects, f 58;
 #X text 183 458 time value for line objects (default 0);
-#X obj 1 1 ./header linedrive~;
 #X text 25 62 Exponential scaler for [line~];
+#X obj 1 1 header linedrive;
 #X connect 12 0 13 0;
 #X connect 13 0 32 0;
 #X connect 14 0 24 0;
