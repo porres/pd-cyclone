@@ -14,22 +14,22 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Copyright © 2003-2021 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
+Copyright © 2003-2023 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
 
 This work is free. You can redistribute it and/or modify it under the terms of the BSD-3-Clause (aka Revised BSD License). See License.txt <https://github.com/porres/pd-cyclone/blob/cyclone0.4/LICENSE.txt> and <https://opensource.org/licenses/BSD-3-Clause> for more details.
 
 -------
 
-Current Release: Cyclone 0.7-1(this release needs at least Pd Vanilla 0.53-2)
+Current Release: Cyclone 0.8-0 (this release needs at least Pd Vanilla 0.54-0)
 
-Released xxxx xxth 202x
+Released October 22nd 2023
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.7-1 needs at least Pd Vanilla 0.53-2. 
+Cyclone 0.8-0 needs at least Pd Vanilla 0.54-0. 
 
 Outdated versions of cyclone (0.1) are available in the long abandoned Pd-extended distribution (which no one should be using now in the 2020's) as well as in Pd-l2ork and Purr Data - both originally based on Pd-Extended but ported to nw.js (0.1 versions of cyclone here were not fully ported to nw.js at the time of this writing).
 
@@ -43,7 +43,10 @@ A couple of objects in Cyclone are now borrowed from ELSE, like [pink~] and [com
 
 The only object that hasn't been updated yet to MAX 7.3.5 is [mtr] and this is on the To Do list. The [comment] object will most likely always miss 'bubble' stuff from Max 6+ and is not a prper clone as already described. Other minor incomatibility issues are described in the help files of corresponding objects. Cyclone may still incorporate new functionalities in existing objects from Max 8 (current release) and newer 9+ versions in the future, but we can't promise it. 
 
-Nonetheless, things like 'mc' compatiblity is now possible in Pd as of version 0.54-0, which supports multichannel connections and users can build their own "mc" like abstractions using [clone]. On the other hand, objects from ELSE already has objects with multichannel support. 
+Cyclone is now under a maintenance mode only, so don't expect much news other than bug fixes. No new objects are planed. The main current maintainer of Cyclone (Porres) is much busier with developing the ELSE library. Note that this library has alternatives for almost all cyclone objects and many objects in ELSE are actually inspired by MAX/MSP objects that were not cloned in Cyclone.
+
+A 'mc' compatiblity would be possible now, as of Pd version 0.54-0, which supports multichannel connections. Notwithstandingly, there's no plan to create such objects for Cyclone and pursue this compatibility. On the other hand, users can currently build their own "mc" like abstractions based on cyclone objetcs with [clone]. Please note that many ELSE objects have multichannel support by the way.
+
 
 -------
 
@@ -71,7 +74,7 @@ Since "Cyclone 0.1-alpha57", the Cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.52-2/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.52-2/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.54-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.54-0/bin/)</pre>
 
 * Make Install
 
