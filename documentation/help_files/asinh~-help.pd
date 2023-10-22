@@ -29,7 +29,6 @@
 #X obj 249 259 cyclone/scope~ 130 130 256 3 128 -2 2 0 0 0 0 205 229 232 74 79 77 96 98 102 0 empty;
 #X text 79 95 Use [asinh~] to output the hyperbolic arc-sine of each input sample (probably only useful for mathematical calculations).;
 #X text 204 472 - the hyperbolic arc-sine of the input;
-#X obj 500 69 cyclone/dsponoff~;
 #X text 22 59 Signal hyperbolic arc-sine function;
 #X obj 4 4 header asinh~;
 #X obj 425 266 sig~;
@@ -37,6 +36,7 @@
 #X obj 425 355 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 425 242 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 425 296 cyclone/asinh~;
+#X obj 495 69 dsponoff~;
 #X connect 9 0 22 0;
 #X connect 10 0 23 0;
 #X connect 11 0 10 0;
@@ -44,7 +44,7 @@
 #X connect 22 0 26 0;
 #X connect 23 0 27 0;
 #X connect 24 0 9 0;
-#X connect 33 0 37 0;
-#X connect 34 0 35 0;
+#X connect 32 0 36 0;
+#X connect 33 0 34 0;
+#X connect 35 0 32 0;
 #X connect 36 0 33 0;
-#X connect 37 0 34 0;

@@ -44,7 +44,6 @@
 #X text 189 446 - result of arctan(a/b) in radians;
 #X text 118 189 "a";
 #X text 201 215 "b";
-#X obj 500 69 cyclone/dsponoff~;
 #X obj 3 2 header atan2~;
 #X text 17 59 Signal arctan(a/b) function;
 #X obj 142 211 sig~;
@@ -53,9 +52,10 @@
 #X obj 142 187 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 223 239 sig~;
 #X obj 223 215 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
-#X connect 12 0 24 0;
-#X connect 23 0 12 0;
-#X connect 24 0 25 0;
-#X connect 26 0 23 0;
-#X connect 27 0 12 1;
-#X connect 28 0 27 0;
+#X obj 495 69 dsponoff~;
+#X connect 12 0 23 0;
+#X connect 22 0 12 0;
+#X connect 23 0 24 0;
+#X connect 25 0 22 0;
+#X connect 26 0 12 1;
+#X connect 27 0 26 0;
