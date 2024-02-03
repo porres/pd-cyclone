@@ -102,7 +102,7 @@ static void zldata_realloc(t_zldata *d, int reqsz){
     }
 	else if(reqsz > ZL_DEF_SIZE && !heaped){
 	    d->d_buf = getbytes(reqsz * sizeof(t_atom));
-        int maxsize = curmax > ZL_DEF_SIZE ? ZL_DEF_SIZE : cursize;
+        int maxsize = curmax > ZL_DEF_SIZE ? ZL_DEF_SIZE : curmax;
 	    memcpy(d->d_buf, d->d_bufini, maxsize * sizeof(t_atom));
     }
 	else if(reqsz > ZL_DEF_SIZE && heaped)
@@ -1593,7 +1593,7 @@ static void *zl_new(t_symbol *s, int argc, t_atom *argv){
             }
             i--; // iterate
             a++;
-        };
+        }
         else if(a->a_type == A_SYMBOL){ // is symbol
             if(!first_arg) // is first arg, so mark it
                 first_arg = 1;
