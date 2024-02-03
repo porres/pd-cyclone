@@ -1729,6 +1729,7 @@ CYCLONE_OBJ_API void zl_setup(void){
         class_addmethod(zl_class, (t_method)zl_mode, gensym("mode"), A_GIMME, 0); \
         class_addmethod(zl_class, (t_method)zl_zlmaxsize, gensym("zlmaxsize"), A_FLOAT, 0); \
         class_addmethod(zl_class, (t_method)zl_zlclear, gensym("zlclear"), 0); \
+        class_sethelpsymbol(zl_class, gensym("zl")); \
         zlproxy_class = class_new(gensym("_zlproxy"), 0, 0, \
         sizeof(t_zlproxy), CLASS_PD | CLASS_NOINLET, 0); \
         class_addbang(zlproxy_class, zlproxy_bang); \
