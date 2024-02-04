@@ -630,18 +630,18 @@ static int printed;
 
 static int min_major = 0;
 static int min_minor = 54;
-static int min_bugfix = 0;
+static int min_bugfix = 1;
 
 static int cyclone_major = 0;
 static int cyclone_minor = 8;
-static int cyclone_bugfix = 0;
+static int cyclone_bugfix = 1;
 
 void print_cyclone(t_cyclone *x){
     int major = 0, minor = 0, bugfix = 0;
     sys_getversion(&major, &minor, &bugfix);
     post("");
     post("--------------------------------------------------------------------");
-    post(":: Cyclone %d.%d-%d; Released October 22nd 2023", cyclone_major, cyclone_minor, cyclone_bugfix);
+    post(":: Cyclone %d.%d-%d; Released February 8th 2024", cyclone_major, cyclone_minor, cyclone_bugfix);
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
     post(":: Copyright © 2003-2021 - Krzysztof Czaja, Hans-Christoph Steiner,");
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber\n\:: and others.");

@@ -3,6 +3,13 @@
 ---------------------------------------------------
 
 --------------------------------------------------
+cyclone 0.8-1 (needs at least Pd Vanilla 0.54-1):
+--------------------------------------------------
+
+- [phaseshift~]: Fix div-by-zero and potential blow up
+- [zl]: allow creating as zl.modename, fixed some blowing up and creation bugs
+
+--------------------------------------------------
 cyclone 0.8-0 (needs at least Pd Vanilla 0.54-0):
 --------------------------------------------------
 
