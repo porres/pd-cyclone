@@ -781,7 +781,6 @@
 #X text 83 222 - anything: 2nd list to be interleaved (default none), f 65;
 #X text 83 239 - anything: list to be looked up (default none), f 65;
 #X text 83 141 - anything: elements to filter (default none), f 65;
-#X text 76 18 The modes: change \, delace \, len \, median \, queue \, rev \, stack \, sum thin don't have arguments. The other modes can have subsequent arguments as below. See also [pd examples] for more details on how they work., f 63;
 #X text 38 444 unique;
 #X text 50 410 swap;
 #X text 38 378 stream;
@@ -792,6 +791,7 @@
 #X text 83 410 - anything: list to be swapped (default none), f 65;
 #X text 38 95 change;
 #X text 83 95 - anything: list to check if changed from left input (default none), f 67;
+#X text 76 17 The modes: delace \, len \, median \, queue \, rev \, stack \, sum and thin don't have arguments. The other modes can have subsequent arguments as below. See also [pd examples] for more details on how they work., f 55;
 #X restore 299 493 pd subsequent_arguments;
 #X text 178 286 -;
 #X text 190 285 sets mode (you can also set subsequent arguments) - check [pd examples] for more info;
