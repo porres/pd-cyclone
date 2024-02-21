@@ -22,21 +22,21 @@ static void decide_bang(t_decide *x){
     outlet_float(((t_object *)x)->ob_outlet, rand > 0);
 }
 
-static void decide_float(t_decide *x, t_float f){
-    f = 0;
-	decide_bang(x);
-}
-
 static void decide_ft1(t_decide *x, t_floatarg f){
     x->x_seed = (int)f;
     if(x->x_seed == 0)
         x->x_seed = (int)(time(NULL)*x->x_id);
+    x->x_seed *= x->x_id;
 }
 
 static void *decide_new(t_floatarg f){
     t_decide *x = (t_decide *)pd_new(decide_class);
-    x->x_seed = (int)(time(NULL) * x->x_id * 1319);
-    x->x_state = x->x_seed * 435898247 + 382842987;
+    x->x_id = cyclone_random_get_id() * 1319;
+    x->x_seed = (int)f;
+    if(x->x_seed == 0)
+        x->x_seed = (int)(time(NULL));
+    x->x_seed *= x->x_id;
+    x->x_seed = x->x_seed * 435898247 + 382842987;
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     return(x);
@@ -46,6 +46,6 @@ CYCLONE_OBJ_API void decide_setup(void){
     decide_class = class_new(gensym("decide"), (t_newmethod)decide_new, 0,
         sizeof(t_decide), 0, A_DEFFLOAT, 0);
     class_addbang(decide_class, decide_bang);
-    class_addfloat(decide_class, decide_float);
+    class_addfloat(decide_class, decide_bang);
     class_addmethod(decide_class, (t_method)decide_ft1, gensym("ft1"), A_FLOAT, 0);
 }
