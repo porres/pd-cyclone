@@ -14,7 +14,6 @@ typedef struct _rand{
     double          x_nextphase;
     float           x_rcpsr;
     float           x_sr;
-    int             x_state;
     float           x_target;
     float           x_scaling;  // LATER use phase increment
     unsigned int    x_seed;
@@ -44,10 +43,10 @@ static t_int *rand_perform(t_int *w){
         if(rate < 0)
             rate = 0;
         if(ph > lastph){
-            int state = x->x_state;
+            unsigned int state = x->x_seed;
             float newtarget = ((float)((state & 0x7fffffff) - 0x40000000))
                 * (float)(1.0 / 0x40000000);
-            x->x_state = state * 435898247 + 382842987;
+            x->x_seed = state * 435898247 + 382842987;
             x->x_scaling = scaling = target - newtarget;
             x->x_target = target = newtarget;
         }
@@ -76,8 +75,8 @@ static void rand_dsp(t_rand *x, t_signal **sp){
 static void *rand_new(t_floatarg f){
     t_rand *x = (t_rand *)pd_new(rand_class);
     x->x_id = cyclone_random_get_id();
-    x->x_seed = (int)(time(NULL) * x->x_id * 1319);
-    x->x_state = x->x_seed * 435898247 + 382842987;
+    x->x_seed = (unsigned int)(time(NULL) * x->x_id * 1319);
+    x->x_seed = x->x_seed * 435898247 + 382842987;
     x->x_lastphase = 0.;
     x->x_nextphase = 1.;  /* start from 0, force retargetting */
     x->x_target = x->x_scaling = 0;
