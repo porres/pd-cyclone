@@ -149,7 +149,6 @@ phasewrap~.class.sources := cyclone_objects/binaries/audio/phasewrap.c
 pong~.class.sources := cyclone_objects/binaries/audio/pong.c
 pow~.class.sources := cyclone_objects/binaries/audio/pow.c
 rampsmooth~.class.sources := cyclone_objects/binaries/audio/rampsmooth.c
-rand~.class.sources := cyclone_objects/binaries/audio/rand.c
 reson~.class.sources := cyclone_objects/binaries/audio/reson.c
 sampstoms~.class.sources := cyclone_objects/binaries/audio/sampstoms.c
 sinh~.class.sources := cyclone_objects/binaries/audio/sinh.c
@@ -253,11 +252,15 @@ seq.class.sources := cyclone_objects/binaries/control/seq.c $(hseq)
 hmagicbit := shared/common/magicbit.c
     grab.class.sources := cyclone_objects/binaries/control/grab.c $(hmagicbit)
 
-# Signal: #################################################################
 
 crandom := shared/common/random.c
-decide.class.sources := cyclone_objects/binaries/control/decide.c $(crandom)
-pink~.class.sources := cyclone_objects/binaries/audio/pink.c $(crandom)
+    decide.class.sources := cyclone_objects/binaries/control/decide.c $(crandom)
+
+# Signal: #################################################################
+
+srandom := shared/common/random.c
+    rand~.class.sources := cyclone_objects/binaries/audio/rand.c $(srandom)
+    pink~.class.sources := cyclone_objects/binaries/audio/pink.c $(srandom)
 
 sgrow := shared/common/grow.c
     frameaccum~.class.sources := cyclone_objects/binaries/audio/frameaccum.c $(sgrow)
