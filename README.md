@@ -14,7 +14,7 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Copyright © 2003-2023 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
+Copyright © 2003-2024 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
 
 This work is free. You can redistribute it and/or modify it under the terms of the BSD-3-Clause (aka Revised BSD License). See License.txt <https://github.com/porres/pd-cyclone/blob/cyclone0.4/LICENSE.txt> and <https://opensource.org/licenses/BSD-3-Clause> for more details.
 
