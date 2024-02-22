@@ -20,16 +20,16 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.8-0 (this release needs at least Pd Vanilla 0.54-0)
+Current Release: Cyclone 0.8-1 (this release needs at least Pd Vanilla 0.54-0)
 
-Released October 22nd 2023
+Released February 21st 2024
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
 -------
 ### About Cyclone:
 
-Cyclone 0.8-0 needs at least Pd Vanilla 0.54-0. 
+Cyclone 0.8-1 needs at least Pd Vanilla 0.54-1. 
 
 Outdated versions of cyclone (0.1) are available in the long abandoned Pd-extended distribution (which no one should be using now in the 2020's) as well as in Pd-l2ork and Purr Data - both originally based on Pd-Extended but ported to nw.js (0.1 versions of cyclone here were not fully ported to nw.js at the time of this writing).
 

@@ -6,8 +6,9 @@
 cyclone 0.8-1 (needs at least Pd Vanilla 0.54-1):
 --------------------------------------------------
 
+- [zl] fixed some bugs and now the format where the mode comes after the dot (as in [zl.len]) is allowed.
 - [phaseshift~]: Fix div-by-zero and potential blow up
-- [zl]: allow creating as zl.modename, fixed some blowing up and creation bugs
+- Improved/fixed seeding on random objects: [rand~] and [decide]
 
 --------------------------------------------------
 cyclone 0.8-0 (needs at least Pd Vanilla 0.54-0):
