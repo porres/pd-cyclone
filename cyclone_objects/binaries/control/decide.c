@@ -8,35 +8,55 @@
 
 typedef struct _decide{
     t_object      x_ob;
-    unsigned int  x_seed;
-    int           x_id;
+    t_cyrandom_state  x_rstate;
+    int             x_id;
 }t_decide;
 
 static t_class *decide_class;
 
 static void decide_bang(t_decide *x){
-    unsigned int state = x->x_seed;
-    float rand = ((float)((state & 0x7fffffff) - 0x40000000))
-        * (float)(1.0 / 0x40000000);
-    x->x_seed = state * 435898247 + 382842987;
-    outlet_float(((t_object *)x)->ob_outlet, rand > 0);
+    t_cyrandom_state *rstate = &x->x_rstate;
+    uint32_t *s1 = &rstate->s1;
+    uint32_t *s2 = &rstate->s2;
+    uint32_t *s3 = &rstate->s3;
+    t_float random = (t_float)(cyrandom_frand(s1, s2, s3));
+    outlet_float(((t_object *)x)->ob_outlet, random > 0);
 }
 
+static void decide_init(t_decide *x){
+    t_cyrandom_state *rstate = &x->x_rstate;
+    uint32_t *s1 = &rstate->s1;
+    uint32_t *s2 = &rstate->s2;
+    uint32_t *s3 = &rstate->s3;
+    cyrandom_frand(s1, s2, s3);
+}
+
+static void decide_seed(t_decide *x, t_symbol *s, int ac, t_atom *av){
+    cyrandom_init(&x->x_rstate, cyget_seed(s, ac, av, x->x_id));
+    decide_init(x);
+}
 static void decide_ft1(t_decide *x, t_floatarg f){
-    x->x_seed = (int)f;
-    if(x->x_seed == 0)
-        x->x_seed = (int)(time(NULL)*x->x_id);
-    x->x_seed *= x->x_id;
+      if((unsigned int)f > 0){
+        t_atom at[1];
+        SETFLOAT(at, f);
+        decide_seed(x, NULL, 1, at);
+    }
+    else
+        decide_seed(x, NULL, 0, NULL);
+    decide_init(x);
 }
 
 static void *decide_new(t_floatarg f){
     t_decide *x = (t_decide *)pd_new(decide_class);
-    x->x_id = cyclone_random_get_id() * 1319;
-    x->x_seed = (int)f;
-    if(x->x_seed == 0)
-        x->x_seed = (int)(time(NULL));
-    x->x_seed *= x->x_id;
-    x->x_seed = x->x_seed * 435898247 + 382842987;
+    x->x_id = cyrandom_get_id();
+    if((unsigned int)f > 0){
+        t_atom at[1];
+        SETFLOAT(at, f);
+        decide_seed(x, NULL, 1, at);
+    }
+    else
+        decide_seed(x, NULL, 0, NULL);
+    decide_init(x);
     inlet_new((t_object *)x, (t_pd *)x, &s_float, gensym("ft1"));
     outlet_new((t_object *)x, &s_float);
     return(x);

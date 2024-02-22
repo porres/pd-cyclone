@@ -16,7 +16,7 @@ typedef struct _rand{
     float           x_sr;
     float           x_target;
     float           x_scaling;  // LATER use phase increment
-    unsigned int    x_seed;
+    t_cyrandom_state  x_rstate;
     int             x_id;
 }t_rand;
 
@@ -38,15 +38,16 @@ static t_int *rand_perform(t_int *w){
     float scaling = x->x_scaling;
     wrappy.w_d = SHARED_UNITBIT32;
     normhipart = wrappy.w_i[SHARED_HIOFFSET];
+    t_cyrandom_state *rstate = &x->x_rstate;
+    uint32_t *s1 = &rstate->s1;
+    uint32_t *s2 = &rstate->s2;
+    uint32_t *s3 = &rstate->s3;
     while (nblock--){
         float rate = *rin++;
         if(rate < 0)
             rate = 0;
         if(ph > lastph){
-            unsigned int state = x->x_seed;
-            float newtarget = ((float)((state & 0x7fffffff) - 0x40000000))
-                * (float)(1.0 / 0x40000000);
-            x->x_seed = state * 435898247 + 382842987;
+            t_float newtarget = (t_float)(cyrandom_frand(s1, s2, s3));
             x->x_scaling = scaling = target - newtarget;
             x->x_target = target = newtarget;
         }
@@ -72,11 +73,15 @@ static void rand_dsp(t_rand *x, t_signal **sp){
     dsp_add(rand_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
+static void rand_seed(t_rand *x, t_symbol *s, int ac, t_atom *av){
+    cyrandom_init(&x->x_rstate, cyget_seed(s, ac, av, x->x_id));
+}
+
 static void *rand_new(t_floatarg f){
     t_rand *x = (t_rand *)pd_new(rand_class);
-    x->x_id = cyclone_random_get_id();
-    x->x_seed = (unsigned int)(time(NULL) * x->x_id * 1319);
-    x->x_seed = x->x_seed * 435898247 + 382842987;
+    x->x_id = cyrandom_get_id();
+    t_symbol *s = NULL;
+    rand_seed(x, s, 0, NULL);
     x->x_lastphase = 0.;
     x->x_nextphase = 1.;  /* start from 0, force retargetting */
     x->x_target = x->x_scaling = 0;
