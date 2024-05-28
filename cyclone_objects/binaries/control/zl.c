@@ -1461,9 +1461,13 @@ static int zl_modeargfn(t_zl *x){
 
 static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if(zl_intargfn[x->x_mode]){
-        int i = (!s && ac && av->a_type == A_FLOAT ?
-                 (int)av->a_w.w_float :  /* CHECKED silent truncation */
-                 0);  /* CHECKED current x->x_modearg not kept */
+        int i;
+        if(zl_modesym[x->x_mode] == gensym("group") && !ac)
+            i = ZL_DEF_SIZE;
+        else
+            i = (!s && ac && av->a_type == A_FLOAT ?
+            (int)av->a_w.w_float :  /* CHECKED silent truncation */
+            0);  /* CHECKED current x->x_modearg not kept */
         x->x_modearg = (*zl_intargfn[x->x_mode])(x, i);
     }
     if (zl_anyargfn[x->x_mode])
