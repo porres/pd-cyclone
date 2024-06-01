@@ -8,7 +8,7 @@
 typedef struct _mstosamps{
     t_object   x_obj;
     float      x_sr_khz;
-    float      x_f;
+    t_float    x_f;
     t_outlet  *x_floatout;
 }t_mstosamps;
 

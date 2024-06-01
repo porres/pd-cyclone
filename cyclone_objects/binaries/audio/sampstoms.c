@@ -9,7 +9,7 @@ typedef struct _sampstoms
 {
     t_object x_obj;
     float      x_rcpksr;
-    float      x_f;
+    t_float      x_f;
     t_outlet  *x_floatout;
 } t_sampstoms;
 
