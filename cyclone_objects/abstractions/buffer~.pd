@@ -1,6 +1,5 @@
 #N canvas 526 173 814 272 10;
-#X declare -path /Users/porres/Desktop/git/pd-cyclone/cyclone_objects/abstractions
-;
+#X declare -path /Users/porres/Desktop/Git/pd-cyclone/documentation/help_files;
 #X obj 24 24 inlet;
 #N canvas 396 59 533 410 rename 0;
 #X obj 319 189 r \$0-name;
@@ -38,6 +37,16 @@
 #X connect 15 0 14 0;
 #X restore 64 100 pd rename;
 #N canvas 961 127 479 442 \$0-buffers 0;
+#X obj 6 20 cnv 15 448 80 empty empty empty 3 10 2 14 #e0e0e0 #404040 0;
+#N canvas 0 22 450 300 ch0_1005 0;
+#X array 0-buff2_1003 1 float 2;
+#X coords 0 1 1 -1 450 82 2 0 0;
+#X restore 5 19 pd ch0_1005;
+#X obj 6 120 cnv 15 448 80 empty empty empty 3 10 2 14 #e0e0e0 #404040 0;
+#N canvas 0 22 450 300 ch1_1005 0;
+#X array 1-buff2_1003 1 float 2;
+#X coords 0 1 1 -1 450 82 2 0 0;
+#X restore 5 119 pd ch1_1005;
 #X coords 0 0 0 0 10 20 0;
 #X restore 627 59 pd \$0-buffers;
 #N canvas 386 286 457 330 clear 0;
@@ -235,8 +244,7 @@
 #X msg 533 470 1;
 #X obj 533 513 v r_\$0;
 #X obj 533 448 t b f;
-#X obj 253 459 expr if($f1 == 0 \, 1 \, sin(x_\$0) * r_\$0) \; $f1
-* 2*pi_\$0 * $f2;
+#X obj 253 459 expr if($f1 == 0 \, 1 \, sin(x_\$0) * r_\$0) \; $f1 * 2*pi_\$0 * $f2;
 #X obj 216 258 / 2;
 #X obj 119 159 t b f;
 #X obj 189 197 sel 0;
@@ -247,8 +255,7 @@
 #X obj 164 135 != 0;
 #X obj 92 128 sel 0;
 #X obj 164 159 v half_\$0;
-#X obj 253 394 expr if(half_\$0 == 1 \, ($f1 / $f2) \, ($f1 - $f2/2)
-/ ($f2/2)) \; $f1, f 34;
+#X obj 253 394 expr if(half_\$0 == 1 \, ($f1 / $f2) \, ($f1 - $f2/2) / ($f2/2)) \; $f1, f 34;
 #X obj 164 57 list length;
 #X obj 164 82 sel 1;
 #X msg 164 107 0;
@@ -496,10 +503,8 @@
 #X msg 164 119 1;
 #X obj 180 148 v half_\$0;
 #X obj 162 333 cyclone/uzi 1 0;
-#X obj 197 458 expr if (half_\$0 == 1 \, (($f1 * 0.5) / $f2) + 0.5
-\, $f1/$f2) \; $f1, f 30;
-#X obj 162 511 expr $f2 * (cos(pi_\$0 + ($f1 * 2*pi_\$0)) * 0.5 + 0.5)
-, f 61;
+#X obj 197 458 expr if (half_\$0 == 1 \, (($f1 * 0.5) / $f2) + 0.5 \, $f1/$f2) \; $f1, f 30;
+#X obj 162 511 expr $f2 * (cos(pi_\$0 + ($f1 * 2*pi_\$0)) * 0.5 + 0.5), f 61;
 #X connect 0 0 1 1;
 #X connect 1 0 8 0;
 #X connect 2 2 4 0;
@@ -558,10 +563,8 @@
 #X msg 164 119 1;
 #X obj 180 148 v half_\$0;
 #X obj 162 333 cyclone/uzi 1 0;
-#X obj 197 458 expr if (half_\$0 == 1 \, (($f1 * 0.5) / $f2) + 0.5
-\, $f1/$f2) \; $f1, f 30;
-#X obj 197 509 expr $f2 * (0.42 - (cos($f1 * 2*pi_\$0) * 0.5)) + (cos($f1
-* 4*pi_\$0) * 0.08), f 47;
+#X obj 197 458 expr if (half_\$0 == 1 \, (($f1 * 0.5) / $f2) + 0.5 \, $f1/$f2) \; $f1, f 30;
+#X obj 197 509 expr $f2 * (0.42 - (cos($f1 * 2*pi_\$0) * 0.5)) + (cos($f1 * 4*pi_\$0) * 0.08), f 47;
 #X connect 0 0 1 1;
 #X connect 1 0 8 0;
 #X connect 2 2 4 0;
@@ -620,10 +623,8 @@
 #X msg 114 89 1;
 #X obj 130 118 v half_\$0;
 #X obj 112 303 cyclone/uzi 1 0;
-#X obj 147 432 expr if (half_\$0 == 1 \, (($f1 * 0.5) / $f2) + 0.5
-\, $f1/$f2) \; $f1, f 30;
-#X obj 147 482 expr $f2 * (cos(pi_\$0 + ($f1 * 2*pi_\$0)) * 0.46 +
-0.54);
+#X obj 147 432 expr if (half_\$0 == 1 \, (($f1 * 0.5) / $f2) + 0.5 \, $f1/$f2) \; $f1, f 30;
+#X obj 147 482 expr $f2 * (cos(pi_\$0 + ($f1 * 2*pi_\$0)) * 0.46 + 0.54);
 #X connect 0 0 1 1;
 #X connect 1 0 8 0;
 #X connect 2 2 4 0;
@@ -682,8 +683,7 @@
 #X msg 148 103 0;
 #X msg 118 103 1;
 #X obj 134 132 v half_\$0;
-#X obj 137 392 expr $f3 * if(half_\$0 == 1 \, 1 - ($f1 / $f2) \, 1
-- (abs($f1 - ($f2 * 0.5)) / ($f2 * 0.5))) \; $f1, f 45;
+#X obj 137 392 expr $f3 * if(half_\$0 == 1 \, 1 - ($f1 / $f2) \, 1 - (abs($f1 - ($f2 * 0.5)) / ($f2 * 0.5))) \; $f1, f 45;
 #X connect 0 0 1 1;
 #X connect 1 0 7 0;
 #X connect 2 2 3 0;
@@ -741,9 +741,7 @@
 #X msg 148 103 0;
 #X msg 118 103 1;
 #X obj 134 132 v half_\$0;
-#X obj 137 392 expr $f3 * if(half_\$0 == 1 \, 1 - pow($f1 / $f2 \,
-2) \, 1 - pow((($f1 - ($f2 * 0.5)) / ($f2 * 0.5)) \, 2)) \; $f1, f
-50;
+#X obj 137 392 expr $f3 * if(half_\$0 == 1 \, 1 - pow($f1 / $f2 \, 2) \, 1 - pow((($f1 - ($f2 * 0.5)) / ($f2 * 0.5)) \, 2)) \; $f1, f 50;
 #X connect 0 0 1 1;
 #X connect 1 0 7 0;
 #X connect 2 2 3 0;
@@ -777,8 +775,7 @@
 #X connect 23 0 6 0;
 #X connect 23 1 6 1;
 #X restore 345 93 pd welch;
-#X obj 35 62 route gain offset hanning hamming blackman triangle welch
-kaiser getdeltas, f 80;
+#X obj 35 62 route gain offset hanning hamming blackman triangle welch kaiser getdeltas, f 80;
 #N canvas 457 204 459 446 getdeltas 0;
 #X obj 146 333 expr $s2[$f1 + 1] - $s2[$f1] \; $f1;
 #X obj 338 389 tabwrite;
@@ -989,10 +986,8 @@ kaiser getdeltas, f 80;
 #X connect 23 3 2 1;
 #X restore 70 163 pd besselI0;
 #X obj 70 86 expr $f2 * sqrt(1 - $f1*$f1);
-#X obj 662 191 expr exp($f1)/sqrt(2*$f1 * pi_\$0 ) * (1.0 + 1.0/(8.0*$f1)
-* (1.0 + 9.0/(16.0*$f1) * (1.0 + 25.0/(24.0*$f1))));
-#X obj 163 163 expr exp($f1)/sqrt(2*$f1 * pi_\$0 ) * (1.0 + 1.0/(8.0*$f1)
-* (1.0 + 9.0/(16.0*$f1) * (1.0 + 25.0/(24.0*$f1))));
+#X obj 662 191 expr exp($f1)/sqrt(2*$f1 * pi_\$0 ) * (1.0 + 1.0/(8.0*$f1) * (1.0 + 9.0/(16.0*$f1) * (1.0 + 25.0/(24.0*$f1))));
+#X obj 163 163 expr exp($f1)/sqrt(2*$f1 * pi_\$0 ) * (1.0 + 1.0/(8.0*$f1) * (1.0 + 9.0/(16.0*$f1) * (1.0 + 25.0/(24.0*$f1))));
 #X obj 559 122 moses 16;
 #X obj 70 120 moses 16;
 #X connect 0 0 11 0;
@@ -1014,8 +1009,7 @@ kaiser getdeltas, f 80;
 #X obj 143 236 s \$0-kaiser_a;
 #X obj 296 608 r \$0-kaiser_a;
 #X obj 258 226 list trim;
-#X obj 203 524 expr if (half_\$0 == 1 \, ($f1 / $f2 ) + 1 \, 2.0*$f1/$f2)
-- 1 \; $f1, f 30;
+#X obj 203 524 expr if (half_\$0 == 1 \, ($f1 / $f2 ) + 1 \, 2.0*$f1/$f2) - 1 \; $f1, f 30;
 #X obj 116 133 abs;
 #X obj 341 155 sel 1;
 #X obj 341 251 print apply-kaiser;
@@ -1492,8 +1486,7 @@ kaiser getdeltas, f 80;
 #N canvas 469 182 463 361 buffer_arg 0;
 #X obj 35 85 list append \$1;
 #X obj 80 241 print Warning:;
-#X msg 80 189 [buffer~] needs a buffer name as the 1st argument, f
-25;
+#X msg 80 189 [buffer~] needs a buffer name as the 1st argument, f 25;
 #X obj 253 303 outlet;
 #X obj 352 224 symbol \$1;
 #X obj 352 251 s \$0-name;
@@ -1525,8 +1518,7 @@ kaiser getdeltas, f 80;
 #X text 276 83 just in case the abstraction gets corrupted, f 17;
 #X obj 104 198 pdcontrol;
 #N canvas 241 23 474 169 \$0-declare 0;
-#X obj 50 50 declare -path /Users/porres/Desktop/git/pd-cyclone/cyclone_objects/abstractions
-;
+#X obj 50 50 declare -path /Users/porres/Desktop/Git/pd-cyclone/documentation/help_files;
 #X restore 243 178 pd \$0-declare;
 #X obj 104 251 send pd-\$0-declare;
 #X msg 104 224 clear \, obj 50 50 declare -path \$1;
@@ -1553,7 +1545,7 @@ kaiser getdeltas, f 80;
 #X connect 5 0 1 0;
 #X connect 6 0 5 0;
 #X restore 675 101 pd load-args;
-#N canvas 429 157 876 624 read/write 0;
+#N canvas 429 122 876 624 read/write 0;
 #X obj 115 206 symbol;
 #X obj 40 115 route bang;
 #X obj 12 433 list prepend read;
@@ -1573,7 +1565,7 @@ kaiser getdeltas, f 80;
 #X obj 203 313 sel 0 1;
 #X obj 225 344 list;
 #X obj 191 111 savepanel;
-#X obj 482 565 outlet;
+#X obj 467 565 outlet;
 #X obj 40 23 inlet;
 #X obj 149 425 r \$0-resize;
 #X msg 323 310 \$2;
@@ -1586,34 +1578,36 @@ kaiser getdeltas, f 80;
 #X obj 656 248 route bang;
 #X obj 713 317 t s b;
 #X obj 656 292 t b b;
-#X msg 741 447 -wave;
-#X msg 788 445 -aiff;
-#X obj 669 449 r \$0-bytes;
-#X obj 40 51 route read readagain write filetype writewave writeaiff
-format sr, f 115;
+#X msg 726 447 -wave;
+#X msg 773 445 -aiff;
+#X obj 654 449 r \$0-bytes;
+#X obj 40 51 route read readagain write filetype writewave writeaiff format sr, f 115;
 #N canvas 520 43 450 300 bytes 0;
 #X obj 115 40 inlet;
-#X msg 175 152 2;
-#X msg 206 151 3;
-#X msg 240 151 4;
-#X obj 101 103 sel 16 24;
-#X obj 115 73 route float int16 int24 float32;
-#X obj 206 185 s \$0-bytes;
-#X connect 0 0 5 0;
-#X connect 1 0 6 0;
-#X connect 2 0 6 0;
-#X connect 3 0 6 0;
+#X msg 161 152 2;
+#X msg 207 151 3;
+#X msg 253 151 4;
+#X obj 142 111 sel 16 24;
+#X obj 207 185 s \$0-bytes;
+#X obj 115 73 route float int16 int24 float32 float64;
+#X msg 299 151 8;
+#X connect 0 0 6 0;
+#X connect 1 0 5 0;
+#X connect 2 0 5 0;
+#X connect 3 0 5 0;
 #X connect 4 0 1 0;
 #X connect 4 1 2 0;
-#X connect 5 0 4 0;
-#X connect 5 1 1 0;
-#X connect 5 2 2 0;
-#X connect 5 3 3 0;
+#X connect 6 0 4 0;
+#X connect 6 1 1 0;
+#X connect 6 2 2 0;
+#X connect 6 3 3 0;
+#X connect 6 4 7 0;
+#X connect 7 0 5 0;
 #X restore 554 80 pd bytes;
 #X obj 641 82 s \$0-sr;
-#X obj 551 495 cyclone/pak write -rate 0 -bytes 2 -aiff;
-#X obj 615 449 r \$0-sr;
-#X obj 482 527 list prepend;
+#X obj 536 495 cyclone/pak write -rate 0 -bytes 2 -aiff;
+#X obj 600 449 r \$0-sr;
+#X obj 467 527 list prepend;
 #X msg 149 451 read -resize -maxsize 1e+18;
 #X obj 323 339 route wav aiff aif caf;
 #X msg 831 445 -caf;
@@ -1695,15 +1689,12 @@ format sr, f 115;
 #X obj 340 149 pack float float float \$0;
 #X obj 235 215 list append \$0;
 #X obj 340 107 t f f;
-#X msg 340 178 obj 6 \$2 cnv 15 448 80 empty empty empty 3 10 2 14
--233017 -66577 0 \, obj 5 \$3 pd ch\$1_\$4;
-#X msg 276 276 \; pd-ch\$1_\$4 array \$1-\$2 \$3 float 2 \, coords
-0 1 \$3 -1 450 82 2 0 0 \, vis 0;
+#X msg 340 178 obj 6 \$2 cnv 15 448 80 empty empty empty 3 10 2 14 -233017 -66577 0 \, obj 5 \$3 pd ch\$1_\$4;
+#X msg 276 276 \; pd-ch\$1_\$4 array \$1-\$2 \$3 float 2 \, coords 0 1 \$3 -1 450 82 2 0 0 \, vis 0;
 #X obj 152 33 inlet;
 #X obj 74 268 list append \$0;
 #X obj 153 74 t l l;
-#X msg 115 329 \; pd-ch\$1_\$4 array \$2 \$3 float 2 \, coords 0 1
-\$3 -1 450 82 2 0 0 \, vis 0;
+#X msg 115 329 \; pd-ch\$1_\$4 array \$2 \$3 float 2 \, coords 0 1 \$3 -1 450 82 2 0 0 \, vis 0;
 #X connect 1 0 10 0;
 #X connect 2 0 9 0;
 #X connect 2 1 1 0;
@@ -1725,9 +1716,8 @@ format sr, f 115;
 #X connect 15 1 1 0;
 #X connect 16 0 0 0;
 #X restore 675 142 pd init-buffers;
-#X obj 24 69 route clear name set open wclose fill apply setsize size
-sizeinsamps samps normalize crop, f 89;
-#X text 319 185 porres \, barber \, 2017-2018 \; for cyclone;
+#X obj 24 69 route clear name set open wclose fill apply setsize size sizeinsamps samps normalize crop, f 89;
+#X text 319 185 porres \, barber \, 2017-2024 \; for cyclone;
 #X connect 0 0 14 0;
 #X connect 11 0 10 1;
 #X connect 11 0 13 0;
