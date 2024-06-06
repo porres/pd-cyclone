@@ -633,8 +633,8 @@ static int min_minor = 55;
 static int min_bugfix = 0;
 
 static int cyclone_major = 0;
-static int cyclone_minor = 8;
-static int cyclone_bugfix = 1;
+static int cyclone_minor = 9;
+static int cyclone_bugfix = 0;
 
 void print_cyclone(t_cyclone *x){
     int major = 0, minor = 0, bugfix = 0;
@@ -665,6 +665,10 @@ void print_cyclone(t_cyclone *x){
     post(":: you need to add 'cyclone' to the \"preferences=>path\"");
     post(":: or use [declare -path cyclone] (this guarantees search priority)");
     post("--------------------------------------------------------------------");
+    post("-------------------------------------------------------------------");
+    post("- NOTE: Loading this binary did install an object browser");
+    post("plugin for Cyclone objects when right clicking on a canvas.");
+    post("-------------------------------------------------------------------");
     post("");
 }
 
@@ -852,6 +856,10 @@ CYCLONE_API void cyclone_setup(void)
     class_addbang(plusequals_class, plusequals_bang);
     class_addmethod(plusequals_class, (t_method)plusequals_set, gensym("set"), A_FLOAT, 0);
     class_sethelpsymbol(plusequals_class, gensym("plusequals~"));
+    
+    char plugin[MAXPDSTRING];
+    sprintf(plugin, "%s/browser-cyclone.tcl", cyclone_class->c_externdir->s_name);
+    pdgui_vmess("load_plugin_script", "s", plugin);
 
 #if CYCLONE_SINGLE_LIBRARY
     setup_single_lib();
