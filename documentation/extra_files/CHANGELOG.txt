@@ -9,9 +9,9 @@ cyclone 0.9-0 (needs at least Pd Vanilla 0.55-0):
 
 - added a browser plugin for objects on right click on an empty spot of the patch
 - Compilation and binaries in double precision is now supported and provided
-- added support for 64-bit audio files in [buffer~] (Pd 0.55 in double precision is requiered for this)
-- fixed regression bugs in [offer], list input works now and other things that were funny seems ok now (we introduced this bug in 0.3)
+- [buffer~]: Added support for 64-bit audio files in [buffer~] (Pd 0.55 in double precision is required for this); now it finds files relative to the patch (thanks to [file which]'s new feature in Pd 0.55).
 - fixed a bug in [zl.group] where it did not load the default arg
+- fixed regression bugs in [offer], list input works now and other things that were funny seems ok now (we introduced this bug in 0.3)
 
 --------------------------------------------------
 cyclone 0.8-1 (needs at least Pd Vanilla 0.54-1):
