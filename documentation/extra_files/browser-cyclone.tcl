@@ -21,17 +21,24 @@ proc menu_send_cyclone_obj {w x y item} {
     } 
 }
 
-
 # set nested list
 proc category_cyclone_menu::load_menutree {} {
     set menutree { 
         {cyclone
             {lib
                 {cyclone}}
-            {max
-                {accum acos acosh active anal append asin asinh atanh atodb bangbang bondo borax bucket buddy capture cartopol clip coll comment cosh counter cycle dbtoa decide decode drunk flush forward fromsymbol funbuff funnel gate grab histo iter join linedrive listfunnel loadmess match maximum mean midiflush midiformat midiparse minimum mousefilter mousestate mtr next offer onebang pak past peak poltocar pong prepend prob pv rdiv rminus round scale seq sinh speedlim spell split spray sprintf substitute sustain switch table tanh thresh togedge tosymbol trough universal unjoin urn uzi xbendin xbendin2 xbendout xbendout2 xnotein xnoteout zl}}
-            {msp
-                {acos~ acosh~ allpass~ asin~ asinh~ atan~ atan2~ atanh~ atodb~ average~ avg~ bitand~ bitnot~ bitor~ bitsafe~ bitshift~ bitxor~ buffer~ buffir~ capture~ cartopol~ change~ click~ clip~ comb~ cosh~ cosx~ count~ cross~ curve~ cycle~ dbtoa~ degrade~ delay~ delta~ deltaclip~ downsamp~ edge~ equals~ frameaccum~ framedelta~ gate~ greaterthan~ greaterthaneq~ index~ kink~ lessthan~ lessthaneq~ line~ lookup~ lores~ matrix~ maximum~ minimum~ minmax~ modulo~ mstosamps~ notequals~ number~ onepole~ overdrive~ peakamp~ peek~ phaseshift~ phasewrap~ pink~ play~ plusequals~ poke~ poltocar~ pong~ pow~ rampsmooth~ rand~ rdiv~ record~ reson~ rminus~ round~ sah~ sampstoms~ scale~ scope_dialog~ scope~ selector~ sinh~ sinx~ slide~ snapshot~ spike~ svf~ tanh~ tanx~ teeth~ thresh~ train~ trapezoid~ triangle~ trunc~ vectral~ wave~ zerox~}}
+            {max\ math
+                {accum acos acosh asin asinh atanh atodb cartopol clip cosh dbtoa maximum mean minimum poltocar pong rdiv rminus round scale sinh tanh}}
+            {max\ midi
+                {borax flush midiflush midiformat midiparse seq sustain xbendin xbendin2 xbendout xbendout2 xnotein xnoteout}}
+            {max\ others
+                {active anal append bangbang bondo bucket buddy capture coll comment counter cycle decide decode drunk forward fromsymbol funbuff funnel gate grab histo iter join linedrive listfunnel loadmess match mousefilter mousestate mtr next offer onebang pak past peak prepend prob pv speedlim spell split spray sprintf substitute switch table thresh togedge tosymbol trough universal unjoin urn uzi zl}}
+            {msp\ math
+                {acos~ acosh~ asin~ asinh~ atan~ atan2~ atanh~ atodb~ average~ avg~ bitand~ bitnot~ bitor~ bitsafe~ bitshift~ bitxor~ cartopol~ clip~ cosh~ cosx~ dbtoa~ delta~ equals~ greaterthan~ greaterthaneq~ lessthan~ lessthaneq~ maximum~ minimum~ modulo~ mstosamps~ notequals~ plusequals~ poltocar~ pong~ pow~ rdiv~ rminus~ round~ sampstoms~ scale~ sinh~ sinx~ tanh~ tanx~ trunc~}}
+            {msp\ filters
+                {allpass~ buffir~ comb~ cross~ deltaclip~ lores~ onepole~ phaseshift~ rampsmooth~ reson~ slide~ svf~ teeth~}}
+            {msp\ others
+                {capture~ change~ click~ count~ curve~ cycle~ degrade~ delay~ downsamp~ edge~ frameaccum~ framedelta~ gate~ index~ kink~ line~ lookup~ matrix~ minmax~ number~ overdrive~ peakamp~ peek~ phasewrap~ pink~ play~ poke~ rand~ record~ sah~ scope~ selector~ snapshot~ spike~ thresh~ train~ trapezoid~ triangle~ vectral~ wave~ zerox~}}
         }
     }
     return $menutree

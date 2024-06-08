@@ -76,9 +76,9 @@
 #X obj 88 224 cyclone/bucket 4 1;
 #X obj 88 173 random 100;
 #X text 174 494 - output flag: <0> (default) holds the input and passes it on the next round \, <1> outputs the input immediately;
-#X text 49 87 As [bucket] is input with floats \, it outputs them shiftting from outlet to outlet in a rotational pattern (or "passing the bucket" as in a ucket brigade).;
 #X obj 3 4 header bucket;
 #X text 22 62 Pass numbers from outlet to outlet;
+#X text 49 87 As [bucket] is input with floats \, it outputs them shiftting from outlet to outlet in a rotational pattern (or "passing the bucket" as in a bucket brigade).;
 #X connect 5 0 45 0;
 #X connect 16 0 44 0;
 #X connect 27 0 34 0;
