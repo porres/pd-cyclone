@@ -145,8 +145,8 @@
 #X text 139 331 - sets buffer size in samples (you can also use 'samps'*), f 59;
 #X text 148 363 * as these are attributes names;
 #X text 58 40 read <list>;
-#X text 139 40 -, f 1;
-#X text 151 39 needs a symbol file name to load and optional args (just 'read' opens dialog box) \, 1st is start in ms \, 2nd is duration in ms and 3rd number of channels, f 57;
+#X text 139 40 -;
+#X text 151 39 needs a symbol file name to load and optional args (just 'read' opens dialog box) \, 1st arg is start in ms \, 2nd is duration in ms and 3rd is number of channels, f 57;
 #X restore 374 290 pd All_Messages;
 #X text 124 291 click to open and check all messages: =>;
 #X text 175 352 - buffer name, f 60;
@@ -157,12 +157,12 @@
 #X text 25 58 Audio buffer;
 #X obj 431 166 declare -stdpath ./;
 #X obj 2 2 header buffer~;
-#X obj 109 234 cyclone/buffer~ buff1_\$0 stereo.aif, f 19;
 #X text 62 89 [buffer~] stores audio in a memory buffer (an array). It read/writes multichannel audio files and can be used in conjunction with [play~] and other related objects. This is an abstraction without the full functionalitites or compatibility to the MAX original., f 68;
+#X obj 109 234 cyclone/buffer~ buff1_\$0 stereo.aif, f 19;
 #X connect 13 0 26 0;
-#X connect 14 0 32 0;
-#X connect 19 0 32 0;
-#X connect 20 0 32 0;
-#X connect 21 0 32 0;
+#X connect 14 0 33 0;
+#X connect 19 0 33 0;
+#X connect 20 0 33 0;
+#X connect 21 0 33 0;
 #X connect 26 0 28 0;
 #X connect 26 1 28 1;
