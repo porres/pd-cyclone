@@ -29,8 +29,6 @@
 #X obj 276 273 cyclone/rdiv;
 #X obj 276 293 cyclone/rdiv~;
 #X obj 277 369 cyclone/plusequals~;
-#X obj 276 66 cyclone/comment 160 18 DejaVu\ Sans\ Mono empty 0 0 0 0 0 255 255 255 0 0 alphanumeric;
-#X obj 28 66 cyclone/comment 178 18 DejaVu\ Sans\ Mono empty 0 0 0 0 0 255 255 255 0 0 non alphanumeric;
 #X obj 133 99 cyclone/==~;
 #X obj 133 123 cyclone/!=~;
 #X obj 133 148 cyclone/<~;
@@ -45,6 +43,8 @@
 #X obj 133 368 cyclone/+=~;
 #X text 29 17 You can also find alphanumeric versions of these objects (with the same name alias as in Max/MSP) as single separate binaries \, they are:, f 70;
 #X text 89 415 Note that even though the non-alphanumeric versions come from a single binary pack \, it is also possible to load them with the "cyclone/" prefix., f 56;
+#X text 100 68 non alphanumeric;
+#X text 290 68 alphanumeric;
 #X restore 182 125 pd operators;
 #X text 299 260 Check declare's help file for more information., f 25;
 #X text 111 154 Check "All About Cyclone" =>;

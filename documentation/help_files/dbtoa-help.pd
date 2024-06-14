@@ -1,4 +1,4 @@
-#N canvas 520 107 563 532 10;
+#N canvas 498 65 563 532 10;
 #X obj 4 352 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 4 422 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 4 464 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -31,7 +31,7 @@
 #X obj 7 4 ./header dbtoa;
 #X text 22 61 Convert dBFS to linear amplitude;
 #X text 109 191 dBFS;
-#X text 344 310 comment;
+#X text 344 310 linear;
 #X connect 8 0 20 0;
 #X connect 9 0 8 0;
 #X connect 16 0 20 0;
