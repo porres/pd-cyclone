@@ -19,8 +19,9 @@
 #X obj 130 161 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 130 215 cyclone/asinh~;
 #X obj 495 69 dsponoff~;
-#X text 341 214 see also:;
-#X obj 328 242 expr~ asinh($v1);
+#X text 368 196 see also:;
+#X obj 355 224 expr~ asinh($v1);
+#X text 320 255 as a Vanilla alternative;
 #X connect 14 0 18 0;
 #X connect 15 0 16 0;
 #X connect 17 0 14 0;

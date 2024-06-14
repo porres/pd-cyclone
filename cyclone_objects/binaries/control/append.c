@@ -264,6 +264,7 @@ CYCLONE_OBJ_API void append_setup(void)
     class_addmethod(append_class, (t_method)append_set,
 		    gensym("set"), A_GIMME, 0);
     class_sethelpsymbol(append_class, gensym("append"));
+    pd_error(append_class, "[cyclone/append] is deprecated, consider using vanilla's [list append] and [list trim] instead");
 }
 
 
@@ -280,4 +281,5 @@ CYCLONE_OBJ_API void Append_setup(void)
             gensym("set"), A_GIMME, 0);
     class_sethelpsymbol(append_class, gensym("append"));
     pd_error(append_class, "Cyclone: please use [append] instead of [Append] to suppress this error");
+    pd_error(append_class, "[cyclone/append] is deprecated, consider using vanilla's [list append] and [list trim] instead");
 }

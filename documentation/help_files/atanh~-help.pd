@@ -20,6 +20,7 @@
 #X text 373 216 see also:;
 #X obj 357 244 expr~ atanh($v1);
 #X text 54 93 Use [atanh~] to output the hyperbolic arc-tangent of each input sample (probably only useful for mathematical calculations). For input values <= -1 or >=1 \, the output is zero!, f 64;
+#X text 341 277 as a Vanilla alternative;
 #X connect 12 0 16 0;
 #X connect 13 0 14 0;
 #X connect 15 0 12 0;

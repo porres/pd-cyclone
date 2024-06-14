@@ -19,8 +19,9 @@
 #X obj 136 150 nbx 9 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 136 204 cyclone/atan~;
 #X obj 495 69 dsponoff~;
-#X text 373 216 see also:;
-#X obj 357 244 expr~ atan($v1);
+#X text 386 181 see also:;
+#X obj 370 209 expr~ atan($v1);
+#X text 341 237 as a Vanilla alternative;
 #X connect 14 0 18 0;
 #X connect 15 0 16 0;
 #X connect 17 0 14 0;
