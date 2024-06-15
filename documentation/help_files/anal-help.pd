@@ -1,4 +1,4 @@
-#N canvas 453 48 564 563 10;
+#N canvas 502 64 564 563 10;
 #X obj 3 386 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 450 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 487 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -114,7 +114,7 @@
 #X connect 1 0 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 0;
-#X restore 451 290 pd examples;
+#X restore 430 250 pd examples;
 #X text 166 462 - three floats: <previous number \, current number \, occurrence>, f 62;
 #X obj 186 236 cyclone/anal 32;
 #X text 166 427 - completely erase memory, f 60;
@@ -124,8 +124,13 @@
 #X text 22 61 Number pairs histogram;
 #X obj 4 5 header anal;
 #X text 41 85 [anal] reports how many times it received a number pair. It is designed to serve as input to [cyclone/prob] mostly to implement Markov Chains. The output is composed of: 1) the previously received number \, 2) current input number \, 3) occurrence (how many times this number pair has been received)., f 72;
-#X text 113 351 see also:;
-#X text 182 346 Plugdata users or those with ELSE can also use [else/markov] as an alternative, f 40;
+#X text 21 353 see also:;
+#X text 181 347 Plugdata users or those with ELSE can also use [else/markov] as an alternative, f 40;
+#X text 450 319 click:;
+#X obj 452 360 open-else;
+#X obj 84 352 cyclone/prob;
+#C restore;
+#X msg 452 339 markov;
 #X connect 5 0 27 0;
 #X connect 6 0 27 0;
 #X connect 7 0 27 0;
@@ -136,3 +141,4 @@
 #X connect 13 2 21 0;
 #X connect 18 0 27 0;
 #X connect 27 0 13 0;
+#X connect 40 0 38 0;

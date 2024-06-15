@@ -1,4 +1,4 @@
-#N canvas 432 38 558 603 10;
+#N canvas 432 38 560 602 10;
 #X declare -stdpath ./;
 #X obj 2 575 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 3 398 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
@@ -44,7 +44,7 @@
 #X connect 1 0 10 0;
 #X connect 6 0 2 0;
 #X connect 10 0 6 0;
-#X restore 450 273 pd backwards \; compatibility;
+#X restore 446 244 pd backwards \; compatibility;
 #N canvas 615 44 441 576 more 0;
 #X text 23 65 The first argument specifies the maximum buffer size to average the signal. You can change with a float input the number of samples to average but values gretaer than the argument are clipped to that maximum value. The minimum average value is "1" \, which makes it the original signal for the bipolar mode \, or the absolute value of the original signal (for absolute and rms mode). Values smaller than "1" are simply ignored.;
 #X text 23 177 Each time [average~] receives a number value \, it clears the samples from the buffer \, even if the number is the same as the previously set number. So you may have to use the [change] object if you don't want the same number to clear the buffer., f 60;
@@ -58,7 +58,7 @@
 #X connect 3 0 4 0;
 #X connect 3 0 6 0;
 #X connect 4 0 7 0;
-#X restore 438 252 pd more details;
+#X restore 434 223 pd more details;
 #X text 391 132 modes:;
 #X obj 213 176 nbx 2 15 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 12 #dcdcdc #000000 #000000 0 256;
 #X obj 271 218 cyclone/average~ 50;
@@ -76,8 +76,14 @@
 #X text 21 222 1;
 #X text 21 272 0;
 #X text 15 318 -1;
-#X text 166 352 Plugdata users or those with ELSE can also use [else/mov.avg~] and [mov.rms~], f 40;
+#X text 182 350 Plugdata users or those with ELSE can also use [else/mov.avg~] and [mov.rms~], f 40;
 #X text 50 83 Use [average~] for a signal running/moving average over the last 'n' given samples. The average is done in 3 modes: bipolar (default \, an arithmetic mean) \, absolute (arithmetic mean over absolute values) and rms(moving RMS average)., f 68;
+#X text 444 300 click:;
+#X obj 444 371 open-else;
+#X text 22 358 see also:;
+#X obj 87 357 cyclone/avg~;
+#X msg 444 320 mov.avg~;
+#X msg 454 344 mov.rms~;
 #X connect 6 0 32 0;
 #X connect 7 0 32 0;
 #X connect 8 0 32 0;
@@ -87,3 +93,5 @@
 #X connect 32 0 37 0;
 #X connect 36 0 37 0;
 #X connect 40 0 36 0;
+#X connect 50 0 47 0;
+#X connect 51 0 47 0;

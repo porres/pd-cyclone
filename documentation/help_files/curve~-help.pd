@@ -1,4 +1,4 @@
-#N canvas 510 23 558 700 10;
+#N canvas 421 23 558 700 10;
 #X declare -stdpath ./;
 #X obj 3 670 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 3 367 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
@@ -94,8 +94,8 @@
 #X text 179 490 - stops & clears pending targets (still outputs last value);
 #X text 179 408 - jumps immediately to that value (unless the duration is set before to other than 0 in the mid inlet);
 #X text 178 650 - curve factor from -1 to 1 (default 0 - linear);
-#X text 58 328 see also:;
-#X obj 121 329 cyclone/line~;
+#X text 15 328 see also:;
+#X obj 80 329 cyclone/line~;
 #X obj 45 238 output~;
 #X obj 2 4 ./header curve~;
 #X text 19 58 Curved ramp generator;
@@ -108,6 +108,10 @@
 #X obj 173 247 tabwrite~ \$0-curve;
 #X obj 186 223 metro 100;
 #X obj 186 202 loadbang;
+#X obj 443 342 open-else;
+#X msg 443 320 envgen~;
+#X text 494 321 click;
+#X text 178 323 Plugdata users or those with ELSE can also use [else/envgen~] as an alternative, f 41;
 #X connect 16 0 17 0;
 #X connect 17 0 44 0;
 #X connect 19 0 17 1;
@@ -116,3 +120,4 @@
 #X connect 25 0 19 0;
 #X connect 51 0 50 0;
 #X connect 52 0 51 0;
+#X connect 54 0 53 0;

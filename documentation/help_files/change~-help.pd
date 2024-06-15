@@ -30,8 +30,12 @@
 #X floatatom 92 310 13 0 0 0 - - - 0;
 #X msg 178 171 -1 \, 1 2500;
 #X msg 260 170 1 \, -1 2500;
-#X text 97 385 see also:;
-#X text 175 379 Plugdata users or those with ELSE can also use [else/changed2~] and [else/changed~], f 42;
+#X text 57 385 see also:;
+#X text 135 379 Plugdata users or those with ELSE can also use [else/changed2~] and [else/changed~], f 42;
+#X obj 417 402 open-else;
+#X text 489 375 click:;
+#X msg 417 351 changed2~;
+#X msg 427 375 changed~;
 #X connect 9 0 21 0;
 #X connect 10 0 9 0;
 #X connect 10 0 27 0;
@@ -41,3 +45,5 @@
 #X connect 27 0 28 0;
 #X connect 29 0 10 0;
 #X connect 30 0 10 0;
+#X connect 35 0 33 0;
+#X connect 36 0 33 0;

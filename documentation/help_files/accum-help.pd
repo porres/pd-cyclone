@@ -71,7 +71,7 @@
 #X connect 19 0 20 0;
 #X connect 23 0 22 0;
 #X connect 24 0 23 1;
-#X restore 432 234 pd more_examples;
+#X restore 423 155 pd more_examples;
 #X text 112 378 set <float>;
 #X text 203 342 - output accumulated value, f 51;
 #X text 203 378 - sets a new value to be accumulated;
@@ -90,6 +90,9 @@
 #X obj 3 2 ./header accum;
 #X text 110 289 see also:;
 #X text 177 284 Plugdata users or those with ELSE can also use [else/add] as an alternative, f 38;
+#X text 471 278 click:;
+#X obj 443 300 open-else;
+#X msg 443 279 add;
 #X connect 4 0 8 0;
 #X connect 8 0 20 0;
 #X connect 14 0 8 0;
@@ -97,3 +100,4 @@
 #X connect 34 0 8 1;
 #X connect 35 0 8 0;
 #X connect 36 0 4 0;
+#X connect 43 0 42 0;
