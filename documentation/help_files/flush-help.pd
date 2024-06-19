@@ -24,7 +24,7 @@
 #X text 118 490 float;
 #X text 158 513 -;
 #X text 118 513 float;
-#X text 111 550 (none);
+#X text 191 550 (none);
 #X text 67 86 Like a "panic button" \, [flush] keeps track of Note-on messages that weren't switched off and "flushes" them by sending corresponding note-offs when it receives a bang.;
 #X obj 117 181 bng 18 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X text 173 414 sets a pitch/velocity pair of a note message, f 60;
@@ -263,12 +263,9 @@
 #X restore 470 265 pd example;
 #X obj 3 5 ./header flush;
 #X text 22 61 Flush hanging note-ons;
-#X text 60 324 see also:;
-#X obj 429 338 open-else;
-#X text 472 316 click;
-#X text 160 319 Plugdata users or those with ELSE can also use [else/panic] as an alternative, f 42;
-#X msg 429 316 panic;
-#X obj 124 325 bag;
+#X obj 212 322 cyclone/midiflush;
+#X text 138 321 see also:;
+#X obj 334 322 bag;
 #X connect 5 0 9 0;
 #X connect 6 0 9 1;
 #X connect 9 0 36 0;
@@ -277,4 +274,3 @@
 #X connect 35 0 43 0;
 #X connect 36 0 44 0;
 #X connect 40 0 9 0;
-#X connect 54 0 51 0;

@@ -81,9 +81,10 @@
 #X text 444 300 click:;
 #X obj 444 371 open-else;
 #X text 22 358 see also:;
-#X obj 87 357 cyclone/avg~;
+#X obj 87 347 cyclone/avg~;
 #X msg 444 320 mov.avg~;
 #X msg 454 344 mov.rms~;
+#X obj 87 367 cyclone/mean;
 #X connect 6 0 32 0;
 #X connect 7 0 32 0;
 #X connect 8 0 32 0;
