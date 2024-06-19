@@ -1,4 +1,4 @@
-#N canvas 591 145 727 453 10;
+#N canvas 422 101 727 453 10;
 #X obj 243 296 line~;
 #X obj 243 399 outlet~;
 #X obj 539 17 inlet;
@@ -251,8 +251,8 @@
 #X connect 15 2 11 0;
 #X connect 15 2 9 0;
 #X restore 78 163 pd list;
-#X obj 184 117 print warning;
-#X msg 184 85 [cyclone/number~] has been deprecated;
+#X obj 184 119 print warning;
+#X msg 184 85 [cyclone/number~] has been deprecated and might be deleted in version 1.0!, f 38;
 #X connect 0 0 3 0;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
