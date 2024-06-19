@@ -69,4 +69,5 @@ CYCLONE_OBJ_API void forward_setup(void)
     class_addanything(forward_class, forward_anything);
     class_addmethod(forward_class, (t_method)forward_send,
 		    gensym("send"), A_DEFSYM, 0);
+    pd_error(forward_class, "[cyclone/forward] is deprecated, consider using vanilla's [send] or regular message boxes instead");
 }

@@ -293,6 +293,8 @@
 #X text 447 1068 <-- DEPRECATED!!!!;
 #X obj 76 114 cyclone;
 #X text 132 112 <-- cyclone binary;
+#X text 36 1166 DEPRECATED!!!! -->;
+#X text 35 629 DEPRECATED!!!! -->;
 #X restore 101 328 pd All_cyclone_Objects;
 #X text 65 39 - Cyclone is a set of Pure Data objects cloned from Max/MSP \, see https://github.com/porres/pd-cyclone, f 73;
 #X text 58 220 Here you find all objects available in Cyclone. You can turn the DSP on to check how much CPU load you have with all objects on and just test if they all work. The total number of objects in cyclone is 194 counting the cyclone bynary and six deprecated objects (so it's more like 187)., f 74;

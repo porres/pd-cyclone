@@ -14,7 +14,6 @@
 #X text 116 406 float/signal;
 #X text 78 156 [minimum~] outputs a signal which is the minimum of two input signals \, or the minimum of an input signal and a given argument.;
 #X obj 73 93 cnv 15 350 45 empty empty empty 20 12 0 14 #f0b8c4 #404040 0;
-#X text 93 118 Too similar to Pd Vanilla's [min~] (see "more info");
 #X text 212 483 - value to compare minimum with (default 0);
 #X text 212 445 - The minimum value (smaller of the two);
 #X obj 499 69 cyclone/dsponoff~;
@@ -26,12 +25,13 @@
 #X obj 305 217 nbx 6 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 305 245 sig~;
 #X obj 305 272 cyclone/minimum~ 5, f 20;
-#X text 98 98 Redundanct and deprecated object;
+#X text 138 98 Redundanct and deprecated object;
 #X text 52 253 Just use Pd Vanilla's;
 #X text 99 311 instead;
 #X obj 106 282 min~;
-#X connect 21 0 26 1;
-#X connect 23 0 22 0;
+#X text 133 118 Too similar to Pd Vanilla's [min~];
+#X connect 20 0 25 1;
+#X connect 22 0 21 0;
+#X connect 23 0 24 0;
 #X connect 24 0 25 0;
-#X connect 25 0 26 0;
-#X connect 26 0 23 0;
+#X connect 25 0 22 0;
