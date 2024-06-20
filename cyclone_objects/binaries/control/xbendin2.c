@@ -96,6 +96,6 @@ CYCLONE_OBJ_API void xbendin2_setup(void)
 			       sizeof(t_xbendin2), 0,
 			       A_DEFFLOAT, 0);
     class_addfloat(xbendin2_class, xbendin2_float);
-    pd_error(clip_class, "[cyclone/xbendin2~] is deprecated, you can just use [cyclone/midiparse] or simply [bendin] instead");
+    pd_error(xbendin2_class, "[cyclone/xbendin2~] is deprecated, you can just use [cyclone/midiparse] or simply [bendin] instead");
     /* CHECKME autocasting lists to floats */
 }
