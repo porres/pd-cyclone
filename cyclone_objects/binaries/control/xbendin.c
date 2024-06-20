@@ -91,4 +91,5 @@ CYCLONE_OBJ_API void xbendin_setup(void)
 			      A_DEFFLOAT, 0);
     class_addfloat(xbendin_class, xbendin_float);
     /* CHECKME autocasting lists to floats */
+    pd_error(clip_class, "[cyclone/xbendin~] is deprecated, you can just use [cyclone/midiparse] or simply [bendin] instead");
 }

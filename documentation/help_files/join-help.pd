@@ -1,4 +1,4 @@
-#N canvas 516 49 559 594 10;
+#N canvas 376 87 559 594 10;
 #X obj 4 573 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 355 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 5 469 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -62,12 +62,14 @@
 #X text 201 517 - number of inlets (default 2 \, min 2 / max 255);
 #X obj 3 6 ./header join;
 #X text 22 61 Combine items into a list;
-#X text 50 306 see also:;
-#X obj 386 319 open-else;
-#X text 429 297 click;
-#X msg 386 297 merge;
-#X text 120 301 Plugdata users or those with ELSE can also use [else/merge] as an alternative, f 41;
+#X text 47 291 see also:;
+#X obj 416 320 open-else;
+#X text 459 298 click;
+#X msg 416 298 merge;
+#X text 150 302 Plugdata users or those with ELSE can also use [else/merge] as an alternative, f 41;
 #X listbox 165 255 34 0 0 0 - - - 0;
+#X obj 48 311 cyclone/unjoin;
+#X obj 110 291 list;
 #X connect 6 0 28 0;
 #X connect 7 0 28 3;
 #X connect 9 0 28 2;

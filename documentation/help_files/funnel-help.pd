@@ -108,8 +108,8 @@
 #X text 15 252 inlet #;
 #X text 136 253 value;
 #X text 136 306 see also:;
-#X obj 337 306 cyclone/spray;
-#X obj 208 306 cyclone/listfunnel;
+#X obj 337 307 cyclone/spray;
+#X obj 208 307 cyclone/listfunnel;
 #X connect 6 0 32 2;
 #X connect 13 0 32 0;
 #X connect 14 0 32 1;

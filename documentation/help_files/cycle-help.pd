@@ -69,8 +69,9 @@
 #X text 23 60 Round-robin messages to outlets;
 #X obj 247 248 bng 19 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X obj 291 247 bng 19 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
-#X text 168 301 see also:;
-#X obj 241 302 cyclone/bucket;
+#X text 112 301 see also:;
+#X obj 185 302 cyclone/bucket;
+#X obj 286 302 cyclone/spray, f 14;
 #X connect 5 0 26 0;
 #X connect 6 0 26 0;
 #X connect 7 0 26 0;

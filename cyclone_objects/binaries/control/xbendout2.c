@@ -58,4 +58,5 @@ CYCLONE_OBJ_API void xbendout2_setup(void)
 				A_DEFFLOAT, 0);
     class_addbang(xbendout2_class, xbendout2_dooutput);
     class_addfloat(xbendout2_class, xbendout2_float);
+    pd_error(clip_class, "[cyclone/xbendout2~] is deprecated, you can just use [cyclone/midiformat] or simply [bendout] instead");
 }

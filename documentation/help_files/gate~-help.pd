@@ -1,4 +1,4 @@
-#N canvas 452 27 560 583 10;
+#N canvas 452 27 560 587 10;
 #X declare -stdpath ./;
 #X obj 4 553 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 5 461 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -54,12 +54,13 @@
 #X floatatom 208 286 5 0 0 0 - - - 0;
 #X obj 258 265 env~;
 #X floatatom 258 286 5 0 0 0 - - - 0;
-#X text 43 342 see also:;
-#X obj 404 368 open-else;
-#X msg 404 316 xgate~;
-#X text 467 329 click;
-#X msg 412 337 xgate2~;
-#X text 115 334 Plugdata users or those with ELSE can use the much better [else/xgate~] or [else/xgatew~] objects instead., f 45;
+#X text 47 329 see also:;
+#X obj 412 369 open-else;
+#X msg 412 319 xgate~;
+#X text 475 332 click;
+#X msg 420 340 xgate2~;
+#X obj 44 352 cyclone/selector~;
+#X text 168 332 Plugdata users or those with ELSE can use the much better [else/xgate~] or [else/xgate~] objects instead (see also their multichannel variations)., f 38;
 #X connect 6 0 19 0;
 #X connect 7 0 6 0;
 #X connect 19 0 31 0;

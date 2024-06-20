@@ -45,11 +45,11 @@
 #X text 44 88 [rampsmooth~] smooths a signal across 'n' samples. Each time an incoming value changes \, it begins a linear ramp of the given 'n' samples to reach this value. It is also useful for envelope following and lowpass filtering., f 72;
 #X text 170 319 see also:;
 #X obj 427 386 open-else;
-#X text 475 363 click;
+#X text 477 363 click;
 #X obj 237 329 cyclone/deltaclip~;
-#X msg 427 364 glide~;
-#X text 166 370 Plugdata users or those with ELSE can also use [else/glide~] as an alternative, f 40;
 #X obj 237 307 cyclone/slide~;
+#X msg 427 364 glide2~;
+#X text 150 369 Plugdata users or those with ELSE can also use [else/glide2~] as an alternative, f 42;
 #X connect 17 0 26 0;
 #X connect 18 0 17 0;
 #X connect 19 0 26 2;
@@ -61,4 +61,4 @@
 #X connect 26 0 40 0;
 #X connect 40 0 41 0;
 #X connect 41 0 42 0;
-#X connect 48 0 45 0;
+#X connect 49 0 45 0;

@@ -51,13 +51,13 @@
 #X obj 171 296 cyclone/snapshot~ 1;
 #X text 401 302 see also:;
 #X obj 422 412 open-else;
-#X text 461 389 click;
-#X msg 422 390 slew~;
-#X obj 141 402 slop~, f 8;
-#X text 222 389 Plugdata users or those with ELSE can also use [else/slew~] as an alternative, f 30;
+#X text 471 389 click;
+#X obj 121 402 slop~, f 8;
 #X obj 402 327 cyclone/rampsmooth~;
 #X obj 403 351 cyclone/slide~;
-#X text 43 404 also see also:;
+#X text 23 404 also see also:;
+#X msg 422 390 slew2~;
+#X text 202 389 Plugdata users or those with ELSE can also use [else/slew2~] as an alternative, f 31;
 #X connect 7 0 34 0;
 #X connect 8 0 39 2;
 #X connect 9 0 35 0;
@@ -76,4 +76,4 @@
 #X connect 39 0 49 0;
 #X connect 47 0 48 0;
 #X connect 49 0 14 0;
-#X connect 53 0 51 0;
+#X connect 57 0 51 0;

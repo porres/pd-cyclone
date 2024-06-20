@@ -79,8 +79,9 @@
 #X obj 3 4 header bucket;
 #X text 22 62 Pass numbers from outlet to outlet;
 #X text 49 87 As [bucket] is input with floats \, it outputs them shiftting from outlet to outlet in a rotational pattern (or "passing the bucket" as in a bucket brigade).;
-#X obj 202 295 cyclone/cycle;
-#X text 133 294 see also:;
+#X obj 211 298 cyclone/cycle;
+#X text 142 297 see also:;
+#X obj 301 298 cyclone/spray;
 #X connect 5 0 45 0;
 #X connect 16 0 44 0;
 #X connect 27 0 34 0;
