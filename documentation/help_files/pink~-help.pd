@@ -1,4 +1,4 @@
-#N canvas 299 60 565 549 10;
+#N canvas 355 101 565 549 10;
 #X declare -stdpath ./;
 #X obj 226 168 cyclone/pink~;
 #X text 63 86 [pink~] generates pink noise. This is not an actual MAX clone but an object that is borrowed from ELSE which has more functionalities and is backwards compatible to MAX's object since the original just outputs pink noise!, f 75;
@@ -67,9 +67,9 @@
 #X obj 3 2 ./header pink~;
 #X text 22 61 Pink noise generator;
 #X obj 62 211 declare -stdpath ./;
-#X obj 413 319 open-else;
-#X text 51 296 Plugdata users actually have the object from ELSE instead \, and those with ELSE can just use the original instead.;
-#X msg 413 292 pink~;
-#X text 454 291 click;
+#X obj 331 318 open-else;
+#X msg 331 291 pink~;
+#X text 372 290 click;
+#X text 116 291 Plugdata users can just use the original object from ELSE instead (same with those with ELSE)., f 33;
 #X connect 0 0 18 0;
-#X connect 24 0 22 0;
+#X connect 23 0 22 0;

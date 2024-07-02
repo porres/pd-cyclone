@@ -13,6 +13,7 @@ cyclone 0.9-0 (needs at least Pd Vanilla 0.55-0):
 - [xbendin]/[xbendin2]/[xbendout]/[xbendout2] have been deprecated, use [midiformat] and [midiparse] instead (I doubt anyone is using such badly designed and silly objects anyway)
 - The documentation has been revised and considering PlugData users, and many ELSE alternatives were added in a new 'see also' section (because ELSE is also part of PlugData), as well as Vanilla alternatives/related objects
 - Added a browser plugin for objects on right click on an empty spot of the patch
+- [trunc~] is now borrowed and equivalent to ELSE's [trunc~] which has multichannel support
 - Fixed a bug in [zl.group] where it did not load the default arg
 - Fixed regression bugs in [offer], list input works now and other things that were funny seems ok now (we introduced this bug in 0.3)
 - [buffer~]: Added support for 64-bit audio files in [buffer~] (Pd 0.55 in double precision is required for this); object has been rewritten and now uses [file which] with 0.55's functionality that allows finding files in the parent. Added support for arguments in the 'read' message and implemented 'replace' message (the object doesn't really behave 100% like the MAX original because that one is bugged as fuck)
