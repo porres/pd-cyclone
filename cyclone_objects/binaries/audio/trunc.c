@@ -1,6 +1,7 @@
 // Porres 2017-2023, part of ELSE
 
 #include "m_pd.h"
+#include <common/api.h>
 #include <math.h>
 
 static t_class *trunc_class;
@@ -31,7 +32,7 @@ void *trunc_new(void){
     return(void *)x;
 }
 
-void trunc_tilde_setup(void){
+CYCLONE_OBJ_API void trunc_tilde_setup(void){
     trunc_class = class_new(gensym("trunc~"),
         (t_newmethod) trunc_new, 0, sizeof (t_trunc), CLASS_MULTICHANNEL, 0);
     class_addmethod(trunc_class, nullfn, gensym("signal"), 0);
