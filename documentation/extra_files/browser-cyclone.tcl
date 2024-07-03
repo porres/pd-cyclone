@@ -27,18 +27,38 @@ proc category_cyclone_menu::load_menutree {} {
         {cyclone
             {lib
                 {cyclone}}
+            {max\ trig
+                {acos acosh asin asinh atanh cosh sinh tanh}}   
             {max\ math
-                {accum acos acosh asin asinh atanh atodb cartopol clip cosh dbtoa maximum mean minimum poltocar pong rdiv rminus round scale sinh tanh}}
+                {accum atodb cartopol clip counter dbtoa maximum mean minimum poltocar pong rdiv rminus round scale}}
             {max\ midi
-                {borax flush midiflush midiformat midiparse seq sustain xbendin xbendin2 xbendout xbendout2 xnotein xnoteout}}
+                {borax flush midiflush midiformat midiparse seq sustain xnotein xnoteout}}
+            {max\ random
+                {decide drunk prob urn}}
+            {max\ data\ storage
+                {coll funbuff histo mtr table}}
+            {max\ data\ management
+                {anal bangbang bondo bucket buddy capture cycle decode fromsymbol funnel gate grab iter join listfunnel loadmess match next offer onebang pak past peak prepend pv speedlim split spray substitute switch thresh togedge tosymbol trough unjoin uzi zl}}
             {max\ others
-                {active anal append bangbang bondo bucket buddy capture coll comment counter cycle decide decode drunk forward fromsymbol funbuff funnel gate grab histo iter join linedrive listfunnel loadmess match mousefilter mousestate mtr next offer onebang pak past peak prepend prob pv speedlim spell split spray sprintf substitute switch table thresh togedge tosymbol trough universal unjoin urn uzi zl}}
+                {active linedrive mousefilter mousestate spell sprintf universal}}
+            {msp\ trig
+                {acos~ acosh~ asin~ asinh~ atan~ atan2~ atanh~ cosh~ cosx~ sinh~ sinx~ tanh~ tanx~}}
             {msp\ math
-                {acos~ acosh~ asin~ asinh~ atan~ atan2~ atanh~ atodb~ average~ avg~ bitand~ bitnot~ bitor~ bitsafe~ bitshift~ bitxor~ cartopol~ clip~ cosh~ cosx~ dbtoa~ delta~ equals~ greaterthan~ greaterthaneq~ lessthan~ lessthaneq~ maximum~ minimum~ modulo~ mstosamps~ notequals~ plusequals~ poltocar~ pong~ pow~ rdiv~ rminus~ round~ sampstoms~ scale~ sinh~ sinx~ tanh~ tanx~ trunc~}}
+                {atodb~ average~ avg~ bitand~ bitnot~ bitor~ bitsafe~ bitshift~ bitxor~ cartopol~ dbtoa~ delta~ equals~ greaterthan~ greaterthaneq~ lessthan~ lessthaneq~ modulo~ mstosamps~ notequals~ plusequals~ poltocar~ pong~ rdiv~ rminus~ round~ sampstoms~ scale~trunc~}}
+            {msp\ fx
+                {degrade~ delay~ downsamp~ overdrive~}}
             {msp\ filters
                 {allpass~ buffir~ comb~ cross~ deltaclip~ lores~ onepole~ phaseshift~ rampsmooth~ reson~ slide~ svf~ teeth~}}
+            {msp\ synthesis
+                {cycle~ curve~ kink~ line~ lookup~ pink~ rand~ train~ trapezoid~ triangle~ wave~}}
+            {msp\ play\ buffer
+                {buffer~ index~ peek~ play~ poke~ record~}}
+            {msp\ analysis
+                {capture~ change~ edge~ minmax~ peakamp~ sah~ snapshot~ spike~ thresh~ zerox~}}
             {msp\ others
-                {capture~ change~ click~ count~ curve~ cycle~ degrade~ delay~ downsamp~ edge~ frameaccum~ framedelta~ gate~ index~ kink~ line~ lookup~ matrix~ minmax~ number~ overdrive~ peakamp~ peek~ phasewrap~ pink~ play~ poke~ rand~ record~ sah~ scope~ selector~ snapshot~ spike~ thresh~ train~ trapezoid~ triangle~ vectral~ wave~ zerox~}}
+                {click~ count~ frameaccum~ framedelta~ gate~ matrix~ phasewrap~ scope~ selector~ vectral~}}
+            {deprecated
+                {append clip~ comment forward maximum~ minimum~ number~ pow~ xbendin xbendin2 xbendout xbendout2}}
         }
     }
     return $menutree

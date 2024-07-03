@@ -4,7 +4,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* Porres 2016-2018 for versions 0.3 onward:
+/* Porres 2016 for versions 0.3 onward:
  This is the cyclone library containing 12 non alphanumeric objects.
  Originally, the externals in cyclone used to come in a library called
  "cyclone", which included these 12 objects plus the "hammer" and "sickle"

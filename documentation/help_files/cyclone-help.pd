@@ -1,4 +1,4 @@
-#N canvas 450 25 563 721 10;
+#N canvas 450 38 563 721 10;
 #X declare -lib cyclone -path cyclone;
 #X msg 157 437 about;
 #N canvas 604 130 484 477 operators 0;
@@ -60,7 +60,6 @@
 #X text 207 562 - outputs version information as a list;
 #X msg 202 437 version;
 #X text 61 363 The binary is also loaded as the cyclone object. This also loads the library \, but you shouldn't load it this way! The object only accepts the "about" message \, which prints basic information (objects \, version \, release date) on the terminal and the "version" message that outputs the cyclone version as a list of major \, minor \, bugfix., f 71;
-#X obj 202 465 cyclone/cyclone, f 18;
 #X text 63 201 The cyclone library also automatically loads cyclone's path to Pd so you can load the separate binaries (but this doesn't guarantee search priority). Objects from the cyclone library are mostly a set of separate binaries \, but also contains a few abstractions. You can load the cyclone library via "Startup" and "Path" (to guarantee search priority). Alternatively \, you can use [declare] as follows:, f 71;
 #X obj 83 286 declare -lib cyclone -path cyclone;
 #X obj 307 338 bng 15 250 50 0 \$0-install dummy empty 17 7 0 10 #dcdcdc #000000 #000000;
@@ -108,9 +107,10 @@
 #X connect 5 0 3 0;
 #X connect 7 0 4 0;
 #X restore 304 170 pd open;
-#X connect 0 0 16 0;
-#X connect 14 0 16 0;
-#X connect 16 0 22 0;
-#X connect 16 1 23 0;
-#X connect 16 2 24 0;
-#X connect 40 0 41 0;
+#X obj 202 465 cyclone, f 18;
+#X connect 0 0 41 0;
+#X connect 14 0 41 0;
+#X connect 39 0 40 0;
+#X connect 41 0 21 0;
+#X connect 41 1 22 0;
+#X connect 41 2 23 0;

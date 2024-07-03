@@ -120,11 +120,11 @@
 #X text 139 6 - fills all arrays with zeros, f 59;
 #X text 139 219 - opens buffer supbatch window, f 59;
 #X text 139 235 - closes buffer supbatch window, f 59;
-#X text 139 304 - changes the buffer name, f 59;
+#X text 139 303 - changes the buffer name, f 59;
 #X text 40 135 write <symbol>;
-#X text 46 320 name <symbol>;
-#X text 52 303 set <symbol>;
-#X text 139 321 - same as 'name', f 59;
+#X text 46 303 name <symbol>;
+#X text 52 319 set <symbol>;
+#X text 139 318 - same as 'name', f 59;
 #X text 34 353 setsize <float>;
 #X text 34 370 sizeinsamps <f>;
 #X text 70 118 readagain;
