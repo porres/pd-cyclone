@@ -38,7 +38,7 @@ static t_class *bitxor_class;
 static void bitxor_intmask(t_bitxor *x, t_floatarg f)
 {
     x->x_mask = (int32_t)f;
-    pd_float(x->x_rightinlet, (t_float)x->x_mask);
+    pd_float((t_pd *)x->x_rightinlet, (t_float)x->x_mask);
 }
 
 static t_int *bitxor_perform(t_int *w)
@@ -125,7 +125,7 @@ static void bitxor_bits(t_bitxor *x, t_symbol *s, int ac, t_atom *av)
 	t_float f;
 	magic_setnan(&f);
     x->x_mask = bitwise_getbitmask(ac, av);
-    pd_float(x->x_rightinlet, f);
+    pd_float((t_pd *)x->x_rightinlet, f);
 }
 
 static void bitxor_mode(t_bitxor *x, t_floatarg f)
@@ -141,7 +141,7 @@ static void *bitxor_new(t_symbol *s, int argc, t_atom * argv)
     x->x_glist = canvas_getcurrent();
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
-    x->x_signalscalar = obj_findsignalscalar(x, 1);
+    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
 
     //defaults
     t_float bitmask = PDCYBXORMASK;
