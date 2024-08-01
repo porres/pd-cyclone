@@ -72,7 +72,7 @@
 #X connect 6 0 9 0;
 #X connect 10 0 5 0;
 #X restore 411 183 pd pv_in_a_subpatch_2;
-#N canvas 327 218 843 323 pv_in_a_subpatch_1 0;
+#N canvas 327 218 843 323 pv_in_a_subpatch_1 1;
 #X obj 192 129 bng 18 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X obj 192 197 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 127 129 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
@@ -87,8 +87,8 @@
 #X text 509 151 store variable 'y';
 #X text 684 158 retrieve 'y';
 #X text 42 247 And since the parent patch also has a [pv] with the same name \, the value stored here is also shared with other subpatches.;
-#X text 445 56 But if you have a [pv] with a variable name that is not present in the subpatch \, the stored messages will only be shared within this subpatch \, even if other subpatches have [pv] objects with the same variable name - to check it \, open [pv_in_a_subpatch_2].;
 #X text 544 239 only works in this subpatch!;
+#X text 445 56 But if you have a [pv] with a variable name that is not present in a parent patch \, the stored messages will only be shared within this subpatch \, even if other subpatches have [pv] objects with the same variable name - to check it \, open the [pd pv_in_a_subpatch_2] subpatch in the parent patch.;
 #X connect 0 0 10 0;
 #X connect 2 0 10 0;
 #X connect 5 0 9 0;

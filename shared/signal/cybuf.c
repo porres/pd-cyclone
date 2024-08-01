@@ -266,7 +266,7 @@ void cybuf_free(t_cybuf *c)
 void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans, int singlemode){
     //name of buffer (multichan usu, or not) and the number of channels associated with buffer
     t_cybuf *c = (t_cybuf *)getbytes(sizeof(t_cybuf));
-    t_float **vectors;
+    t_word **vectors;
     t_symbol **channames = 0;
     if (!bufname){
         bufname = &s_;
@@ -275,7 +275,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans, int singlemode
     singlemode = singlemode > 0 ? 1 : 0;
     //single mode forces numchans = 1
     numchans = (numchans < 1 || singlemode) ? 1 : (numchans > CYBUF_MAXCHANS ? CYBUF_MAXCHANS : numchans);
-    if (!(vectors = (t_float **)getbytes(numchans* sizeof(*vectors)))){
+    if (!(vectors = (t_word **)getbytes(numchans* sizeof(*vectors)))){
 		return (0);
 	};
     
@@ -287,7 +287,7 @@ void *cybuf_init(t_class *owner, t_symbol *bufname, int numchans, int singlemode
     c->c_single = singlemode;
     c->c_owner = owner;
     c->c_npts = 0;
-    c->c_vectors = vectors;
+    c->c_vectors = (t_word**)vectors;
     c->c_channames = channames;
     c->c_disabled = 0;
     c->c_playable = 0;

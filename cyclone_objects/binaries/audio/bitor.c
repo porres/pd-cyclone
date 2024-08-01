@@ -31,7 +31,7 @@ static t_class *bitor_class;
 static void bitor_intmask(t_bitor *x, t_floatarg f)
 {
 	x->x_mask = (int32_t)f;
-	pd_float(x->x_rightinlet, (t_float)x->x_mask);
+	pd_float((t_pd *)x->x_rightinlet, (t_float)x->x_mask);
 }
 
 static t_int *bitor_perform(t_int *w)
@@ -118,7 +118,7 @@ static void bitor_bits(t_bitor *x, t_symbol *s, int ac, t_atom *av)
 	t_float f;
 	magic_setnan(&f);
     x->x_mask = bitwise_getbitmask(ac, av);
-    pd_float(x->x_rightinlet, f);
+    pd_float((t_pd *)x->x_rightinlet, f);
 }
 
 static void bitor_mode(t_bitor *x, t_floatarg f)
@@ -134,7 +134,7 @@ static void *bitor_new(t_floatarg f1, t_floatarg f2)
     x->x_glist = canvas_getcurrent();
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     outlet_new((t_object *)x, &s_signal);
-    x->x_signalscalar = obj_findsignalscalar(x, 1);
+    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
     bitor_intmask(x, f1);
     bitor_mode(x, f2);
     return (x);
