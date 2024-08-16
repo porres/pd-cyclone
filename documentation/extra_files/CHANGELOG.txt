@@ -8,6 +8,13 @@ cyclone 0.9-1 (needs at least Pd Vanilla 0.55-0):
 - Improved the object browser plugin 
 
 --------------------------------------------------
+cyclone 0.9-1 (needs at least Pd Vanilla 0.55-0):
+--------------------------------------------------
+
+- Improve object browser
+- Fixed some compilation bugs
+
+--------------------------------------------------
 cyclone 0.9-0 (needs at least Pd Vanilla 0.55-0):
 --------------------------------------------------
 

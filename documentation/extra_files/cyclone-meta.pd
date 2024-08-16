@@ -7,6 +7,6 @@
 #X text 27 125 ORIGINAL AUTHOR (2002-2005): Krzysztof Czaja (and others), f 60;
 #X text 27 212 HELP_PATCHES_AUTHOR: Alexandre Torres Porres, f 60;
 #X text 27 142 FOLLOWING DEVELOPERS: Hans-Christoph Steiner (2005-2013) and Fred Jan Kraan (dec/2014 - feb/2016);
-#X text 27 73 VERSION: 0.9-0, f 60;
 #X text 27 172 CURRENT DEVELOPERS (since february 2016): Alexandre Torres Porres \, Derek Kwan and Matt Barber (Actually \, since about 2020 \, virtually just Porres)., f 60;
-#X text 27 91 RELEASE_DATE: Released July 2nd 2024, f 60;
+#X text 27 73 VERSION: 0.9-1, f 60;
+#X text 27 91 RELEASE_DATE: Released August 20th 2024, f 60;

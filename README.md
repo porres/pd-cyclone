@@ -20,9 +20,9 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.9-0 (this release needs at least Pd Vanilla 0.55-0)
+Current Release: Cyclone 0.9-1 (this release needs at least Pd Vanilla 0.55-0)
 
-Released July 2nd 2024
+Released August 20th 2024
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
