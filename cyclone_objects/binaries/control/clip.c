@@ -13,8 +13,8 @@
 typedef struct _clip
 {
     t_object   x_ob;
-    float      x_f1;
-    float      x_f2;
+    t_float    x_f1;
+    t_float    x_f2;
     int        x_size;  /* as allocated */
     t_atom    *x_message;
     t_atom     x_messini[CLIP_INISIZE];
