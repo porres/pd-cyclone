@@ -194,7 +194,9 @@ static void vectral_free(t_vectral *x){
 }
 
 static void vectral_size(t_vectral *x, t_floatarg f){
+    int last_bufsize = x->x_bufsize;
     x->x_bufsize = (int)f < 64 ? 64 : (int)f;
+    x->x_buffer = resizebytes(x->x_buffer, last_bufsize * sizeof(*x->x_buffer), x->x_bufsize * sizeof(*x->x_buffer));
 }
 
 static void vectral_clear(t_vectral *x){
