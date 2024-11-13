@@ -53,7 +53,7 @@ static void framedelta_free(t_framedelta *x)
 	freebytes(x->x_frame, x->x_size * sizeof(*x->x_frame));
 }
 
-static void *framedelta_new(t_symbol *s, int ac, t_atom *av)
+static void *framedelta_new(void)
 {
     t_framedelta *x = (t_framedelta *)pd_new(framedelta_class);
     int size;
