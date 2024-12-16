@@ -9,8 +9,6 @@
 
 #define DELAY_DEFMAXSIZE  512 // default buffer size
 #define DELAY_GUARD 4 // guard points for 4-point interpolation
-#define DELAY_EXTRA 1 // one sample extra delay for 4-point interpolation
-
 
 typedef struct _delay
 {
@@ -245,7 +243,7 @@ static t_int *delay_performsig(t_int *w)
     		f = 0.;
     	*wp = f;
     	del = *in2++;
-    	del = (del > 0. ? del : 0.);
+    	del = (del >= 1. ? del-1 : -1); // Clip and compensate for 1 sample latency
     	del = (del < maxsize ? del : maxsize);
     	idel = (int)del;
     	frac = del - (t_sample)idel;
