@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
+//#include <locale.h>
 #include "m_pd.h"
 #include <common/api.h>
 
@@ -215,10 +216,7 @@ static void sprintf_proxy_float(t_sprintf_proxy *x, t_float f)
 static void sprintf_proxy_symbol(t_sprintf_proxy *x, t_symbol *s)
 {
     char buf[SPRINTF_MAXWIDTH + 1];  /* LATER rethink */
-    if (s && *s->s_name)
 	SETSYMBOL(&x->p_atom, s);
-    else
-	SETFLOAT(&x->p_atom, 0);
     sprintf_proxy_checkit(x, buf, 1);
     if (x->p_id == 0 && x->p_valid)
 	sprintf_dooutput(x->p_master);  /* CHECKED: only first inlet */
@@ -389,7 +387,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             type = SPRINTF_INT;
             break;
             }
-        else if (strchr("eEfFgG", *ptr))
+        else if (strchr("aAeEfFgG", *ptr))
             {
 /*            if (modifier)
                 {
@@ -432,6 +430,21 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
                 }
             break;
             }
+        else if (*ptr == '\\'){ // ignore escape character (needed for space flag)
+            if(x){  // buffer-shrinking hack at the 2nd run
+                char *p1 = ptr;       // Points to the backslash
+                char *p2 = ptr + 1;   // Points to the next character (e.g., the space)
+                if(*p2 != '\0') {    // Ensure there's a character after the backslash
+                    // Shift everything left, overwriting the backslash
+                    do {
+                        *p1++ = *p2++;
+                    } while (*p2);
+                    *p1 = '\0';  // Null-terminate the string
+                }
+                // Adjust the pointer so that the current position is correctly processed
+                ptr--;
+            }
+        }
         else if (strchr("CSnm", *ptr))
             {
             if (x) sprintf(errstring, "\'%c\' type not supported", *ptr);
@@ -464,7 +477,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             }
             modifier = *ptr;
         }
-        else if (strchr("aAhjLqtzZ", *ptr))
+        else if (strchr("hjLqtzZ", *ptr))
             {
             if (x) sprintf(errstring, "\'%c\' modifier not supported", *ptr);
                 break;
@@ -653,4 +666,5 @@ CYCLONE_OBJ_API void sprintf_setup(void)
     class_addsymbol(sprintf_proxy_class, sprintf_proxy_symbol);
     class_addlist(sprintf_proxy_class, sprintf_proxy_list);
     class_addanything(sprintf_proxy_class, sprintf_proxy_anything);
+//    setlocale(LC_NUMERIC, "en_US.UTF-8");
 }
