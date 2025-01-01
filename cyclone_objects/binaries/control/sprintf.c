@@ -215,10 +215,7 @@ static void sprintf_proxy_float(t_sprintf_proxy *x, t_float f)
 static void sprintf_proxy_symbol(t_sprintf_proxy *x, t_symbol *s)
 {
     char buf[SPRINTF_MAXWIDTH + 1];  /* LATER rethink */
-    if (s && *s->s_name)
 	SETSYMBOL(&x->p_atom, s);
-    else
-	SETFLOAT(&x->p_atom, 0);
     sprintf_proxy_checkit(x, buf, 1);
     if (x->p_id == 0 && x->p_valid)
 	sprintf_dooutput(x->p_master);  /* CHECKED: only first inlet */
