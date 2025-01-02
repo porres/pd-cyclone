@@ -387,7 +387,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             type = SPRINTF_INT;
             break;
             }
-        else if (strchr("eEfFgG", *ptr))
+        else if (strchr("aAeEfFgG", *ptr))
             {
 /*            if (modifier)
                 {
@@ -477,7 +477,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp)
             }
             modifier = *ptr;
         }
-        else if (strchr("aAhjLqtzZ", *ptr))
+        else if (strchr("hjLqtzZ", *ptr))
             {
             if (x) sprintf(errstring, "\'%c\' modifier not supported", *ptr);
                 break;
