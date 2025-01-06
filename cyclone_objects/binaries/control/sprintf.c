@@ -54,9 +54,6 @@ typedef struct _sprintf_proxy{
 
 static t_class *sprintf_class, *sprintf_proxy_class;
 
-/* CHECKED: 'symout' argument has no special meaning in max4.07,
-   LATER investigate */
-
 /* LATER use snprintf, if it is available on other systems (should be...) */
 static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin){
     int result = 0, valid = 0;
