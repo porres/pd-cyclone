@@ -304,6 +304,8 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
     char errstring[MAXPDSTRING];
     char *ptr;
     char modifier = 0;
+    int hmodifier = 0;
+    int lmodifier = 0;
     int width = 0;
     int precision = 0;
     int *numfield = &width;
@@ -337,11 +339,6 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
             break;
         }
         else if(strchr("aAeEfFgG", *ptr)){
-/*            if(modifier)
-                {
-                if(x) sprintf(errstring, "\'%c\' modifier not supported", modifier);
-                    break;
-                }*/
             type = SPRINTF_FLOAT;
             break;
         }
@@ -392,29 +389,44 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
                 break;
         }
         else if(strchr("l", *ptr)){
-            if(modifier){
-                if(x) sprintf(errstring, "only single modifier is supported");
-                    break;
+            if(modifier == 0){
+                modifier = *ptr;
+                lmodifier++;
             }
-            modifier = *ptr;
-        }
-/* added this for new formats but it did not work (porres)
-        else if(strchr("L", *ptr)){
-                if(modifier){
+            else if(modifier != 'l' || lmodifier >= 2){
                 if(x)
-                    sprintf(errstring, "only single modifier is supported");
+                    sprintf(errstring, "too many modifiers");
                 break;
             }
-            modifier = *ptr;
-        }*/
+            else{
+                modifier = *ptr;
+                lmodifier++;
+            }
+        }
         else if(strchr("h", *ptr)){
+            if(modifier == 0){
+                modifier = *ptr;
+                hmodifier++;
+            }
+            else if(modifier != 'h' || hmodifier >= 2){
+                if(x)
+                    sprintf(errstring, "too many modifiers");
+                break;
+            }
+            else{
+                modifier = *ptr;
+                hmodifier++;
+            }
+        }
+        else if(strchr("L", *ptr)){
             if(modifier){
-                if(x) sprintf(errstring, "only single modifier is supported");
+                if(x)
+                    sprintf(errstring, "too many modifiers");
                 break;
             }
             modifier = *ptr;
         }
-        else if(strchr("hjLqtzZ", *ptr)){
+        else if(strchr("jqtzZ", *ptr)){
             if(x) sprintf(errstring, "\'%c\' modifier not supported", *ptr);
                 break;
         }
