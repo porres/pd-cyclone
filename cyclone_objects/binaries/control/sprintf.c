@@ -15,9 +15,18 @@
 #define SPRINTF_LITERAL      1
 #define SPRINTF_MINSLOTTYPE  2
 #define SPRINTF_INT          2
-#define SPRINTF_FLOAT        3
-#define SPRINTF_CHAR         4
+#define SPRINTF_UINT         3
+#define SPRINTF_FLOAT        4
 #define SPRINTF_STRING       5
+#define SPRINTF_CHARINT      6   // e.g. %hhd
+#define SPRINTF_SHORTINT     7   // e.g. %hd
+#define SPRINTF_LONGINT64    8   // e.g. %lld
+#define SPRINTF_LONGINT      9   // e.g. %ld
+#define SPRINTF_UCHAR        10  // e.g. %hhu or %c
+#define SPRINTF_USHORT       11  // e.g. %hu
+#define SPRINTF_ULONG        12  // e.g. %lu
+#define SPRINTF_ULONG64      13  // e.g. %llu
+#define SPRINTF_LONGDOUBLE   14  // e.g. %Lf
 
 /* Numbers:  assuming max 62 digits preceding a decimal point in any
    fixed-point representation of a t_float (39 in my system)
@@ -65,20 +74,34 @@ static void sprintf_proxy_checkit(t_sprintf_proxy *x, char *buf, int checkin){
             t_float f = x->p_atom.a_w.w_float;
             if(x->p_type == SPRINTF_INT)
             /* CHECKME large/negative values */
-                result = sprintf(buf, x->p_pattern, (long)f);
-            else if(x->p_type == SPRINTF_FLOAT)
-                result = sprintf(buf, x->p_pattern, f);
-            else if(x->p_type == SPRINTF_CHAR)
-                /* CHECKED: if 0 is input into a %c-slot, the whole output
-                 string is null-terminated */
-                /* CHECKED: float into a %c-slot is truncated,
-                 but CHECKME large/negative values */
+                result = sprintf(buf, x->p_pattern, (signed int)f);
+            else if(x->p_type == SPRINTF_CHARINT)
+                result = sprintf(buf, x->p_pattern, (signed char)f);
+            else if(x->p_type == SPRINTF_SHORTINT)
+                result = sprintf(buf, x->p_pattern, (signed short)f);
+            else if(x->p_type == SPRINTF_LONGINT)
+                result = sprintf(buf, x->p_pattern, (signed long)f);
+            else if(x->p_type == SPRINTF_LONGINT64)
+                result = sprintf(buf, x->p_pattern, (signed long long)f);
+            else if(x->p_type == SPRINTF_UINT)
+                result = sprintf(buf, x->p_pattern, (unsigned int)f);
+            else if(x->p_type == SPRINTF_UCHAR)
                 result = sprintf(buf, x->p_pattern, (unsigned char)f);
+            else if(x->p_type == SPRINTF_USHORT)
+                result = sprintf(buf, x->p_pattern, (unsigned short)f);
+            else if(x->p_type == SPRINTF_ULONG)
+                result = sprintf(buf, x->p_pattern, (unsigned long)f);
+            else if(x->p_type == SPRINTF_ULONG64)
+                result = sprintf(buf, x->p_pattern, (unsigned long long)f);
+            else if(x->p_type == SPRINTF_FLOAT)
+                result = sprintf(buf, x->p_pattern, (double)f);
+            else if(x->p_type == SPRINTF_LONGDOUBLE)
+                result = sprintf(buf, x->p_pattern, (long double)f);
             else if(x->p_type == SPRINTF_STRING){
                 /* CHECKED: any number input into a %s-slot is ok */
-                char tmp[64];  /* LATER rethink */
-                sprintf(tmp, "%g", f);
-                result = sprintf(buf, x->p_pattern, tmp);
+                char temp[64];  /* LATER rethink */
+                sprintf(temp, "%g", f);
+                result = sprintf(buf, x->p_pattern, temp);
             }
             else
                 pd_error(x, "sprintf: can't convert float to type of argument %d", x->p_id + 1);
@@ -303,6 +326,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
     char modifier = 0;
     int hmodifier = 0;
     int lmodifier = 0;
+    int Lmodifier = 0;
     int width = 0;
     int precision = 0;
     int *numfield = &width;
@@ -311,53 +335,95 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
     for(ptr = *patternp; *ptr; ptr++){
         if(*ptr >= '0' && *ptr <= '9'){
             if(!numfield){
-                if(x) sprintf(errstring, "extra number field");
-                    break;
+                if(x)
+                    sprintf(errstring, "extra number field");
+                break;
             }
             *numfield = 10 * *numfield + *ptr - '0';
             if(dotseen){
                 if(precision > SPRINTF_MAXPRECISION){
-                    if(x) sprintf(errstring, "precision field too large");
-                        break;
+                    if(x)
+                        sprintf(errstring, "precision field too large");
+                    break;
                 }
             }
             else{
                 if(width > SPRINTF_MAXWIDTH){
-                    if(x) sprintf(errstring, "width field too large");
-                        break;
+                    if(x)
+                        sprintf(errstring, "width field too large");
+                    break;
                 }
             }
             continue;
         }
         if(*numfield)
             numfield = 0;
-        if(strchr("diouxX", *ptr)){
-            type = SPRINTF_INT;
+        if(strchr("di", *ptr)){
+            if(!hmodifier && !lmodifier)
+                type = SPRINTF_INT;
+            else if(hmodifier == 1)
+                type = SPRINTF_SHORTINT;
+            else if(hmodifier == 2)
+                type = SPRINTF_CHARINT;
+            else if(lmodifier == 1)
+                type = SPRINTF_LONGINT;
+            else if(lmodifier == 2)
+                type = SPRINTF_LONGINT64;
+            else if(modifier){
+                if(x)
+                    sprintf(errstring, "\'%c\' modifier not supported", modifier);
+            }
             break;
         }
-        else if(strchr("aAeEfFgG", *ptr)){
-            type = SPRINTF_FLOAT;
+        else if(strchr("ouxX", *ptr)){
+            if(!hmodifier && !lmodifier)
+                type = SPRINTF_UINT;
+            else if(hmodifier == 1)
+                type = SPRINTF_USHORT;
+            else if(hmodifier == 2)
+                type = SPRINTF_UCHAR;
+            else if(lmodifier == 1)
+                type = SPRINTF_ULONG;
+            else if(lmodifier == 2)
+                type = SPRINTF_ULONG64;
+            else if(modifier){
+                if(x)
+                    sprintf(errstring, "\'%c\' modifier not supported", modifier);
+            }
+            break;
+        }
+        else if(strchr("eEfFgGaA", *ptr)){
+            if(!Lmodifier)
+                type = SPRINTF_FLOAT;
+            else if(Lmodifier)
+                type = SPRINTF_LONGDOUBLE;
+            else if(modifier){
+                if(x)
+                    sprintf(errstring, "\'%c\' modifier not supported", modifier);
+            }
             break;
         }
         else if(strchr("c", *ptr)){
             if(modifier){
-                if(x) sprintf(errstring, "\'%c\' modifier not supported", modifier);
-                    break;
+                if(x)
+                    sprintf(errstring, "\'%c\' modifier not supported", modifier);
+                break;
             }
-            type = SPRINTF_CHAR;
+            type = SPRINTF_UCHAR;
             break;
         }
         else if(strchr("s", *ptr)){
             if(modifier){
-                if(x) sprintf(errstring, "\'%c\' modifier not supported", modifier);
-                    break;
+                if(x)
+                    sprintf(errstring, "\'%c\' modifier not supported", modifier);
+                break;
             }
             type = SPRINTF_STRING;
             break;
         }
         else if(*ptr == '%'){
             type = SPRINTF_LITERAL;
-            if(x){  /* buffer-shrinking hack, LATER rethink */
+            if(x){  // buffer-shrinking hack at the 2nd run
                 char *p1 = ptr, *p2 = ptr + 1;
                 do
                     *p1++ = *p2;
@@ -366,15 +432,16 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
             }
             break;
         }
-        else if(*ptr == '\\'){ // ignore escape character (needed for space flag)
+        else if (*ptr == '\\'){ // ignore escape character (needed for space flag)
             if(x){  // buffer-shrinking hack at the 2nd run
                 char *p1 = ptr;       // Points to the backslash
                 char *p2 = ptr + 1;   // Points to the next character (e.g., the space)
-                if(*p2 != '\0') {    // Ensure there's a character after the backslash
+                
+                if(*p2 != '\0'){    // Ensure there's a character after the backslash
                     // Shift everything left, overwriting the backslash
-                    do {
+                    do{
                         *p1++ = *p2++;
-                    } while(*p2);
+                    }while(*p2);
                     *p1 = '\0';  // Null-terminate the string
                 }
                 // Adjust the pointer so that the current position is correctly processed
@@ -382,8 +449,9 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
             }
         }
         else if(strchr("CSnm", *ptr)){
-            if(x) sprintf(errstring, "\'%c\' type not supported", *ptr);
-                break;
+            if(x)
+                sprintf(errstring, "\'%c\' type not supported", *ptr);
+            break;
         }
         else if(strchr("l", *ptr)){
             if(modifier == 0){
@@ -416,6 +484,7 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
             }
         }
         else if(strchr("L", *ptr)){
+            Lmodifier++;
             if(modifier){
                 if(x)
                     sprintf(errstring, "too many modifiers");
@@ -424,32 +493,37 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
             modifier = *ptr;
         }
         else if(strchr("jqtzZ", *ptr)){
-            if(x) sprintf(errstring, "\'%c\' modifier not supported", *ptr);
-                break;
+            if(x)
+                sprintf(errstring, "\'%c\' modifier not supported", *ptr);
+            break;
         }
         else if(*ptr == '.'){
             if(dotseen){
-                if(x) sprintf(errstring, "multiple dots");
-                    break;
+                if(x)
+                    sprintf(errstring, "multiple dots");
+                break;
             }
             numfield = &precision;
             dotseen = 1;
         }
         else if(*ptr == '$'){
-            if(x) sprintf(errstring, "parameter number field not supported");
-                break;
+            if(x)
+                sprintf(errstring, "parameter number field not supported");
+            break;
         }
         else if(*ptr == '*'){
-            if(x) sprintf(errstring, "%s parameter not supported", (dotseen ? "precision" : "width"));
-                break;
+            if(x)
+                sprintf(errstring, "%s parameter not supported", (dotseen ? "precision" : "width"));
+            break;
         }
-        else if(!strchr("-+ #\'", *ptr)){
-            if(x) sprintf(errstring, "\'%c\' format character not supported", *ptr);
-                break;
+        else if(!strchr("-+ #\'", *ptr)){ // accepted flags
+            if(x)
+                sprintf(errstring, "\'%c\' format character not supported", *ptr);
+            break;
         }
     }
     if(*ptr)
-        ptr++;  /* LATER rethink */
+        ptr++;  // LATER rethink
     else if(x)
         sprintf(errstring, "type not specified");
     if(x && type == SPRINTF_UNSUPPORTED){
