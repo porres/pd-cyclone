@@ -516,7 +516,15 @@ static int sprintf_parsepattern(t_sprintf *x, char **patternp){
                 sprintf(errstring, "%s parameter not supported", (dotseen ? "precision" : "width"));
             break;
         }
-        else if(!strchr("-+ #\'", *ptr)){ // accepted flags
+        else if(strchr("-+ #", *ptr)){ // accepted flags
+            if(dotseen){
+                sprintf(errstring, "parameters out of order, flags come before precision field");
+                break;
+            }
+            else
+                continue;
+        }
+        else{
             if(x)
                 sprintf(errstring, "\'%c\' format character not supported", *ptr);
             break;
