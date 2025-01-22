@@ -138,7 +138,7 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
     //not at beginning, have to enter space before
     if (col > 0)
 		*bp++ = ' ', cnt++;
-    cnt += sprintf(bp, fmt, f, precision);
+    cnt += sprintf(bp, fmt, precision, f);
     //if too many columns for ed window, start on new line (instead of space)
     if (col + cnt > maxcol)
 	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
