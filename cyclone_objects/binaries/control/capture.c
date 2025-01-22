@@ -46,6 +46,8 @@ static t_class *capture_class;
 
 static void capture_symbol(t_capture *x, t_symbol *s)
 {
+    if(x->x_head >= x->x_bufsize) return;
+    
     SETSYMBOL(&x->x_buffer[x->x_head], s) ;
     x->x_head = x->x_head + 1;
     //post("%s", x->x_buffer[x->x_head ].a_w.w_symbol->s_name);
@@ -424,6 +426,8 @@ static void capture_free(t_capture *x)
 
 static void capture_float(t_capture *x, t_float f)
 {
+    if(x->x_head >= x->x_bufsize) return;
+    
     SETFLOAT(&x->x_buffer[x->x_head], f) ;
     //post("%f", x->x_buffer[x->x_head].a_w.w_float);
     x->x_head = x->x_head + 1;
