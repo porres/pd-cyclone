@@ -3,7 +3,7 @@
 #include "m_pd.h"
 #include <common/api.h>
 #include "common/magicbit.h"
-//#include <math.h>
+#include <math.h>
 
 #define PDCYSELTORSIGPUT 1 //default number of sigputs (inlets without selector inlet)
 #define MAXINTPUT 500 //maximum number of channel inlets
@@ -111,6 +111,7 @@ static void *selector_new(t_symbol *s, int argc, t_atom *argv)
         }
     };
 
+    sigputs = floor(sigputs);
 	//bounds checking
 	if(sigputs < (t_float)PDCYSELTORSIGPUT){
 		sigputs = PDCYSELTORSIGPUT;
