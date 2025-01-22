@@ -92,7 +92,7 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
     char *sep = t_getbytes(seplen * sizeof(*sep));
     memset(sep, '\0', seplen);
     strcpy(sep, x->x_separator->s_name);
-    if(s){
+    if(s && strlen(s->s_name)){
         // get length of input string
         long unsigned int iptlen = strlen(s->s_name);
         // allocate t_atom [] on length of string
