@@ -243,7 +243,7 @@ static t_int *delay_performsig(t_int *w)
     		f = 0.;
     	*wp = f;
     	del = *in2++;
-    	del = (del >= 1. ? del-1 : -1); // Clip and compensate for 1 sample latency
+    	del = (del >= 1. ? del-1 : 0); // Clip and compensate for 1 sample latency
     	del = (del < maxsize ? del : maxsize);
     	idel = (int)del;
     	frac = del - (t_sample)idel;
