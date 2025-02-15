@@ -387,7 +387,7 @@ static t_int *play_perform(t_int *w)
                 //let's handle this in two cases, forwards playing (isneg == 0), backwards playing (isneg == 1)
                 for (iblock = 0; iblock < nblock; iblock++){
                     double phase = x->x_phase;
-                    double fadephase, fadegain;
+                    double fadephase = 0.0, fadegain = 0.0;
                     if(isneg){
 
                     //[0---endxsamp---endsamp----stxsamp----stsamp----npts]
