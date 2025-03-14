@@ -3,9 +3,13 @@
 ---------------------------------------------------
 
 --------------------------------------------------
-cyclone 0.9-1 (needs at least Pd Vanilla 0.55-0):
+cyclone 0.9-2 (needs at least Pd Vanilla 0.55-0):
 --------------------------------------------------
-- Improved the object browser plugin 
+
+- Fixed bug in [delay~] that adds an extra sample delay when using signal input
+- Fixed crash in [vectral~] when resizing to a size larger than the initial size
+- [sprintf], fixed a bug where an empty symbol input became "0". Added support for %a/%A types, plus 'space' flag (even though these don't work in MAX, coz... you know... MAX sucks). Added support for missing 'L' and double length specifiers ('hh' and 'll'). The documentation was improved and it is now made clear that some things won't work as expected in the regular list output, but this is also true for the MAX original, which kinda sucks anyway (have I said MAX sucks? So I guess we don't have to offer functionalities and features not present in the original object or have all of their bugs fixed).
+- replace [tanh~] with the one from ELSE
 
 --------------------------------------------------
 cyclone 0.9-1 (needs at least Pd Vanilla 0.55-0):

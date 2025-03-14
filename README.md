@@ -14,15 +14,15 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Copyright © 2003-2024 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
+Copyright © 2003-2025 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
 
 This work is free. You can redistribute it and/or modify it under the terms of the BSD-3-Clause (aka Revised BSD License). See License.txt <https://github.com/porres/pd-cyclone/blob/cyclone0.4/LICENSE.txt> and <https://opensource.org/licenses/BSD-3-Clause> for more details.
 
 -------
 
-Current Release: Cyclone 0.9-1 (this release needs at least Pd Vanilla 0.55-0)
+Current Release: Cyclone 0.9-2 (this release needs at least Pd Vanilla 0.55-0)
 
-Released August 20th 2024
+Released March 14th 2025
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
@@ -31,7 +31,7 @@ Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 
 Outdated versions of cyclone (0.1) are available in the long abandoned Pd-extended distribution (which no one should be using now in the 2020's) as well as in Pd-l2ork and Purr Data - both originally based on Pd-Extended but ported to nw.js (0.1 versions of cyclone here were not fully ported to nw.js at the time of this writing). If you want an up to date version of Cyclone, use Pd Vanilla or PlugData.
 
-Do you know about PlugData, Cyclone is also part of PlugData by Timothy Schoen, which is a fork of Pd that loads as a standalone or VST with a revamped GUI. ​See: <https://github.com/timothyschoen/PlugData>
+Do you know about PlugData? Cyclone is also part of PlugData by Timothy Schoen, which is a fork of Pd that loads as a standalone or VST with a revamped GUI. ​See: <https://github.com/timothyschoen/PlugData>
 
 The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55, when Cyclone was compatible to MAX 4.0. Cyclone was then incorporated and available in Pd-extended, where it only a had a minor update under the maintenance of Hans-Christoph Steiner in 2013 (0.1-alpha56), right before Pd-extended and Cyclone (by consequence) were abandoned altogether (this 0.1-alpha56 version was also inherited by Pd-l2ork/Purr Data). Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
 
@@ -41,11 +41,11 @@ Currently, Cyclone still hasn't reached full compatibility to "Max 7.3.5". Some 
 
 The main current maintainer of Cyclone (Porres) is much busier with developing the ELSE library. Note that this library has alternatives for almost all cyclone objects and many objects in ELSE are actually inspired by MAX/MSP objects that were not cloned in Cyclone. By the way, ELSE is also part of PlugData, therefore, the documentation of Cyclone points to alternatives in ELSE.
 
-A couple of objects in Cyclone are now borrowed from ELSE, like [pink~] and [comment] (this one based on ELSE's [note] and was actually deprecated). These objects are backwards compatible and offer more stuff than the orginal MAX object, so not really fully compatible.
+Some objects in Cyclone are now borrowed from ELSE, like [pink~], [tanh~] and [comment] (this one based on ELSE's [note] and was actually deprecated). These objects are backwards compatible and offer more stuff than the orginal MAX object, so not really fully compatible.
 
 The only object that hasn't been updated yet to MAX 7.3.5 is [mtr] and this is on the To Do list. Cyclone may still incorporate new functionalities in existing objects from Max 8 (current release) and newer 9+ versions in the future, but we can't promise it. 
 
-A 'mc' compatiblity would be possible now, as of Pd version 0.54-0, which supports multichannel connections. Notwithstandingly, there's no plan to create such objects for Cyclone and pursue this compatibility. On the other hand, users can currently build their own "mc" like abstractions based on cyclone objetcs with [clone]. Please note that many ELSE objects have multichannel support!
+A 'mc' compatiblity would be possible now, as of Pd version 0.54-0, which supports multichannel connections. Notwithstandingly, there's no plan to create such objects for Cyclone and pursue this compatibility. On the other hand, users can currently build their own "mc" like abstractions based on cyclone objetcs with [clone]. Please note that many ELSE objects have multichannel support! The [tanh~] object in Cyclone is now the same on from ELSE and has MC support, as an example.
 
 
 -------
