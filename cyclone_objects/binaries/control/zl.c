@@ -255,7 +255,12 @@ static int zl_equal(t_atom *ap1, t_atom *ap2){
 }
 
 static void zl_sizecheck(t_zl *x, int size){
-	if (x->x_modearg > size) x->x_modearg = size;
+    if (x->x_modearg > size) {
+        x->x_modearg = size;
+        // Clear any existing data that might be beyond the new size
+        if (x->x_outbuf1.d_natoms > size)
+            x->x_outbuf1.d_natoms = size;
+    }
 }
 
 static void zl_swap(t_atom *av, int i, int j) {
@@ -1462,8 +1467,17 @@ static int zl_modeargfn(t_zl *x){
 static void zl_setmodearg(t_zl *x, t_symbol *s, int ac, t_atom *av){
     if(zl_intargfn[x->x_mode]){
         int i;
-        if(zl_modesym[x->x_mode] == gensym("group") && !ac)
-            i = ZL_DEF_SIZE;
+        if(zl_modesym[x->x_mode] == gensym("group")
+        || zl_modesym[x->x_mode] == gensym("stream")){
+            if(ac >= 1 && av->a_type == A_FLOAT){
+                int f = (int)av->a_w.w_float;
+                if (f > x->x_outbuf1.d_max)
+                    f = x->x_outbuf1.d_max;
+                i = f;
+            }
+            else
+                i = 0;
+        }
         else
             i = (!s && ac && av->a_type == A_FLOAT ?
             (int)av->a_w.w_float :  /* CHECKED silent truncation */
