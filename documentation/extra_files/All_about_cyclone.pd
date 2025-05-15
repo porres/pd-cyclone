@@ -117,7 +117,6 @@
 #X obj 358 845 cyclone/bitsafe~;
 #X obj 358 870 cyclone/bitshift~;
 #X obj 358 895 cyclone/bitxor~;
-#X obj 358 921 cyclone/buffer~;
 #X obj 358 944 cyclone/buffir~;
 #X obj 155 867 cyclone/capture;
 #X obj 155 892 cyclone/cartopol;
@@ -307,8 +306,9 @@
 #X obj 377 198 open-else;
 #X text 427 175 click;
 #X msg 377 176 scope~;
-#X connect 242 0 238 0;
-#X connect 246 0 244 0;
+#X obj 358 921 cyclone/buffer~ x @size 0;
+#X connect 241 0 237 0;
+#X connect 245 0 243 0;
 #X restore 101 328 pd All_cyclone_Objects;
 #X text 65 39 - Cyclone is a set of Pure Data objects cloned from Max/MSP \, see https://github.com/porres/pd-cyclone, f 73;
 #X text 58 220 Here you find all objects available in Cyclone. You can turn the DSP on to check how much CPU load you have with all objects on and just test if they all work. The total number of objects in cyclone is 194 counting the cyclone bynary and six deprecated objects (so it's more like 187)., f 74;
