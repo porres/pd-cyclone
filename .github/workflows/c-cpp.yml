@@ -9,20 +9,16 @@ on:
     paths-ignore: ['md-help/**', 'Help-files/**']
 
 jobs:
-  
-# ===============================================================
-# ===============================================================
-# ===============================================================
   Linux-Build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Install PureData
-      run: sudo apt-get install puredata -y 
+      run: sudo apt-get install puredata -y
 
-    - name: Downloads pd-Sources 
+    - name: Downloads pd-Sources
       run: | 
-        PD_URL=$(curl -L -s https://api.github.com/repos/pure-data/pure-data/tags | grep zipball_url | grep -v latest | grep -v pd-0.54 | grep -v tagtest | head -n 1 | cut -d '"' -f 4)
+        PD_URL=$(curl -L -s https://api.github.com/repos/pure-data/pure-data/tags | grep zipball_url | grep -v latest | grep -v pd-0.55 | grep -v tagtest | head -n 1 | cut -d '"' -f 4)
         curl -L -o pure-data.zip $PD_URL
         unzip pure-data.zip
         rm pure-data.zip
@@ -32,60 +28,94 @@ jobs:
       run: | 
         make install PDINCLUDEDIR=./pure-data/src PDLIBDIR=./pd-cyclone extension=l_amd64
         
-    - name: Upload Zip
-      uses: actions/upload-artifact@v3
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
       with:
-        name: cyclone
+        name: cyclone-linux
         path: ./pd-cyclone/cyclone/*
 
-# # # # ===============================================================
-# # # # ===============================================================
-# # # # ===============================================================
+  Linux-ARM64-Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Create Dockerfile
+      run: |
+        cat > Dockerfile << 'EOF'
+        FROM arm64v8/debian:bullseye
+        RUN apt-get update && apt-get install -y \
+            build-essential \
+            puredata \
+            curl \
+            unzip \
+            make
+        WORKDIR /build
+        COPY . .
+        RUN PD_URL=$(curl -L -s https://api.github.com/repos/pure-data/pure-data/tags | grep zipball_url | grep -v latest | grep -v pd-0.55 | grep -v tagtest | head -n 1 | cut -d '"' -f 4) && \
+            curl -L -o pure-data.zip $PD_URL && \
+            unzip pure-data.zip && \
+            rm pure-data.zip && \
+            mv pure-data-* pure-data
+        RUN make install PDINCLUDEDIR=./pure-data/src PDLIBDIR=./pd-cyclone extension=l_arm64
+        EOF
+
+    - name: Build and Extract
+      run: |
+        docker buildx build --platform linux/arm64 -t pd-cyclone-arm64 . --load
+        container_id=$(docker create pd-cyclone-arm64)
+        docker cp $container_id:/build/pd-cyclone/cyclone ./pd-cyclone-arm64
+        docker rm $container_id
+
+    - name: Upload ARM64 Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: cyclone-linux-arm64
+        path: ./pd-cyclone-arm64/*
 
   Windows-Build:
-     runs-on: windows-latest
-     timeout-minutes: 25
-     steps:
-     - uses: actions/checkout@v3
-       with:
-         submodules: recursive
-         fetch-depth: 0
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        fetch-depth: 0
 
-     - uses: actions/setup-python@v4
-       with:
-         python-version: '3.10'
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
 
-     - if: runner.os == 'Windows'
-       name: "Install mingw deps"
-       uses: msys2/setup-msys2@v2
-       with:
-           install: make mingw-w64-x86_64-gcc mingw64/mingw-w64-x86_64-ntldd-git     mingw-w64-x86_64-fluidsynth mingw64/mingw-w64-x86_64-cmake unzip curl
-           update: false
+    - name: "Install mingw deps"
+      uses: msys2/setup-msys2@v2
+      with:
+        install: make mingw-w64-x86_64-gcc mingw64/mingw-w64-x86_64-ntldd-git mingw-w64-x86_64-fluidsynth mingw64/mingw-w64-x86_64-cmake unzip curl
+        update: false
 
-     - if: runner.os == 'Windows'
-       name: Get Pd
-       shell: msys2 {0}
-       run: | 
-         curl -L -o pure-data.zip http://msp.ucsd.edu/Software/pd-0.54-0.msw.zip
-         unzip pure-data.zip
-         rm pure-data.zip
-         rename pd-0.54-0 pure-data pd-0.54-0
+    - name: Get Pd
+      shell: msys2 {0}
+      run: | 
+        curl -L -o pure-data.zip http://msp.ucsd.edu/Software/pd-0.55-2.msw.zip
+        unzip pure-data.zip
+        rm pure-data.zip
+        rename pd-0.55-2 pure-data pd-0.55-2
 
-     - if: runner.os == 'Windows'
-       name: Build pd-else
-       shell: msys2 {0}
-       run: |
+    - name: Build pd-cyclone
+      shell: msys2 {0}
+      run: |
         make install PDDIR=./pure-data PDLIBDIR=./pd-cyclone extension=m_amd64
         
-     - name: Upload Zip
-       uses: actions/upload-artifact@v3
-       with:
-         name: cyclone
-         path: ./pd-cyclone/cyclone/*
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: cyclone-windows
+        path: ./pd-cyclone/cyclone/*
 
-# # ===============================================================
-# # ===============================================================
-# # ===============================================================
   Mac-Intel:
     runs-on: macos-latest
     steps:
@@ -94,7 +124,7 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
-    - name: set Enviroment
+    - name: Set Environment
       run: |
         brew cleanup --prune=all
         brew install --cask pd
@@ -103,15 +133,12 @@ jobs:
       run: |
         make install PDLIBDIR=./pd-cyclone extension=d_amd64
         
-    - name: Upload Zip
-      uses: actions/upload-artifact@v3
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
       with:
-        name: cyclone
+        name: cyclone-mac-intel
         path: ./pd-cyclone/cyclone/*
 
-# ===============================================================
-# ===============================================================
-# ===============================================================
   Mac-ARM:
     runs-on: macos-latest
     steps:
@@ -120,7 +147,7 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
-    - name: set Enviroment
+    - name: Set Environment
       run: |
         brew cleanup --prune=all
         brew install --cask pd
@@ -129,8 +156,8 @@ jobs:
       run: |
         make install PDLIBDIR=./pd-cyclone extension=d_arm64
 
-    - name: Upload Zip
-      uses: actions/upload-artifact@v3
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
       with:
-        name: cyclone
+        name: cyclone-mac-arm
         path: ./pd-cyclone/cyclone/*

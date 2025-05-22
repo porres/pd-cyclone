@@ -711,13 +711,6 @@ static t_msg *collcommon_doread(t_collcommon *cc, t_symbol *fn, t_canvas *cv, in
     if(!fn && !(fn = cc->c_filename))  // !fn: 'readagain'
         return(m);
     char buf[MAXPDSTRING];
-    /* FIXME use open_via_path()
-    if(cv || (cv = cc->c_lastcanvas))  // !cv: 'read' w/o arg, 'readagain'
-		canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
-    else{
-    	strncpy(buf, fn->s_name, MAXPDSTRING);
-    	buf[MAXPDSTRING-1] = 0;
-    }*/
     char *bufptr;
     int fd = canvas_open(cv, fn->s_name, "", buf, &bufptr, MAXPDSTRING, 1);
     if(fd > 0){
