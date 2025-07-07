@@ -16,13 +16,13 @@ jobs:
     - name: Install PureData
       run: sudo apt-get install puredata -y
 
-    - name: Downloads pd-Sources
-      run: | 
-        curl -L -o pure-data.zip https://api.github.com/repos/pure-data/pure-data/zipball/refs/tags/0.56-0test1
+    - name: Download pd-Sources
+      run: |
+        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip
         unzip pure-data.zip
         rm pure-data.zip
         mv pure-data-* pure-data
- 
+
     - name: Build pd-cyclone
       run: | 
         make install PDINCLUDEDIR=./pure-data/src PDLIBDIR=./pd-cyclone extension=l_amd64
@@ -36,46 +36,47 @@ jobs:
   Linux-ARM64-Build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-      
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-      
-    - name: Create Dockerfile
-      run: |
-        cat > Dockerfile << 'EOF'
-        FROM arm64v8/debian:bullseye
-        RUN apt-get update && apt-get install -y \
-            build-essential \
-            puredata \
-            curl \
-            unzip \
-            make
-        WORKDIR /build
-        COPY . .
-        RUN PD_URL=$(curl -L -s https://api.github.com/repos/pure-data/pure-data/tags | grep zipball_url | grep -v latest | grep -v pd-0.56 | grep -v tagtest | head -n 1 | cut -d '"' -f 4) && \
-            curl -L -o pure-data.zip $PD_URL && \
-            unzip pure-data.zip && \
-            rm pure-data.zip && \
-            mv pure-data-* pure-data
-        RUN make install PDINCLUDEDIR=./pure-data/src PDLIBDIR=./pd-cyclone extension=l_arm64
-        EOF
+      - name: Checkout source
+        uses: actions/checkout@v3
 
-    - name: Build and Extract
-      run: |
-        docker buildx build --platform linux/arm64 -t pd-cyclone-arm64 . --load
-        container_id=$(docker create pd-cyclone-arm64)
-        docker cp $container_id:/build/pd-cyclone/cyclone ./pd-cyclone-arm64
-        docker rm $container_id
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-    - name: Upload ARM64 Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: cyclone-linux-arm64
-        path: ./pd-cyclone-arm64/*
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Create Dockerfile
+        run: |
+          cat <<'EOF' > Dockerfile
+          FROM arm64v8/debian:bullseye
+          RUN apt-get update && apt-get install -y \
+              build-essential \
+              puredata \
+              curl \
+              unzip \
+              make
+          WORKDIR /build
+          COPY . .
+          RUN PD_URL=https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip && \
+              curl -L -o pure-data.zip $PD_URL && \
+              unzip pure-data.zip && \
+              rm pure-data.zip && \
+              mv pure-data-* pure-data
+          RUN make install PDINCLUDEDIR=./pure-data/src PDLIBDIR=./pd-cyclone extension=l_arm64
+          EOF
+
+      - name: Build Docker image and extract artifacts
+        run: |
+          docker buildx build --platform linux/arm64 -t pd-cyclone-arm64 . --load
+          container_id=$(docker create pd-cyclone-arm64)
+          docker cp "$container_id":/build/pd-cyclone ./pd-cyclone-arm64
+          docker rm "$container_id"
+
+      - name: Upload ARM64 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cyclone-linux-arm64
+          path: ./pd-cyclone-arm64
 
   Windows-Build:
     runs-on: windows-latest
@@ -116,7 +117,7 @@ jobs:
         path: ./pd-cyclone/cyclone/*
 
   Mac-Intel:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
     - uses: actions/checkout@v3
       with:
@@ -125,14 +126,14 @@ jobs:
 
     - name: Downloads pd sources
       run: |
-        curl -L -o pure-data.zip https://api.github.com/repos/pure-data/pure-data/zipball/refs/tags/0.56-0test1
+        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip
         unzip pure-data.zip
         rm pure-data.zip
         mv pure-data-* pure-data
 
     - name: Build pd-cyclone
       run: |
-        make install PDLIBDIR=./pd-cyclone extension=d_amd64
+        make install PDLIBDIR=./pd-cyclone extension=d_amd64 PDINCLUDEDIR=./pure-data/src
         
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -148,15 +149,17 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
-    - name: Set Environment
+    - name: Downloads pd sources
       run: |
-        brew cleanup --prune=all
-        brew install --cask pd
+        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip
+        unzip pure-data.zip
+        rm pure-data.zip
+        mv pure-data-* pure-data
 
     - name: Build pd-cyclone
       run: |
-        make install PDLIBDIR=./pd-cyclone extension=d_arm64
-
+        make install PDLIBDIR=./pd-cyclone extension=d_amd64 PDINCLUDEDIR=./pure-data/src
+        
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
