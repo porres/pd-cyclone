@@ -18,8 +18,7 @@
  * different modes.
 */
 
-typedef struct _mousestate
-{
+typedef struct _mousestate{
     t_object   x_ob;
     int        x_ispolling; 
     int        x_bang;
@@ -38,106 +37,80 @@ typedef struct _mousestate
     t_outlet  *x_vposout;
     t_outlet  *x_hdiffout;
     t_outlet  *x_vdiffout;
-
-}  t_mousestate;
+}t_mousestate;
 
 static t_class *mousestate_class;
 
-
-
-static void mousestate_anything(t_mousestate *x,
-				t_symbol *s, int ac, t_atom *av)
-{
-    /* dummy method, filtering out those messages from gui,
-       which are not handled explicitly */
+static void mousestate_anything(t_mousestate *x, t_symbol *s, int ac, t_atom *av){
+    // dummy method to filter other gui messages
 }
 
 //update current canvas position
-static void mousestate_updatepos(t_mousestate *x)
-{
+static void mousestate_updatepos(t_mousestate *x){
     int x1, y1;
     //int x2, y2
-
     t_glist * g_list = x->x_glist;
     x1 =  g_list->gl_screenx1;
     y1 = g_list->gl_screeny1;
     //x2 = g_list->gl_screenx2;
     //y2 = g_list->gl_screeny2;
-
     x->x_wx = x1;
     x->x_wy = y1;
-    //  x->x_ww = x2 - x1;
+    // x->x_ww = x2 - x1;
     //x->x_wh = y2 - y1;
-
-
 }
 
-
-static void mousestate_doup(t_mousestate *x, t_floatarg f)
-{
+static void mousestate_doup(t_mousestate *x, t_floatarg f){
     outlet_float(((t_object *)x)->ob_outlet, ((int)f ? 0 : 1));
 }
 
-
-static void mousestate_dobang(t_mousestate *x, t_floatarg f1, t_floatarg f2)
-{
-    if (x->x_bang || x->x_ispolling)
-    {
-	int h = (int)f1, v = (int)f2;
-	outlet_float(x->x_vdiffout, v - x->x_vlast);
-	outlet_float(x->x_hdiffout, h - x->x_hlast);
-	outlet_float(x->x_vposout, v - x->x_vzero);
-	outlet_float(x->x_hposout, h - x->x_hzero);
-	x->x_hlast = h;
-	x->x_vlast = v;
-	x->x_bang = 0;
+static void mousestate_dobang(t_mousestate *x, t_floatarg f1, t_floatarg f2){
+    if (x->x_bang || x->x_ispolling){
+        int h = (int)f1, v = (int)f2;
+        outlet_float(x->x_vdiffout, v - x->x_vlast);
+        outlet_float(x->x_hdiffout, h - x->x_hlast);
+        outlet_float(x->x_vposout, v - x->x_vzero);
+        outlet_float(x->x_hposout, h - x->x_hzero);
+        x->x_hlast = h;
+        x->x_vlast = v;
+        x->x_bang = 0;
     }
 }
 
-
-
-static void mousestate_dozero(t_mousestate *x, t_floatarg f1, t_floatarg f2)
-{
-    if (x->x_zero)
-    {
-	int h = (int)f1, v = (int)f2;
-	x->x_hzero = h;
-	x->x_vzero = v;
-	x->x_zero = 0;
-
+static void mousestate_dozero(t_mousestate *x, t_floatarg f1, t_floatarg f2){
+    if(x->x_zero){
+        int h = (int)f1, v = (int)f2;
+        x->x_hzero = h;
+        x->x_vzero = v;
+        x->x_zero = 0;
     };
-
 }
 
-static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float screeny)
-{
-
-  //callback from tcl for requesting screen coords
-  t_float px, py;
+static void mousestate__getscreen(t_mousestate *x, t_float screenx, t_float screeny){
+    //callback from tcl for requesting screen coords
+    t_float px, py;
     int mode = x->x_mode;
-  //mode 0, no need to parse, just send directly to doer of things
-  if(mode == 0)
-    {
-      //add 0 to tcl coords to comply with "real" [mousestate]
-      px = screenx;
-      py = screeny;
+    //mode 0, no need to parse, just send directly to doer of things
+    if(mode == 0){
+        //add 0 to tcl coords to comply with "real" [mousestate]
+        px = screenx;
+        py = screeny;
     }
-  else if(mode == 1)
-    {
-      //screen coords relative to object's home canvas, we already have thsese
-      //coords stored
-      mousestate_updatepos(x);
-      px = screenx - x->x_wx;
-      py = screeny - x->x_wy;
-      // px = px >= x->x_ww ? (x->x_ww - 1) : (px  < 0 ? 0 : px);
-      //py = py >= x->x_wh ? (x->x_wh - 1) : (py < 0 ? 0 : py);
+    else if(mode == 1){
+        //screen coords relative to object's home canvas, we already have thsese
+        //coords stored
+        mousestate_updatepos(x);
+        px = screenx - x->x_wx;
+        py = screeny - x->x_wy;
+        // px = px >= x->x_ww ? (x->x_ww - 1) : (px  < 0 ? 0 : px);
+        //py = py >= x->x_wh ? (x->x_wh - 1) : (py < 0 ? 0 : py);
     };
-  if(mode == 0 || mode == 1)
-    {
-      if(x->x_zero == 1) mousestate_dozero(x, px, py);
-      if(x->x_bang == 1 || x->x_ispolling == 1) mousestate_dobang(x, px, py);
-
-    };
+    if(mode == 0 || mode == 1){
+        if(x->x_zero == 1)
+            mousestate_dozero(x, px, py);
+        if(x->x_bang == 1 || x->x_ispolling == 1)
+            mousestate_dobang(x, px, py);
+        };
 }
 
 static void mousestate__getscreenfocused(t_mousestate *x, t_symbol *s, int argc, t_atom * argv){
@@ -200,8 +173,7 @@ static void mousestate_objwin(t_mousestate *x, int argc, t_atom * argv){
     };
 }
 
-static void mousestate_bang(t_mousestate *x)
-{
+static void mousestate_bang(t_mousestate *x){
     x->x_bang = 1;
     int mode = x->x_mode;
     if(mode == 0 || mode == 1)
@@ -210,16 +182,13 @@ static void mousestate_bang(t_mousestate *x)
         hammergui_getscreenfocused();
 }
 
-static void mousestate_poll(t_mousestate *x)
-{
+static void mousestate_poll(t_mousestate *x){
     x->x_ispolling = 1;
     hammergui_startpolling((t_pd *)x, 3);
     mousestate_bang(x);
 }
 
-
-static void mousestate_nopoll(t_mousestate *x)
-{
+static void mousestate_nopoll(t_mousestate *x){
     hammergui_stoppolling((t_pd *)x);
     x->x_ispolling = 0;
 }
@@ -247,34 +216,29 @@ static void mousestate_reset(t_mousestate *x){
     }
 }
 
-static void mousestate_free(t_mousestate *x)
-{
-  if(x->x_ispolling == 1) mousestate_nopoll(x);
-  hammergui_unbindmouse((t_pd *)x);
+static void mousestate_free(t_mousestate *x){
+    if(x->x_ispolling == 1)
+        mousestate_nopoll(x);
+    hammergui_unbindmouse((t_pd *)x);
 }
 
 static void mousestate_mode(t_mousestate *x, t_floatarg f){
     int mode = (int) f;
     int polling = x->x_ispolling;
-    if(mode < 0){
+    if(mode < 0)
         mode = 0;
-    }
-    else if(mode > 2){
+    else if(mode > 2)
         mode = 2;
-    };
-    if(polling)
-    {
+    if(polling){
         mousestate_nopoll(x);
         x->x_mode = mode;
         mousestate_poll(x);
     }
-    else x->x_mode = mode;
+    else
+        x->x_mode = mode;
 }
 
-
-static void *mousestate_new(void)
-{
-    
+static void *mousestate_new(void){
     t_mousestate *x = (t_mousestate *)pd_new(mousestate_class);
     x->x_ispolling = x->x_bang = x->x_zero = 0;
     outlet_new((t_object *)x, &s_float);
@@ -289,10 +253,8 @@ static void *mousestate_new(void)
     mousestate_reset(x);
     x->x_glist = (t_glist *)canvas_getcurrent();    
     mousestate_updatepos(x);
-
 //     post("%d %d %d %d", x->x_x1, x->x_y1, x->x_x2, x->x_y2);
-
-    return (x);
+    return(x);
 }
 
 CYCLONE_OBJ_API void mousestate_setup(void){
@@ -319,10 +281,8 @@ CYCLONE_OBJ_API void MouseState_setup(void){
         (t_method)mousestate_free, sizeof(t_mousestate), 0, 0);
     class_addanything(mousestate_class, mousestate_anything);
     class_addmethod(mousestate_class, (t_method)mousestate_doup, gensym("_up"), A_FLOAT, 0);
-    class_addmethod(mousestate_class, (t_method)mousestate__getscreen, gensym("_getscreen"),
-        A_FLOAT, A_FLOAT, 0);
-    class_addmethod(mousestate_class, (t_method)mousestate__getscreenfocused, gensym("_getscreenfocused"),
-        A_GIMME, 0);
+    class_addmethod(mousestate_class, (t_method)mousestate__getscreen, gensym("_getscreen"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(mousestate_class, (t_method)mousestate__getscreenfocused, gensym("_getscreenfocused"), A_GIMME, 0);
     class_addmethod(mousestate_class, (t_method)mousestate_dobang, gensym("_bang"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(mousestate_class, (t_method)mousestate_dozero, gensym("_zero"), A_FLOAT, A_FLOAT, 0);
     class_addbang(mousestate_class, mousestate_bang);
