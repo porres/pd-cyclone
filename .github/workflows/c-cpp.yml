@@ -18,7 +18,7 @@ jobs:
 
     - name: Download pd-Sources
       run: |
-        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip
+        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-1.zip
         unzip pure-data.zip
         rm pure-data.zip
         mv pure-data-* pure-data
@@ -57,7 +57,7 @@ jobs:
               make
           WORKDIR /build
           COPY . .
-          RUN PD_URL=https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip && \
+          RUN PD_URL=https://github.com/pure-data/pure-data/archive/refs/tags/0.56-1.zip && \
               curl -L -o pure-data.zip $PD_URL && \
               unzip pure-data.zip && \
               rm pure-data.zip && \
@@ -100,10 +100,10 @@ jobs:
     - name: Get Pd
       shell: msys2 {0}
       run: | 
-        curl -L -o pure-data.zip http://msp.ucsd.edu/Software/pd-0.56-0test1.msw.zip
+        curl -L -o pure-data.zip http://msp.ucsd.edu/Software/pd-0.56-1.msw.zip
         unzip pure-data.zip
         rm pure-data.zip
-        rename pd-0.56-0test1 pure-data pd-0.56-0test1
+        rename pd-0.56-1 pure-data pd-0.56-1
 
     - name: Build pd-cyclone
       shell: msys2 {0}
@@ -126,7 +126,7 @@ jobs:
 
     - name: Downloads pd sources
       run: |
-        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip
+        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-1.zip
         unzip pure-data.zip
         rm pure-data.zip
         mv pure-data-* pure-data
@@ -151,7 +151,7 @@ jobs:
 
     - name: Downloads pd sources
       run: |
-        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-0test1.zip
+        curl -L -o pure-data.zip https://github.com/pure-data/pure-data/archive/refs/tags/0.56-1.zip
         unzip pure-data.zip
         rm pure-data.zip
         mv pure-data-* pure-data
