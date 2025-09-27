@@ -291,12 +291,16 @@ add_library(cyclone_shared STATIC
     shared/common/grow.c
     shared/common/magicbit.h
     shared/common/magicbit.c
+    shared/common/random.h
+    shared/common/random.c
     shared/control/gui.h
     shared/control/gui.c
     shared/control/mifi.h
     shared/control/mifi.c
     shared/control/rand.h
     shared/control/rand.c
+    shared/control/s_cycloneutf8.h
+    shared/control/s_cycloneutf8.c
     shared/control/tree.h
     shared/control/tree.c
     shared/signal/cybuf.h
