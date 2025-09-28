@@ -112,7 +112,7 @@ You will be requested to provide a path to the pure-data sources and to the pure
 
 On macOS, you can define different deployment target and architectures from your current system using the variables `CMAKE_OSX_DEPLOYMENT_TARGET` and `CMAKE_OSX_ARCHITECTURES`.
 
-You can specify additional compilation flags using the variable `CMAKE_C_FLAGS`.
+You can specify additional compilation flags using the variable `CMAKE_C_FLAGS`. For example, if you have built libpd with multiple instance support, set `CMAKE_C_FLAGS` to `'-DPDINSTANCE=1'`.
 
 CMake can now generate Makefiles, a MSVC solution, or an XCode project.
 
