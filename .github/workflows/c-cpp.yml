@@ -117,7 +117,7 @@ jobs:
         path: ./pd-cyclone/cyclone/*
 
   Mac-Intel:
-    runs-on: macos-13
+    runs-on: macos-15-intel
     steps:
     - uses: actions/checkout@v3
       with:
