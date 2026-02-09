@@ -355,21 +355,33 @@ static t_file *file_getproxy(t_pd *master){
 }
 
 static void editor_guidefs(void){
-    sys_gui("proc editor_open {name geometry title sendable} {\n");
+    sys_gui("proc editor_open {name geometry title sendable bg fg sel fontsize} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
     sys_gui("  $name.text delete 1.0 end\n");
     sys_gui(" } else {\n");
     sys_gui("  toplevel $name\n");
     sys_gui("  wm title $name $title\n");
     sys_gui("  wm geometry $name $geometry\n");
-    sys_gui("  if {$sendable} {\n");
-    sys_gui("   wm protocol $name WM_DELETE_WINDOW \\\n");
-    sys_gui("    [concat editor_close $name 1]\n");
-    sys_gui("   bind $name <<Modified>> \"editor_dodirty $name\"\n");
-    sys_gui("  }\n");
+    sys_gui("  wm protocol $name WM_DELETE_WINDOW [list editor_close $name 1 $sendable]\n");
+    sys_gui("   if {[tk windowingsystem] eq \"aqua\"} {\n");
+    sys_gui("    bind $name <Command-w> \"editor_close $name 1 $sendable\"\n");
+    sys_gui("   } else {\n");
+    sys_gui("    bind $name <Control-w> \"editor_close $name 1 $sendable\"\n");
+    sys_gui("   }\n");
+
+    sys_gui("   if {$sendable} {\n");
+    sys_gui("    bind $name <<Modified>> \"editor_dodirty $name\"\n");
+    sys_gui("    if {[tk windowingsystem] eq \"aqua\"} {\n");
+    sys_gui("     bind $name <Command-s> \"editor_send $name; editor_setdirty $name 0\"\n");
+    sys_gui("    } else {\n");
+    sys_gui("     bind $name <Control-s> \"editor_send $name; editor_setdirty $name 0\"\n");
+    sys_gui("    }\n");
+    sys_gui("   }\n");
+    
     sys_gui("  text $name.text -relief raised -bd 2 \\\n");
-    sys_gui("   -font -*-courier-medium--normal--12-* \\\n");
-    sys_gui("   -yscrollcommand \"$name.scroll set\" -background lightgrey\n");
+    sys_gui("   -font [list -*-courier-medium--normal--$fontsize-*] \\\n");
+    sys_gui("   -yscrollcommand \"$name.scroll set\" \\\n");
+    sys_gui("   -background $bg -foreground $fg -insertbackground $fg -selectbackground $sel \n");
     sys_gui("  scrollbar $name.scroll -command \"$name.text yview\"\n");
     sys_gui("  pack $name.scroll -side right -fill y\n");
     sys_gui("  pack $name.text -side left -fill both -expand 1\n");
@@ -409,7 +421,7 @@ static void editor_guidefs(void){
     sys_gui("  pdsend \"miXed$name clear\"\n");
     sys_gui("  for {set i 1} \\\n");
     sys_gui("   {[$name.text compare $i.end < end]} \\\n");
-    sys_gui("  	{incr i 1} {\n");
+    sys_gui("      {incr i 1} {\n");
     sys_gui("   set lin [$name.text get $i.0 $i.end]\n");
     sys_gui("   if {$lin != \"\"} {\n");
     /* LATER rethink semi/comma mapping */
@@ -422,20 +434,24 @@ static void editor_guidefs(void){
     sys_gui(" }\n");
     sys_gui("}\n");
 
-    sys_gui("proc editor_close {name ask} {\n");
+    sys_gui("proc editor_close {name ask sendable} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
-    sys_gui("  if {[catch {$name.text edit modified} dirty]} {set dirty 1}\n");
-    sys_gui("  if {$ask && $dirty} {\n");
-    sys_gui("   set title [wm title $name]\n");
-    sys_gui("   if {[string equal -length 1 $title \"*\"]} {\n");
-    sys_gui("    set title [string range $title 1 end]\n");
-    sys_gui("   }\n");
-    sys_gui("   set answer [tk_messageBox \\-type yesnocancel \\\n");
-    sys_gui("    \\-icon question \\\n");
-    sys_gui("    \\-message [concat Save changes to \\\"$title\\\"?]]\n");
-    sys_gui("   if {$answer == \"yes\"} {editor_send $name}\n");
-    sys_gui("   if {$answer != \"cancel\"} {editor_doclose $name}\n");
-    sys_gui("  } else {editor_doclose $name}\n");
+    sys_gui("  if {$sendable} {\n");
+    sys_gui("   if {[catch {$name.text edit modified} dirty]} {set dirty 1}\n");
+    sys_gui("   if {$ask && $dirty} {\n");
+    sys_gui("    set title [wm title $name]\n");
+    sys_gui("    if {[string equal -length 1 $title \"*\"]} {\n");
+    sys_gui("     set title [string range $title 1 end]\n");
+    sys_gui("    }\n");
+    sys_gui("    set answer [tk_messageBox \\-type yesnocancel \\\n");
+    sys_gui("     \\-icon question \\\n");
+    sys_gui("     \\-message [concat Save changes to \\\"$title\\\"?]]\n");
+    sys_gui("    if {$answer == \"yes\"} {editor_send $name}\n");
+    sys_gui("    if {$answer != \"cancel\"} {editor_doclose $name}\n");
+    sys_gui("   } else {editor_doclose $name}\n");
+    sys_gui("  } else {\n");
+    sys_gui("   editor_doclose $name\n");
+    sys_gui("  }\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 }
@@ -451,12 +467,16 @@ void editor_open(t_file *f, char *title, char *owner){
         owner = 0;
     }
     if(owner)
-        sys_vgui("editor_open .%lx %dx%d {%s: %s} %d\n",
-        (unsigned long)f, 600, 340, owner, title, (f->f_editorfn != 0));
+        sys_vgui("editor_open .%lx %dx%d {%s: %s} %d #%06X #%06X #%06X %i\n",
+        (unsigned long)f, 600, 340, owner, title, (f->f_editorfn != 0),
+        THISGUI->i_backgroundcolor, THISGUI->i_foregroundcolor, THISGUI->i_selectcolor,
+        (glist_getfont(f->f_canvas) * 6 / 5));
     else
-        sys_vgui("editor_open .%lx %dx%d {%s} %d\n",
+        sys_vgui("editor_open .%lx %dx%d {%s} %d #%06X #%06X #%06X %i\n",
         (unsigned long)f, 600, 340, (title ? title : "Untitled"),
-        (f->f_editorfn != 0));
+        (f->f_editorfn != 0),
+        THISGUI->i_backgroundcolor, THISGUI->i_foregroundcolor, THISGUI->i_selectcolor,
+        (glist_getfont(f->f_canvas) * 6 / 5));
 }
 
 static void editor_tick(t_file *f){
@@ -464,12 +484,13 @@ static void editor_tick(t_file *f){
 }
 
 void editor_close(t_file *f, int ask){
-    if(ask && f->f_editorfn)
-	/* hack: deferring modal dialog creation in order to allow for
-	   a message box redraw to happen -- LATER investigate */
+    int sendable = (f->f_editorfn != 0);
+    if(ask && sendable)
+        /* hack: deferring modal dialog creation in order to allow for
+           a message box redraw to happen -- LATER investigate */
         clock_delay(f->f_editorclock, 0);
     else
-        sys_vgui("editor_close .%lx 0\n", (unsigned long)f);
+        sys_vgui("editor_close .%lx %d %d\n", (unsigned long)f, ask, sendable);
 }
 
 void editor_append(t_file *f, char *contents){
@@ -661,10 +682,12 @@ t_symbol *panel_getsavedir(t_file *f){
 static void embed_gc(t_pd *x, t_symbol *s, int expected){
     t_pd *garbage;
     int count = 0;
-    while((garbage = pd_findbyclass(s, *x)))
-        pd_unbind(garbage, s), count++;
+    while((garbage = pd_findbyclass(s, *x))){
+        pd_unbind(garbage, s);
+        count++;
+    }
     if(count != expected)
-	bug("embed_gc (%d garbage bindings)", count);
+        bug("embed_gc (%d garbage bindings, expected = %d)", count, expected);
 }
 
 static void embed_restore(t_pd *master){

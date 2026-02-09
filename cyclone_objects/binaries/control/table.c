@@ -66,6 +66,7 @@ typedef struct _table{
     int             x_intraversal;  /* ``set-with-next/prev'' flag */
     int             x_loadflag;
     int             x_loadndx;
+    int             x_keep;
     unsigned int    x_seed;
     t_file   *x_filehandle;
     t_outlet       *x_bangout;
@@ -75,18 +76,23 @@ typedef struct _table{
 static t_class *table_class;
 static t_class *tablecommon_class;
 
+static void tablecommon_dirty(t_tablecommon *cc){
+    if(cc->c_embedflag){
+        t_table *x;
+        for(x = cc->c_refs; x; x = x->x_next){
+            if(x->x_glist)
+                canvas_dirty(x->x_glist, 1);
+        }
+    }
+}
+
 static void tablecommon_modified(t_tablecommon *cc, int relocated){
     cc->c_cacheisfresh = 0;
     if (cc->c_increation)
-	return;
-    if (relocated)
+        return;
+    if(relocated)
         cc->c_volatile = 1;
-    if(cc->c_embedflag){
-        t_table *x;
-        for (x = cc->c_refs; x; x = x->x_next)
-            if (x->x_glist && glist_isvisible(x->x_glist))
-                canvas_dirty(x->x_glist, 1);
-    }
+    tablecommon_dirty(cc);
 }
 
 static int tablecommon_getindex(t_tablecommon *cc, int ndx){
@@ -126,7 +132,7 @@ static void tablecommon_setall(t_tablecommon *cc, int v){
 
 static void tablecommon_setatoms(t_tablecommon *cc, int ndx, int ac, t_atom *av){
     if (ac > 1 && av->a_type == A_FLOAT){
-	/* CHECKED no resizing */
+    /* CHECKED no resizing */
         int last = tablecommon_getindex(cc, ndx + ac - 1);
         int *ptr = cc->c_table + ndx;
         for(; ndx <= last; ndx++, av++)
@@ -138,18 +144,18 @@ static void tablecommon_setatoms(t_tablecommon *cc, int ndx, int ac, t_atom *av)
 static void tablecommon_setlength(t_tablecommon *cc, int length){
     int relocate;
     if (length < TABLE_MINLENGTH)
-	length = TABLE_MINLENGTH;
+    length = TABLE_MINLENGTH;
     else if (length > TABLE_MAXLENGTH)
-	length = TABLE_MAXLENGTH;
+    length = TABLE_MAXLENGTH;
     if((relocate = (length > cc->c_size))){
         int l = length;
         /* CHECKED existing values are preserved */
         cc->c_table = grow_withdata(&length, &cc->c_length, &cc->c_size, cc->c_table,
             TABLE_INISIZE, cc->c_tableini, sizeof(*cc->c_table));
         if(length == l)
-	    cc->c_table = grow_nodata(&length, &cc->c_size, cc->c_cache,
-				      TABLE_INISIZE, cc->c_cacheini,
-				      sizeof(*cc->c_cache));
+        cc->c_table = grow_nodata(&length, &cc->c_size, cc->c_cache,
+                      TABLE_INISIZE, cc->c_cacheini,
+                      sizeof(*cc->c_cache));
         if(length != l){
             if(cc->c_table != cc->c_tableini)
                 freebytes(cc->c_table, cc->c_size * sizeof(*cc->c_table));
@@ -206,13 +212,13 @@ static void tablecommon_fromatoms(t_tablecommon *cc, int ac, t_atom *av)
     cc->c_increation = 1;
     for (i = 0, ap = av; i < ac; i++, ap++)
     {
-	if (ap->a_type == A_FLOAT)
-	    size++;
-	else if (ap->a_type == A_SYMBOL)
-	    nsyms++, size++;
+    if (ap->a_type == A_FLOAT)
+        size++;
+    else if (ap->a_type == A_SYMBOL)
+        nsyms++, size++;
     }
     if (size < ac)
-	post("[cyclone/table] %d invalid atom%s ignored", ac - size, (ac - size > 1 ? "s" : ""));
+    post("[cyclone/table] %d invalid atom%s ignored", ac - size, (ac - size > 1 ? "s" : ""));
     if (nsyms)
     post("[cyclone/table] %d symbol%s bashed to zero", nsyms, (nsyms > 1 ? "s" : ""));
     tablecommon_setlength(cc, size);
@@ -220,17 +226,17 @@ static void tablecommon_fromatoms(t_tablecommon *cc, int ac, t_atom *av)
     ptr = cc->c_table;
     for (i = 0; i < ac; i++, av++)
     {
-	if (av->a_type == A_FLOAT)
-	    *ptr++ = (int)av->a_w.w_float;
-	else if (av->a_type == A_SYMBOL)
-	    *ptr++ = 0;
-	else
-	    continue;
-	if (size-- == 1)
-	    break;
+    if (av->a_type == A_FLOAT)
+        *ptr++ = (int)av->a_w.w_float;
+    else if (av->a_type == A_SYMBOL)
+        *ptr++ = 0;
+    else
+        continue;
+    if (size-- == 1)
+        break;
     }
     while (size--)
-	*ptr++ = 0;
+    *ptr++ = 0;
     cc->c_increation = 0;
 }
 
@@ -261,7 +267,7 @@ static void tablecommon_doread(t_tablecommon *cc, t_symbol *fn, t_table *x){
     }
 #if 0  // FIXME
     else  // CHECKME complaint
-	pd_error(cc, "[cyclone/table]: invalid file %s", fn->s_name);
+    pd_error(cc, "[cyclone/table]: invalid file %s", fn->s_name);
 #endif
     binbuf_free(bb);
 }
@@ -279,8 +285,8 @@ static void tablecommon_dowrite(t_tablecommon *cc, t_symbol *fn, t_canvas *cv){
     if(cv || (cv = cc->c_lastcanvas))  /* !cv: 'write' w/o arg */
         canvas_makefilename(cv, fn->s_name, buf, MAXPDSTRING);
     else{
-    	strncpy(buf, fn->s_name, MAXPDSTRING);
-    	buf[MAXPDSTRING-1] = 0;
+        strncpy(buf, fn->s_name, MAXPDSTRING);
+        buf[MAXPDSTRING-1] = 0;
     }
     binbuf_addv(bb, "s", gensym("table"));
     for(ndx = 0, ptr = cc->c_table; ndx < cc->c_length; ndx++, ptr++)
@@ -296,35 +302,37 @@ static void tablecommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
 static void table_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     t_table *x = (t_table *)z;
     t_tablecommon *cc = x->x_common;
-    int toembed = cc->c_embedflag != 0 && cc->c_dontsaveflag == 0;
-    if(toembed){
+    cc->c_embedflag = x->x_keep;
+    if(cc->c_embedflag){
         int ndx = 0, left = cc->c_length;
         int *ptr = cc->c_table;
         binbuf_addv(bb, "ssi;", bindsym, gensym("size"), cc->c_length);
-        binbuf_addv(bb, "ssiiii;", bindsym, gensym("flags"), 1,
-            cc->c_dontsaveflag, cc->c_notenamesflag, cc->c_signedflag);
         binbuf_addv(bb, "ssi;", bindsym, gensym("tabrange"), cc->c_range);
-            binbuf_addv(bb, "ssiiiii;", bindsym, gensym("_coords"),
-		    cc->c_left, cc->c_top, cc->c_right, cc->c_bottom, cc->c_visflag);
+        binbuf_addv(bb, "ssiiiii;", bindsym, gensym("_coords"),
+            cc->c_left, cc->c_top, cc->c_right, cc->c_bottom, cc->c_visflag);
         while(left > 0){
             int count = (left > 128 ? 128 : left);
             left -= count;
             //ndx += count;
-	    binbuf_addv(bb, "ssi", bindsym, gensym("set"), ndx);
+            binbuf_addv(bb, "ssi", bindsym, gensym("set"), ndx);
             while(count--){
                 t_atom at;
                 SETFLOAT(&at, (float)*ptr);
                 binbuf_add(bb, 1, &at);
                 ptr++;
             }
-	    binbuf_addsemi(bb);
+            binbuf_addsemi(bb);
         }
+        binbuf_addv(bb, "ssiiii;", bindsym, gensym("flags"), 1,
+            cc->c_dontsaveflag, cc->c_notenamesflag, cc->c_signedflag);
     };
     obj_saveformat((t_object *)x, bb);
 }
 
 static void tablecommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
-    tablecommon_fromatoms((t_tablecommon *)z, ac, av); s = NULL;
+    t_tablecommon *cc = (t_tablecommon *)z;
+    tablecommon_fromatoms(cc, ac, av);
+    tablecommon_dirty(cc);
 }
 
 static void tablecommon_free(t_tablecommon *cc){
@@ -393,7 +401,7 @@ static void table_bind(t_table *x, t_symbol *name){
             cc->c_filename = 0;
             cc->c_lastcanvas = 0;
         }
-	cc->c_filehandle = file_new((t_pd *)cc, 0, tablecommon_readhook,
+    cc->c_filehandle = file_new((t_pd *)cc, 0, tablecommon_readhook,
             tablecommon_writehook, tablecommon_editorhook);
     }
     x->x_common = cc;
@@ -419,12 +427,12 @@ static int table_rebind(t_table *x, t_symbol *name){
 
 static void table_dooutput(t_table *x, int ndx){
     outlet_float(((t_object *)x)->ob_outlet,
-		 (t_float)tablecommon_getvalue(x->x_common, ndx));
+         (t_float)tablecommon_getvalue(x->x_common, ndx));
 }
 
 static void table_bang(t_table *x){ /* CHECKME */
     outlet_float(((t_object *)x)->ob_outlet,
-		 (t_float)tablecommon_quantile(x->x_common, rand_unipolar(&x->x_seed)));
+         (t_float)tablecommon_quantile(x->x_common, rand_unipolar(&x->x_seed)));
 }
 
 static int tablecommon_editorappend(t_tablecommon *cc, int v, char *buf, int col){
@@ -527,7 +535,7 @@ static void table_set(t_table *x, t_symbol *s, int ac, t_atom *av){
 static void table_embed(t_table *x, t_floatarg f){
     t_tablecommon *cc = x->x_common;
     cc->c_embedflag = (f != 0);
-    cc->c_dontsaveflag = (f == 0);
+//    cc->c_dontsaveflag = (f == 0);
 }
 
 static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av){
@@ -538,8 +546,8 @@ static void table_flags(t_table *x, t_symbol *s, int ac, t_atom *av){
         v = av->a_w.w_float != 0;
         if(i == 0)
             cc->c_embedflag = (v != 0);
-        else if(i == 1)
-            cc->c_dontsaveflag = (v != 0);
+/*        else if(i == 1)
+            cc->c_dontsaveflag = (v != 0);*/
         else
             break;
         i++; ac--; av++;
@@ -553,7 +561,7 @@ static void table_tabrange(t_table *x, t_floatarg f){
 }
 
 static void table__coords(t_table *x, t_floatarg fl, t_floatarg ft,
-			  t_floatarg fr, t_floatarg fb, t_floatarg fv)
+              t_floatarg fr, t_floatarg fb, t_floatarg fv)
 {
     t_tablecommon *cc = x->x_common;
     /* FIXME constraints */
@@ -591,17 +599,17 @@ static void table_normal(t_table *x){
 
 static void table_next(t_table *x){
     if (!x->x_intraversal)
-	x->x_intraversal = 1;
+    x->x_intraversal = 1;
     else if (++x->x_head >= x->x_common->c_length)
-	x->x_head = 0;
+    x->x_head = 0;
     table_dooutput(x, x->x_head);
 }
 
 static void table_prev(t_table *x){
     if (!x->x_intraversal)
-	x->x_intraversal = 1;
+    x->x_intraversal = 1;
     else if (--x->x_head < 0)
-	x->x_head = x->x_common->c_length - 1;
+    x->x_head = x->x_common->c_length - 1;
     table_dooutput(x, x->x_head);
 }
 static void table_goto(t_table *x, t_floatarg f){
@@ -627,8 +635,8 @@ static void table_send(t_table *x, t_symbol *s, int ac, t_atom *av){
                 pd_float(target->s_thing,
                          (t_float)tablecommon_getvalue(x->x_common, ndx));
             }
-	    /* CHECKED incompatible: 'send <target> <ndx> <value>'
-	       stores <value> at <ndx> (a bug?) */
+        /* CHECKED incompatible: 'send <target> <ndx> <value>'
+           stores <value> at <ndx> (a bug?) */
         }
         else if (av->a_type == A_SYMBOL){
             /* CHECKED 'send <target> length' works, but not max, min, sum... */
@@ -675,14 +683,14 @@ static void table_inv(t_table *x, t_floatarg f){
     /* CHECKME none found, float */
     int v = (int)f, ndx, *ptr, nmx = x->x_common->c_length - 1;
     for (ndx = 0, ptr = x->x_common->c_table; ndx < nmx; ndx++, ptr++)
-	if (*ptr >= v)
-	    break;
+    if (*ptr >= v)
+        break;
     outlet_float(((t_object *)x)->ob_outlet, (t_float)ndx);
 }
 
 static void table_quantile(t_table *x, t_floatarg f){ /* CHECKME */
     outlet_float(((t_object *)x)->ob_outlet,
-		 (t_float)tablecommon_quantile(x->x_common, f / ((float)TABLE_MAXQ)));
+         (t_float)tablecommon_quantile(x->x_common, f / ((float)TABLE_MAXQ)));
 }
 
 static void table_fquantile(t_table *x, t_floatarg f){ /* CHECKME constraints */
@@ -700,23 +708,23 @@ static void table_dump(t_table *x, t_symbol *s, int ac, t_atom *av){
        invalid output, symbols are bashed to zero for both arguments,
        inconsistent warnings, etc. -- no strict emulation attempted below. */
     if (ac && av->a_type == A_FLOAT)
-	ndx = tablecommon_getindex(cc, (int)av->a_w.w_float);
+    ndx = tablecommon_getindex(cc, (int)av->a_w.w_float);
     else
-	ndx = 0;
+    ndx = 0;
     if (ac > 1 && av[1].a_type == A_FLOAT)
-	nmx = tablecommon_getindex(cc, (int)av[1].a_w.w_float);
+    nmx = tablecommon_getindex(cc, (int)av[1].a_w.w_float);
     else
-	nmx = thelength - 1;
+    nmx = thelength - 1;
     for (ptr = thetable + ndx; ndx <= nmx; ndx++, ptr++)
     {
-	/* Plain traversing by incrementing a pointer is not robust,
-	   because calling outlet_float() may invalidate the pointer.
-	   Continuous storage does not require generic selfmod detection
-	   (ala coll), so we can get away with the simpler test below. */
-	if (cc->c_length != thelength || cc->c_table != thetable)
-	    break;
-	/* CHECKED no remote dumping */
-	outlet_float(out, (t_float)*ptr);
+    /* Plain traversing by incrementing a pointer is not robust,
+       because calling outlet_float() may invalidate the pointer.
+       Continuous storage does not require generic selfmod detection
+       (ala coll), so we can get away with the simpler test below. */
+    if (cc->c_length != thelength || cc->c_table != thetable)
+        break;
+    /* CHECKED no remote dumping */
+    outlet_float(out, (t_float)*ptr);
     }
 }
 
@@ -751,7 +759,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
     x->x_head = 0;
     x->x_intraversal = 0;
     x->x_loadflag = 0;
-    rand_seed(&x->x_seed, 0); 
+    rand_seed(&x->x_seed, 0);
     t_symbol * name = NULL;
     t_int first_arg = 0;
     t_int size = TABLE_DEFLENGTH;
@@ -809,7 +817,7 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
     x->x_filehandle = file_new((t_pd *)x, table_embedhook, 0, 0, 0);
     table_bind(x, name);
     tablecommon_setlength(x->x_common, size);
-    x->x_common->c_embedflag = (embed != 0);
+    x->x_keep = (embed != 0);
 
     return(x);
     errstate:
@@ -916,3 +924,4 @@ CYCLONE_OBJ_API void Table_setup(void){
     class_sethelpsymbol(table_class, gensym("table"));
     pd_error(table_class, "Cyclone: please use [cyclone/table] instead of [Table] to suppress this error");
 }
+

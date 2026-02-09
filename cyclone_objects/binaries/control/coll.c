@@ -83,6 +83,7 @@ typedef struct _coll{
   t_symbol      *x_bindsym;
   int           x_is_opened;
   int           x_threaded;
+  int           x_keep;
   int           x_nosearch;
   int           x_initread; //if we're reading a file for the first time
   int           x_filebang; //if we're expecting to bang out 3rd outlet
@@ -321,17 +322,22 @@ static void collcommon_takeout(t_collcommon *cc, t_collelem *ep){
     }
 }
 
+static void collcommon_dirty(t_collcommon *cc){
+    if(cc->c_embedflag){
+        t_coll *x;
+        for(x = cc->c_refs; x; x = x->x_next){
+            if(x->x_canvas)
+                canvas_dirty(x->x_canvas, 1);
+        }
+    }
+}
+
 static void collcommon_modified(t_collcommon *cc, int relinked){
     if(cc->c_increation)
         return;
     if(relinked)
         cc->c_volatile = 1;
-    if(cc->c_embedflag){
-        t_coll *x;
-        for(x = cc->c_refs; x; x = x->x_next)
-            if(x->x_canvas && glist_isvisible(x->x_canvas))
-                canvas_dirty(x->x_canvas, 1);
-    }
+    collcommon_dirty(cc);
 }
 
 /* atomic collcommon modifiers:  clearall, remove, replace,
@@ -843,10 +849,10 @@ static void collcommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
 static void coll_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     t_coll *x = (t_coll *)z;
     t_collcommon *cc = x->x_common;
+    cc->c_embedflag = x->x_keep;
     if(cc->c_embedflag){
         t_collelem *ep;
         t_atom at[6];
-        binbuf_addv(bb, "ssii;", bindsym, gensym("flags"), 1, 0);
         SETSYMBOL(at, bindsym);
         for(ep = cc->c_first; ep; ep = ep->e_next){
             t_atom *ap = at + 1;
@@ -873,15 +879,21 @@ static void coll_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
             binbuf_add(bb, ep->e_size, ep->e_data);
             binbuf_addsemi(bb);
         };
+        binbuf_addv(bb, "ssii;", bindsym, gensym("flags"), 1, 0);
     };
     obj_saveformat((t_object *)x, bb);
 }
 
+
 static void collcommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
     s = NULL;
-    int nlines = collcommon_fromatoms((t_collcommon *)z, ac, av);
-    if(nlines < 0)
+    t_collcommon *cc = (t_collcommon *)z;
+    int nlines = collcommon_fromatoms(cc, ac, av);
+    if(nlines < 0){
         post("coll: editing error in line %d", 1 - nlines);
+        return;
+    }
+    collcommon_dirty(cc);
 }
 
 static void collcommon_free(t_collcommon *cc){
@@ -1992,7 +2004,8 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
     x->x_clock = clock_new(x, (t_method)coll_tick);
 	coll_threaded(x, threaded);
     coll_bind(x, file);
-    coll_flags(x, (int)embed, 0);
+    x->x_keep = (int)embed;
+//    coll_flags(x, (int)embed, 0);
     return(x);
 	errstate:
 		pd_error(x, "coll: improper args");

@@ -698,7 +698,7 @@ static void mtr_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     	int ntracks = x->x_ntracks;
    		t_mtrack **tpp = x->x_tracks;
         binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
-        while (ntracks--){
+        while(ntracks--){
         	t_mtrack *tp = *tpp++;
         	binbuf_addv(bb, "ssi", bindsym, gensym("_track"), tp->tr_id);
         	binbuf_addbinbuf(bb, tp->tr_binbuf);
