@@ -369,7 +369,7 @@ static void editor_guidefs(void){
     sys_gui("  }\n");
     sys_gui("  text $name.text -relief raised -bd 2 \\\n");
     sys_gui("   -font -*-courier-medium--normal--12-* \\\n");
-    sys_gui("   -yscrollcommand \"$name.scroll set\" -background lightgrey\n");
+    sys_gui("   -yscrollcommand \"$name.scroll set\" -background white\n");
     sys_gui("  scrollbar $name.scroll -command \"$name.text yview\"\n");
     sys_gui("  pack $name.scroll -side right -fill y\n");
     sys_gui("  pack $name.text -side left -fill both -expand 1\n");
