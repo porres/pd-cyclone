@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "m_pd.h"
+#include "g_canvas.h"
 #include <common/api.h>
 #include "common/file.h"
 #include "control/rand.h"
@@ -29,6 +30,7 @@ typedef struct _prob{
     unsigned int   x_seed;
     t_outlet      *x_bangout;
     t_file  *x_filehandle;
+    t_canvas      *x_canvas;
 }t_prob;
 
 static t_class *prob_class;
@@ -41,41 +43,6 @@ static t_probtrans *prob_findstate(t_prob *x, int value, int complain){
     if(!state && complain)
         pd_error(x, "[prob]: no state %d", value);  /* CHECKED */
     return(state);
-}
-
-static void prob_update(t_prob *x){
-    t_probtrans *state;
-    char buf[64];
-    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
-    sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)x->x_filehandle);
-    sys_gui(" }\n");
-    for(state = x->x_translist; state; state = state->tr_nextstate){
-        t_probtrans *trans;
-        for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans){
-            sprintf(buf, "%d %d %d\n", state->tr_value, trans->tr_value, trans->tr_count);
-            editor_append(x->x_filehandle, buf);
-        }
-    }
-}
-
-static void prob_click(t_prob *x, t_floatarg xpos, t_floatarg ypos,
-t_floatarg shift, t_floatarg ctrl, t_floatarg alt){ // CHECKED not available, LATER full editing
-    xpos = ypos = shift = ctrl = alt = 0;
-    t_probtrans *state;
-    char buf[64];
-    editor_open(x->x_filehandle, 0, 0);
-    for(state = x->x_translist; state; state = state->tr_nextstate){
-        t_probtrans *trans;
-        for(trans = state->tr_nexttrans; trans; trans = trans->tr_nexttrans){
-            sprintf(buf, "%d %d %d\n", state->tr_value, trans->tr_value, trans->tr_count);
-            editor_append(x->x_filehandle, buf);
-        }
-    }
-    sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)x->x_filehandle);
-    sys_vgui("  wm deiconify .%lx\n", (unsigned long)x->x_filehandle);
-    sys_vgui("  raise .%lx\n", (unsigned long)x->x_filehandle);
-    sys_vgui("  focus .%lx.text\n", (unsigned long)x->x_filehandle);
-    sys_gui(" }\n");
 }
 
 static void prob_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
@@ -122,7 +89,6 @@ static void prob_clear(t_prob *x){
     x->x_translist = 0;
     x->x_state = 0;
     x->x_default = 0;  // CHECKED: default number is not kept
-    prob_update(x);
 }
 
 static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av){
@@ -180,10 +146,12 @@ static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av){
         }
         if(!x->x_state)  /* CHECKED */
             x->x_state = prefix;  /* CHECKED */
-        prob_update(x);
     }
     else
         pd_error(x, "[prob]: bad list message format");  /* CHECKED */
+    if(x->x_embedmode && x->x_canvas)
+        canvas_dirty(x->x_canvas, 1);
+        
 }
 
 static void prob_dump(t_prob *x){ // CHECKED
@@ -251,6 +219,7 @@ static void *prob_new(void){
     outlet_new((t_object *)x, &s_float);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
     x->x_filehandle = file_new((t_pd *)x, prob_embedhook, 0, 0, 0);
+    x->x_canvas = canvas_getcurrent();
     return (x);
 }
 
@@ -264,7 +233,5 @@ CYCLONE_OBJ_API void prob_setup(void){
     class_addmethod(prob_class, (t_method)prob_reset, gensym("reset"), A_FLOAT, 0);
     class_addmethod(prob_class, (t_method)prob_clear, gensym("clear"), 0);
     class_addmethod(prob_class, (t_method)prob_dump, gensym("dump"), 0);
-    class_addmethod(prob_class, (t_method)prob_click, gensym("click"),
-        A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     file_setup(prob_class, 1);
 }
