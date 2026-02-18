@@ -703,11 +703,11 @@
 #C restore;
 #X text 456 16 The basic navigation through [coll]'s data is with the "next" (same as a bang) or "prev" messages that \, respectively \, go to the next and the previous address.;
 #X text 39 28 You can also use the 1st argument to specify a filename for [coll] to load when isntantiated. The read/write messages allow you to read/write from and to other files.;
-#X text 204 310 (also bangs on isntantiation);
 #X obj 180 333 print done_reading;
 #X text 205 294 bang when finishing read operation;
-#X text 456 66 The pointer to the address is set for all [coll] objects with the same 1st argument (name or filename). So navigating in the object to the left affects the navigation of the object below. The "goto <address>" message ses the pointer to an address \, "start" goes to the first address \, "end" goes to the last one.;
 #X text 457 295 Note how above there's a 2nd argument to prevent it from searching for a file because the [coll] to the left already loaded the file - since [coll] objects with the same name share data \, it doesn't need to load the file again!;
+#X text 204 310 (also bangs on instantiation);
+#X text 456 66 The pointer to the address is set for all [coll] objects with the same 1st argument (name or filename). So navigating in the object to the left affects the navigation of the object below. The "goto <address>" message sets the pointer to an address \, "start" goes to the first address \, "end" goes to the last one.;
 #X connect 0 0 19 0;
 #X connect 1 0 19 0;
 #X connect 2 0 19 0;
@@ -716,7 +716,7 @@
 #X connect 6 0 19 0;
 #X connect 7 0 19 0;
 #X connect 9 0 19 0;
-#X connect 10 0 32 0;
+#X connect 10 0 31 0;
 #X connect 11 0 19 0;
 #X connect 19 0 4 0;
 #X connect 19 1 8 0;

@@ -395,7 +395,7 @@ static void table_bind(t_table *x, t_symbol *name){
         if(name){
             pd_bind(&cc->c_pd, name);
             /* LATER rethink canvas unpredictability */
-            tablecommon_doread(cc, name, x);
+//            tablecommon_doread(cc, name, x); // where was this coming from?
         }
         else{
             cc->c_filename = 0;
@@ -521,6 +521,7 @@ static void table_ft1(t_table *x, t_floatarg f){
 
 static void table_size(t_table *x, t_floatarg f){
     tablecommon_setlength(x->x_common, (int)f);
+    table_update(x);
 }
 
 static void table_set(t_table *x, t_symbol *s, int ac, t_atom *av){
