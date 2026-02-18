@@ -377,7 +377,7 @@ static void scope_vis(t_gobj *z, t_glist *glist, int vis){
     if(x->x_edit) // bug hack, destroying even though 'draw_handle' also destroys it
         // maybe it just should be with the 'else' "delete all" message
         // we can just destroy this even if it doesn;t exist anyway,
-        // this was needed to avooid some tcl erros
+        // this was needed to avooid some tcl errors
         sys_vgui("destroy %s\n", sh->h_pathname);
     if(vis){
         sprintf(sh->h_pathname, ".x%lx.h%lx", (unsigned long)x->x_cv, (unsigned long)sh);

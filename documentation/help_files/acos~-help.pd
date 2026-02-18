@@ -1,4 +1,4 @@
-#N canvas 473 24 561 508 10;
+#N canvas 473 38 561 508 10;
 #X obj 2 474 cnv 15 552 21 empty empty empty 20 12 0 14 #e0e0e0 #202020 0;
 #X obj 2 371 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 2 408 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
@@ -22,6 +22,7 @@
 #X text 203 327 as a Vanilla alternative;
 #X text 37 327 see also:;
 #X text 363 327 and;
+#X obj 101 328 expr~ acos($v1);
 #N canvas 425 211 552 420 all-trig-objects 0;
 #X obj 110 60 cyclone/acos;
 #X obj 110 87 cyclone/acosh;
@@ -54,11 +55,10 @@
 #X obj 392 167 cyclone/sinx~;
 #X obj 392 190 cyclone/tanh~;
 #X obj 392 213 cyclone/tanx~;
-#X text 297 26 Sigal trigonometric functions from Cyclone:, f 26;
 #X obj 215 323 cos~;
 #X text 257 322 - actually a cosine wavetable;
+#X text 297 26 Signal trigonometric functions from Cyclone:, f 26;
 #X restore 395 328 pd all-trig-objects;
-#X obj 101 328 expr~ acos($v1);
 #X connect 13 0 17 0;
 #X connect 14 0 15 0;
 #X connect 16 0 13 0;

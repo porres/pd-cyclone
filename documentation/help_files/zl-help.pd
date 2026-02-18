@@ -214,7 +214,7 @@
 #X msg 462 145 zlclear;
 #X obj 117 355 print zl_mth;
 #X obj 484 300 print zl_mth;
-#X text 24 36 The mode mth is the same as nth but starts counting from 0 isntead. It outputs the mth element of a message through the left outlet. The right outlet outputs the remaining elements \, but the output can also replace the mth element by another.;
+#X text 24 36 The mode mth is the same as nth but starts counting from 0 instead. It outputs the mth element of a message through the left outlet. The right outlet outputs the remaining elements \, but the output can also replace the mth element by another.;
 #X obj 117 321 cyclone/zl.mth 3;
 #X obj 484 264 cyclone/zl.mth 2 hi;
 #X obj 631 437 open-else;
@@ -255,7 +255,7 @@
 #X obj 461 272 nbx 3 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X text 655 200 nth / replacement;
 #X msg 505 143 mode nth 3 hello;
-#X text 25 27 The mode nth is the same as mth but starts counting from 1 isntead. It outputs the nth element of a message through the left outlet. The right outlet outputs the remaining elements \, but the output can also replace the nth element by another., f 61;
+#X text 25 27 The mode nth is the same as mth but starts counting from 1 instead. It outputs the nth element of a message through the left outlet. The right outlet outputs the remaining elements \, but the output can also replace the nth element by another., f 61;
 #X text 24 94 The nth element is set as the 1st argument. The 1st element is treated as "1" \, if you set it as 0 (the default) or to a number greater than the input list \, all the elements are sent to the right outlet and nothing is sent via the left outlet., f 61;
 #X text 186 225 <= sets mode and arguments;
 #X msg 110 226 mode nth 8;
@@ -1022,7 +1022,7 @@
 #X text 50 410 swap;
 #X text 38 378 stream;
 #X text 26 173 indexmap;
-#X text 83 173 - anything: list to be remaped (default none), f 65;
+#X text 83 173 - anything: list to be remapped (default none), f 65;
 #X text 83 378 - float: N elements to stream (default 0), f 65;
 #X text 83 444 - anything: list of elements to "uniqued" (default none), f 65;
 #X text 83 410 - anything: list to be swapped (default none), f 65;

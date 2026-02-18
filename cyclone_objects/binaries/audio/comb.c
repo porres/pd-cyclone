@@ -124,7 +124,7 @@ static double comb_readmsdelay(t_comb *x, double arr[], t_float ms){
         if(rh < COMB_MIND){
             rh = COMB_MIND;
         };
-        rh = (double)x->x_wh+((double)x->x_sz-rh); //essentially subracting from writehead to find proper position in buffer
+        rh = (double)x->x_wh+((double)x->x_sz-rh); //essentially subtracting from writehead to find proper position in buffer
         //wrapping into length of delay buffer
         while(rh >= x->x_sz){
             rh -= (double)x->x_sz;

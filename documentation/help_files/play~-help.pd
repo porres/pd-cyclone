@@ -14,7 +14,7 @@
 #X msg 544 44 stop;
 #X msg 534 21 start;
 #X obj 681 104 bng 30 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
-#X text 30 19 Multi channel playback is possible (up to 64 channels) when you specify it with a second argument. The number of channels defines the number 'n' of outlets - where the first outlets are the channel inputs and the righmost is the bang outlet.;
+#X text 30 19 Multi channel playback is possible (up to 64 channels) when you specify it with a second argument. The number of channels defines the number 'n' of outlets - where the first outlets are the channel inputs and the rightmost is the bang outlet.;
 #X text 30 99 If more than one channel is set \, the name convention for multi channel arrays is the table name preceded by the channel number (starting from zero) and "-" \, such as: "0-" \, "1-" \, "2-" \, "3-" \, and so on...;
 #X text 33 172 You can manually set multi channel arrays in Pd like that or use the [buffer~] object \, which does this internally.;
 #X msg 91 229 open;

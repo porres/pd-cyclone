@@ -1,5 +1,5 @@
-# generate menu tree for native objects for the canvas right click popup
-# code by Porres and Seb Shader
+# Generate menu tree for native objects for the canvas right click popup
+# Code by Porres and Seb Shader
 
 package require pd_menus
 

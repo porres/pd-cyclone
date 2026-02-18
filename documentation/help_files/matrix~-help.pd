@@ -201,8 +201,8 @@
 #X text 23 201 "non-binary" mode (requires more CPU time):;
 #X text 40 257 - In this mode \, connections formed with the <connect> message always have the gain specified by the third argument. However \, list messages can alter the gain of connections formed with the <connect> message. So \, if you want to specify the gain of each connection in "non-binary" mode \, you must use list messages (see below)., f 62;
 #X text 40 330 - A list message allows an arbitrary gain value set by the 3rd float. This mode also allows a 4th optional list item that sets the ramp time (for fade in/out or crossfading)., f 62;
-#X text 40 156 - The 'dump' and 'dumptarget' are the same in this mode. The 'print' message is also the same but prints on the terminal isntead., f 62;
-#X text 40 371 - The dump message in non-binary mode gives you the current gain state. The 'print' message is the same but prints on the terminal isntead. The 'dumptarget' message gives you the target gain and may not be the same as the current state because of the ramp time., f 62;
+#X text 40 156 - The 'dump' and 'dumptarget' are the same in this mode. The 'print' message is also the same but prints on the terminal instead., f 62;
+#X text 40 371 - The dump message in non-binary mode gives you the current gain state. The 'print' message is the same but prints on the terminal instead. The 'dumptarget' message gives you the target gain and may not be the same as the current state because of the ramp time., f 62;
 #X obj 515 165 output~;
 #X obj 502 393 output~;
 #X text 96 46 binary/non binary;

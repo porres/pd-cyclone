@@ -42,7 +42,7 @@
 #X array \$0-table 44100 float 0;
 #X coords 0 1.1 44099 -1.1 200 120 1 0 0;
 #X restore 125 318 graph;
-#X text 29 21 You can use control messages isntead of signals. In this way \, [poke~] behaves similarly to the [peek~] object. Note \, however \, that the left two inlets are reversed on [poke~] when compared to [peek~].;
+#X text 29 21 You can use control messages instead of signals. In this way \, [poke~] behaves similarly to the [peek~] object. Note \, however \, that the left two inlets are reversed on [poke~] when compared to [peek~].;
 #X obj 157 127 cyclone/uzi 44110 0;
 #X obj 158 175 expr random(-1000 \, 1001)/1000.0;
 #X obj 231 241 cyclone/poke~;

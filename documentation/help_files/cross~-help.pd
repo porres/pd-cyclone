@@ -37,7 +37,7 @@
 #X text 460 334 <-- click;
 #X text 120 338 Plugdata users or those with ELSE can also use [else/crossover~] as an alternative, f 42;
 #X msg 388 335 crossover~;
-#X text 94 88 [cross~] is a of 4rd crossover filter (Max claims theirs is a 3rd order one \, so this is not an exact clone).;
+#X text 94 88 [cross~] is a of 4th crossover filter (Max claims theirs is a 3rd order one \, so this is not an exact clone).;
 #X connect 14 0 28 0;
 #X connect 14 1 28 1;
 #X connect 15 0 14 0;

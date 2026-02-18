@@ -191,7 +191,7 @@
 #X text 31 112 The different modes in detail:, f 60;
 #X text 31 142 0 (Historical mode - default): Playing the same note multiple times while the sustain pedal is on will output the Note On messages and hold the Note Off messages for all of them. When the sustain pedal is set off or the flush message is received \, all of the held Note Off messages are sent in the order they were received.;
 #X text 31 232 1 ('Re-trigger' mode): Playing a note that had already been played before and whose noteoff is being held will first send the corresponding Note Off before sending the new Note On message (and then hold the next Note Off). In other words \, it re-triggers the note.;
-#X text 31 315 2 ('Stop last' mode): Playing the same note multiple times will not re-trigger as in re-trigger mode \, but when the sustain is off \, only one Note Off message corresponding to a repeated note is sent \, isntead of all of them.;
+#X text 31 315 2 ('Stop last' mode): Playing the same note multiple times will not re-trigger as in re-trigger mode \, but when the sustain is off \, only one Note Off message corresponding to a repeated note is sent \, instead of all of them.;
 #X obj 533 264 cyclone/sustain @repeatmode 1 @sustain 1;
 #X connect 1 0 10 1;
 #X connect 2 0 10 0;

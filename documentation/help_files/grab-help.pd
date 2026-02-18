@@ -31,7 +31,7 @@
 #X text 70 195 grabbed from;
 #X text 68 208 another object =>;
 #X text 172 435 number of outlets besides the rightmost one., f 58;
-#X text 64 89 [grab] sends a message to another object and "grabs" its output \, sending it through its outlet(s) isntead of the grabbed object.;
+#X text 64 89 [grab] sends a message to another object and "grabs" its output \, sending it through its outlet(s) instead of the grabbed object.;
 #N canvas 628 102 705 394 examples 0;
 #X msg 92 36 length;
 #X obj 92 62 cyclone/grab;

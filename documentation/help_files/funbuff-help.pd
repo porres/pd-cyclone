@@ -51,7 +51,7 @@
 #X obj 453 247 cyclone/funbuff;
 #X f 22;
 #C restore;
-#X text 409 45 When using the next message \, the midle outlet outputs the difference from the current 'x' value to the previous one. The right outlet sends a bang when reaching the end of the buffer. The next message needs a pointer position \, this can be set by giving it an 'x' value or by the 'goto' message.;
+#X text 409 45 When using the next message \, the middle outlet outputs the difference from the current 'x' value to the previous one. The right outlet sends a bang when reaching the end of the buffer. The next message needs a pointer position \, this can be set by giving it an 'x' value or by the 'goto' message.;
 #X msg 490 216 min;
 #X msg 522 216 max;
 #X text 548 216 outputs minimum/maximum 'y' value;

@@ -120,7 +120,7 @@ static double allpass_readmsdelay(t_allpass *x, double arr[], t_float ms){
         if(rh < ALLPASS_MIND){
             rh = ALLPASS_MIND;
         };
-        rh = (double)x->x_wh+((double)x->x_sz-rh); //essentially subracting from writehead to find proper position in buffer
+        rh = (double)x->x_wh+((double)x->x_sz-rh); //essentially subtracting from writehead to find proper position in buffer
         //wrapping into length of delay buffer
         while(rh >= x->x_sz){
             rh -= (double)x->x_sz;

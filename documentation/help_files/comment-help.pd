@@ -1,4 +1,4 @@
-#N canvas 431 37 562 667 10;
+#N canvas 431 38 562 667 10;
 #X obj 3 325 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 534 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X text 170 540 (none);
@@ -77,9 +77,9 @@
 #X msg 481 196 outline \$1;
 #X obj 481 172 tgl 18 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000 0 1;
 #X text 39 375 After setting a background color you can use the 'bg' attribute to turn it off or on again., f 62;
-#X text 39 461 Cyclone's [comment] will attempt to open a font name that corresponds to your given name. If such a font name doesn't exist \, it'll open some other font you have on your system instead that it thinks is best for what you requested \, and you'll have no idea which one it is. So just be sure you have the fonts you want properly isntalled., f 62;
 #X text 480 462 This object is fully compliant to Max 5 but not fully compliant to Max6+ versions (with all that 'bubble' stuff and more). It also has inconsistencies like different attributes than the original object in Max. It is also now based on [else/note] \, an object that was first based on [cyclone/comment]., f 65;
 #X text 526 529 ALSO: CONSIDER THIS OBJECT DEPRECATED!!!;
+#X text 39 461 Cyclone's [comment] will attempt to open a font name that corresponds to your given name. If such a font name doesn't exist \, it'll open some other font you have on your system instead that it thinks is best for what you requested \, and you'll have no idea which one it is. So just be sure you have the fonts you want properly installed., f 62;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;

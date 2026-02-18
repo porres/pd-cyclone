@@ -14,15 +14,15 @@ Max is found at: https://cycling74.com/
 
 -------
 
-Copyright © 2003-2025 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
+Copyright © 2003-2026 - Krzysztof Czaja, Hans-Christoph Steiner, Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber and others.
 
 This work is free. You can redistribute it and/or modify it under the terms of the BSD-3-Clause (aka Revised BSD License). See License.txt <https://github.com/porres/pd-cyclone/blob/cyclone0.4/LICENSE.txt> and <https://opensource.org/licenses/BSD-3-Clause> for more details.
 
 -------
 
-Current Release: Cyclone 0.9-3 (this release needs at least Pd Vanilla 0.55-0)
+Current Release: Cyclone 0.9-4 (this release needs at least Pd Vanilla 0.56-2)
 
-Released May 16th 2025
+Released February 21st 2026
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 

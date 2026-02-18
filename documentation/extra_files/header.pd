@@ -6,7 +6,7 @@
 #X obj 340 162 symbol \$1;
 #X obj 340 134 loadbang;
 #X obj 340 207 s \$0-header;
-#X text 196 160 This is a helper abstraction for the heder in the docs., f 20;
+#X text 196 160 This is a helper abstraction for the header in the docs., f 20;
 #X connect 3 0 6 0;
 #X connect 4 0 3 0;
 #X connect 5 0 4 0;

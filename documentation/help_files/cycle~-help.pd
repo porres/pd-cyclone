@@ -90,7 +90,7 @@
 #X text 554 433 carrier frequency (220 hz);
 #X obj 77 531 cyclone/cycle~ @frequency 440 @phase 0.5;
 #X text 38 503 Frequency and phase set as attributes:;
-#X text 474 186 The phase is also resset in many operations in edit mode - so nevermind if you hear "clicks" when editing the patch!, f 43;
+#X text 474 186 The phase is also reset in many operations in edit mode - so nevermind if you hear "clicks" when editing the patch!, f 43;
 #X text 42 344 [cycle~] being driven by phase only =>;
 #X obj 146 148 cyclone/cycle~ 440;
 #X msg 273 127 \$1 10;
@@ -103,7 +103,7 @@
 #X obj 203 417 output~;
 #X obj 131 180 +~;
 #X obj 131 221 output~;
-#X text 471 56 You can't resset the phase of [cycle~] as you can with [osc~] \, but note that the the phase gets resseted to the beggining of the cycle when you turn the DSP off and then on again, f 46;
+#X text 471 56 You can't reset the phase of [cycle~] as you can with [osc~] \, but note that the the phase gets reset to the beginning of the cycle when you turn the DSP off and then on again, f 46;
 #X connect 0 0 13 1;
 #X connect 1 0 2 0;
 #X connect 2 0 0 1;

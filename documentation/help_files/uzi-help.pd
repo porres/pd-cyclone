@@ -75,7 +75,7 @@
 #X obj 33 35 cnv 15 140 30 empty empty empty 20 12 0 14 #e0e0e0 #404040 0;
 #X text 143 259 <= start;
 #X text 185 294 <= resume;
-#X text 436 34 You can also use "break" isntead of "pause" and "continue" isntead of "resume".;
+#X text 436 34 You can also use "break" instead of "pause" and "continue" instead of "resume".;
 #X msg 613 359 offset 1;
 #X text 438 78 After pausing [uzi] \, you can reset the offset value. This changes the total number of bangs being sent in the end. In the example below \, if you break and continue without changing the offset \, it goes from 1 to 5 \, then 6 to 10 \, but lets change the offset after the break and before continuing and see what happens.;
 #X text 439 164 If you increase the offset from "1" to "11" \, the counter target is supposed to be "20" \, so it continues from 6 until reaching 20!;

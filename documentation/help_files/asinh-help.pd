@@ -23,6 +23,7 @@
 #X text 211 270 as a Vanilla alternative;
 #X text 41 270 see also:;
 #X text 371 270 and;
+#X obj 105 271 expr asinh($f1);
 #N canvas 425 211 552 420 all-trig-objects 0;
 #X obj 110 60 cyclone/acos;
 #X obj 110 87 cyclone/acosh;
@@ -55,11 +56,10 @@
 #X obj 392 167 cyclone/sinx~;
 #X obj 392 190 cyclone/tanh~;
 #X obj 392 213 cyclone/tanx~;
-#X text 297 26 Sigal trigonometric functions from Cyclone:, f 26;
 #X obj 215 323 cos~;
 #X text 257 322 - actually a cosine wavetable;
+#X text 297 26 Signal trigonometric functions from Cyclone:, f 26;
 #X restore 403 271 pd all-trig-objects;
-#X obj 105 271 expr asinh($f1);
 #X connect 6 0 18 0;
 #X connect 7 0 18 0;
 #X connect 18 0 10 0;

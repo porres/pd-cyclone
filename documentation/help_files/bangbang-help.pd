@@ -31,8 +31,8 @@
 #X text 33 270 This is a rather silly and redundanct object for Pd as an external \, but what the heck... use it if you will., f 27;
 #X text 457 259 click:;
 #X obj 457 306 open-else;
-#X text 216 270 Plugdata users or those with ELSE can also checl [else/loadbanger] \, an object that combines bangbang and [loadbang], f 34;
 #X msg 457 279 loadbanger;
+#X text 216 270 Plugdata users or those with ELSE can also check [else/loadbanger] \, an object that combines bangbang and [loadbang], f 34;
 #X connect 5 0 8 0;
 #X connect 8 0 11 0;
 #X connect 8 1 10 0;
@@ -41,4 +41,4 @@
 #X connect 10 0 12 0;
 #X connect 11 0 12 0;
 #X connect 14 0 13 0;
-#X connect 27 0 25 0;
+#X connect 26 0 25 0;

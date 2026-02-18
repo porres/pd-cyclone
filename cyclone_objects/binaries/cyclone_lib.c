@@ -629,19 +629,19 @@ t_class *cyclone_class;
 static int printed;
 
 static int min_major = 0;
-static int min_minor = 55;
-static int min_bugfix = 0;
+static int min_minor = 56;
+static int min_bugfix = 2;
 
 static int cyclone_major = 0;
 static int cyclone_minor = 9;
-static int cyclone_bugfix = 3;
+static int cyclone_bugfix = 4;
 
 void print_cyclone(t_cyclone *x){
     int major = 0, minor = 0, bugfix = 0;
     sys_getversion(&major, &minor, &bugfix);
     post("");
     post("--------------------------------------------------------------------");
-    post(":: Cyclone %d.%d-%d; Released May 16th 2025", cyclone_major, cyclone_minor, cyclone_bugfix);
+    post(":: Cyclone %d.%d-%d; Released February 21st 2026", cyclone_major, cyclone_minor, cyclone_bugfix);
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
     post(":: Copyright © 2003-2025 - Krzysztof Czaja, Hans-Christoph Steiner,");
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber\n\:: and others.");
@@ -668,6 +668,7 @@ void print_cyclone(t_cyclone *x){
     post("-------------------------------------------------------------------");
     post("- NOTE: Loading this binary did install an object browser");
     post("plugin for Cyclone objects when right clicking on a canvas.");
+    post("You can disable it in the Preferences=>Cyclone-Browser-plug menu");
     post("-------------------------------------------------------------------");
     post("");
 }

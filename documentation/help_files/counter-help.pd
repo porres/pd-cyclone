@@ -283,7 +283,7 @@
 #X obj 204 134 cyclone/counter 10 15;
 #X text 337 134 (from 10 to 15);
 #X text 99 278 messages;
-#N canvas 500 23 812 529 basic_1 0;
+#N canvas 500 38 812 529 basic_1 0;
 #X obj 203 180 nbx 2 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 203 116 bng 19 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X obj 203 149 cyclone/counter;
@@ -334,9 +334,9 @@
 #X obj 248 322 cyclone/counter -2 2;
 #X text 35 380 Given three arguments \, the 1st sets the direction (0: up \, 1: down \, 2: updown) and 2nd and 3rd the min/max (also in any order).;
 #X text 426 45 If the direction is up and you reach the maximum \, it restarts from the minimum. The 'carrycount' output (rightmost outlet) counts how many times the maximum was reached (but it doesn't count if the direction is down)., f 61;
-#X text 426 102 If the direction is down and you reach the minimum \, it restarts from the maximum value. When in "updown" mode \, at the end of each count round (reaching maximum or minimum) it swiches the direction., f 61;
 #X text 426 159 A bang in the 2nd inlet switches the direction from up to down or vice versa (it switches from mode 0 to 1 or from 1 to 0 \, but only changes the direction in mode 2)., f 61;
 #X text 425 209 You can also set the direction with the messages "up" \, "down" and "updown" or a float input in the 2nd inlet \, see below., f 61;
+#X text 426 102 If the direction is down and you reach the minimum \, it restarts from the maximum value. When in "updown" mode \, at the end of each count round (reaching maximum or minimum) it switches the direction., f 61;
 #X connect 1 0 2 0;
 #X connect 2 0 0 0;
 #X connect 4 0 5 0;

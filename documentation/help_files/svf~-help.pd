@@ -80,7 +80,7 @@
 #X obj 219 283 *;
 #X floatatom 219 318 7 0 0 0 - - - 0;
 #X text 66 147 But please note that the effective cutoff frequency in hertz is the sample rate frequency divided by 4 \, or half the Nyquist frequency.;
-#X text 490 21 - The 'linear' mode is just a scaled version of the standard hertz mode with values in the 0-1 range isntead 0 and half the Nyquist.;
+#X text 490 21 - The 'linear' mode is just a scaled version of the standard hertz mode with values in the 0-1 range instead 0 and half the Nyquist.;
 #X text 267 318 hertz;
 #X text 63 45 [svf~] has three different modes (set by messages or arguments) for mapping input values onto cutoff/center frequency. These are mainly for convenience \, but they may also slightly improve efficiency.;
 #X obj 164 344 cyclone/svf~ 0 0.75;

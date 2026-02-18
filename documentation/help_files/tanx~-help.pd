@@ -54,9 +54,9 @@
 #X obj 392 167 cyclone/sinx~;
 #X obj 392 190 cyclone/tanh~;
 #X obj 392 213 cyclone/tanx~;
-#X text 297 26 Sigal trigonometric functions from Cyclone:, f 26;
 #X obj 215 323 cos~;
 #X text 257 322 - actually a cosine wavetable;
+#X text 297 26 Signal trigonometric functions from Cyclone:, f 26;
 #X restore 388 322 pd all-trig-objects;
 #X obj 102 322 expr~ tan($v1);
 #X connect 14 0 18 0;

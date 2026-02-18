@@ -198,7 +198,7 @@
 #X text 198 419 saves to MIDI/text files (no symbol opens a dialog box), f 57;
 #X text 191 577 a MIDI/text file to be loaded;
 #N canvas 871 85 493 491 text 0;
-#X text 38 39 Besides MIDI files \, [seq] can load and save to .txt files \, just use this extension isntead. The text file follows a format that is also present in the edit window of the [seq] object that opens when you click on the object (note that this edit window functionality is not present in the original MAX object)., f 67;
+#X text 38 39 Besides MIDI files \, [seq] can load and save to .txt files \, just use this extension instead. The text file follows a format that is also present in the edit window of the [seq] object that opens when you click on the object (note that this edit window functionality is not present in the original MAX object)., f 67;
 #X obj 128 133 cyclone/seq seq.mid;
 #X text 253 133 <= click to open;
 #X text 136 284 0 144 60 112 \; 1000 144 60 0 \; 1500 192 31 \; 1500 144 60 112 \; 2500 144 60 0 \;, f 17;

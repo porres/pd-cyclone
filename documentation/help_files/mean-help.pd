@@ -29,7 +29,7 @@
 #X text 118 397 clear;
 #X text 208 209 number of values;
 #X text 244 224 processed;
-#X text 158 415 - clears memory and calclates the mean from the list;
+#X text 158 415 - clears memory and calculates the mean from the list;
 #X text 158 397 - clears memory (previously received numbers);
 #X text 173 379 number to add to the moving average, f 60;
 #X text 37 225 mean average;

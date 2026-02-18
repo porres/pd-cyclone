@@ -2,7 +2,7 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* rewritten version of Joseph A. Sarlo's code fom pb-lib 
+/* rewritten version of Joseph A. Sarlo's code from pb-lib 
    (important changes listed in "pd-lib-notes.txt" file.  */
 
 /* krzYszcz circa (2002?)

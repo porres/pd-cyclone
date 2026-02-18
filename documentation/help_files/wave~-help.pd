@@ -55,9 +55,9 @@
 #X text 19 17 Though not referred in Max's documentation \, the interpolation formulas for [wave~] almost certainly can found in <http://paulbourke.net/miscellaneous/interpolation>., f 82;
 #X text 19 50 [wave~]'s input phase varies between 0 and 1 \, which in 32-bit floating point arithmetic has 24 bits of index resolution. All interpolators (except mode 2: low quality linear) use double-precision index mapping \, so behavior should be the same in all parts of a table., f 82;
 #X text 19 185 Backwards compatibility:, f 82;
-#X text 19 209 At the time of Max 4 \, [wave~] only had one cheaop linear interpolator. Earlier versions of cyclone included Pd's interpolator isntead. This is mode is now added as an extra mode 7 (and is also used in [tabread4~] \, [tabosc4~] \, and [vd~] or [delread4~])., f 82;
+#X text 19 209 At the time of Max 4 \, [wave~] only had one cheaop linear interpolator. Earlier versions of cyclone included Pd's interpolator instead. This is mode is now added as an extra mode 7 (and is also used in [tabread4~] \, [tabosc4~] \, and [vd~] or [delread4~])., f 82;
 #X text 20 280 Please find more theoretical details for each mode in the subpatches below:, f 82;
-#X text 19 108 Unlike [tabread4~] \, [wave~] does not use guard points for interpolating between the end and the beginning of the array \, but isntead treats the range as a circular buffer \, where phases 0 and 1 point to the first element of the table. Input phase is clipped to the 0-1 range. A bug from Max was fixed \, where the 4-point interpolation modes did not wrap correctly., f 82;
+#X text 19 108 Unlike [tabread4~] \, [wave~] does not use guard points for interpolating between the end and the beginning of the array \, but instead treats the range as a circular buffer \, where phases 0 and 1 point to the first element of the table. Input phase is clipped to the 0-1 range. A bug from Max was fixed \, where the 4-point interpolation modes did not wrap correctly., f 82;
 #X restore 166 334 pd theory;
 #N canvas 428 110 700 590 examples 0;
 #X obj 17 30 cnv 15 183 99 empty empty empty 20 12 0 14 #dcdcdc #404040 0;

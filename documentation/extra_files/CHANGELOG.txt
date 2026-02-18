@@ -1,6 +1,25 @@
----------------------------------------------------
-| Under the maintenance of Porres, Kwan and Barber: 
----------------------------------------------------
+---------------------------------------------------------------------------
+| Until 0.5 or so, it was under the maintenance of Porres, Kwan and Barber: 
+---------------------------------------------------------------------------
+| Then it got eventually basically just under Porres until around 0.9 maybe?
+---------------------------------------------------------------------------
+
+--------------------------------------------------
+cyclone 0.9-4 (needs at least Pd Vanilla 0.56-2):
+--------------------------------------------------
+
+- We now have a preferences menu to disable the browser plugin! See Preferences => Cyclone-Browser-plugin. If you always hated this, disable it and save the setting. The browsing plugin is now also better organized with more nesting levels. 
+- [prob] removed the functionality for viewing the data because the MAX original doesn't have it and it makes no sense, cause we can't edit it and save it and you can already see the data with "dump" (which prints on the terminal window). When embedding, now we also have a dirty flag when setting data, just like [cyclone/coll] and [cyclone/table] (even though the MAX original doesn't do it).
+- Text Editing Window Improvements: colors now adapt to Pd's theme (so > 0.56 is needed) and font size also adapts to patch's font size. Allow ctrl+s to save and and ctrl+w to close the window. This affects [cyclone/seq], [cyclone/coll], [cyclone/table] and [cyclone]/[capture~] (again, [cyclone/prob] doesn't have it anymore). Also make manually editing the window and saving it sets the dirty flag on the patch for [coll] and [table] (and not only with changes via messages as before). 
+- [coll]/[table] improved dirty management as it wouldn't mark dirty if the owning canvas wasn't visible (which was a stupid hack to not mark it as dirty when loading the patch). 
+- [coll] now forces a correct order of args and deals with 0/1-length list messages.
+- [table] fixed trying to open the name argument as if it was a file. Now resizing updates the editing window if it is opened.
+- Improved [cross~], it is now a 4th order filter (even though Max claims theirs is a 3rd order filter). The last one didn't sound good when adding the lowpass and highpass output.
+- [scope~] improved resizing handle mechanism
+- [comment] fixed "mouse release bug" annoying error and initialization with a zoomed patch.
+- Fixed many typos in the docs.
+- Improved github actions and added Raspberry Pi binaries
+- Fixed CMake build for compiling a single binary
 
 --------------------------------------------------
 cyclone 0.9-3 (needs at least Pd Vanilla 0.55-0):
@@ -74,7 +93,7 @@ cyclone 0.7-0 (needs at least Pd Vanilla 0.53-1):
 --------------------------------------------------
 
 - [number~] can now print 'nan' thanks to new features in Pd 0.53
-- [scope~]: Fixed resizing issues when zoomed. Added undo. Minor cosmetic changes that were considered unnecessary as it only tried to mimmick a bit more the original aspect in MAX when selecting the object and we're already failing in doing tha 100% perfectly anyway, plus other minor cosmetic improvements.
+- [scope~]: Fixed resizing issues when zoomed. Added undo. Minor cosmetic changes that were considered unnecessary as it only tried to mimic a bit more the original aspect in MAX when selecting the object and we're already failing in doing that 100% perfectly anyway, plus other minor cosmetic improvements.
 - [comment]: We finally have a decent properties window (thanks to Tim Schoen)!!! Fixed some issues with zooming. Fixed many issues with resizing and also justification. Fixed saving parameters. Improved drawing the handle. Fixed resizing when maximum width wasn't set. Added undo. Added outline parameter. Added width parameter (this was only set before via dragging the handle in edit mode). This is now diverging from the original MAX object and is basically a clone of [else/note], an object from the ELSE library that was originally based on cyclone's [comment]. This also completes the updates to this object which was almost the last one to get updated.
 - [mtr] starting to update this object to MAX 7 at last (and this is the last one that never got updated). Added attributes @speed / @trackspeed / @loop and @embed. We missed updates to this one as it was included some time after 7.0! There are numerous things to add and we won't be able to add them all. More are yet to come until we can say we finally reached the goal of updating Cyclone to MAX 7!
 - [pink~] is now a whole new object stolen from ELSE, which has more features but it's also backwards compatible.
@@ -273,7 +292,7 @@ A) Restoring the original cyclone's goal of Max/MSP compatibility in the project
 
 B) Restoring the 'cyclone' library. By default, this contains only the objects that used to be in the 'nettles' library, but the cyclone library also loads cyclone's path so you can load the other objects that are compiled as separate binaries or abstraction (you can now also create a [cyclone] external object that loads the library). There's a separate option on how to compile cyclone as a single library (see 'readme' for more details).
 
-C) Readded the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default.
+C) Re-added the "threaded" behaviour in [coll] but without the extra 2nd "threaded" argument introduced to [coll] in cyclone 0.2 because it breaks Max/MSP compatibility - the second argument now sets a functionality that was introduced in Max 4.0.8 for not searching for a file. The threaded feature is now set as an extra "attribute" (@threaded 0/1) and the threaded behaviour is now the default.
 
 D) 40 New objects, including:
 
@@ -322,7 +341,7 @@ F) Assorted Fixes (65 Objects affected), including:
 	- [funnel] - fixed the bang method
 	- [uzi] - fixed the default arg
 	- [curve~] - fixed factor (argument/3rd inlet) & max truplets
-	- [scope~] - several bug fixes (ike many default values; subpatch freeze bug; x/y mode: 		crash/freeze in 64bits and lines instead of points - aded y mode only, added drawstyle, 		added properties windows!
+	- [scope~] - several bug fixes (ike many default values; subpatch freeze bug; x/y mode: 		crash/freeze in 64bits and lines instead of points - added y mode only, added drawstyle, 		added properties windows!
 	- [count~] - fixed the min message, set message and 2nd inlet 
 	- [spike~] - fixed the time resolution (it was off by one sample)
 	- [linedrive] - default args, clip output values

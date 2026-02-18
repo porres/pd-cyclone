@@ -22,7 +22,6 @@
 #X text 231 383 - value(s) to clip;
 #X text 161 405 set <f f>;
 #X text 231 405 - sets minimum and maximum;
-#X text 231 483 - cliped value(s);
 #X text 231 427 - sets minimum number of range, f 33;
 #X text 231 448 - sets maximum number of range, f 32;
 #X obj 163 246 cyclone/clip 30 90;
@@ -47,11 +46,12 @@
 #X text 144 332 see also:;
 #X obj 213 333 clip;
 #X text 254 332 from vanilla;
-#X connect 5 0 26 2;
-#X connect 6 0 26 1;
+#X text 231 483 - clipped value(s);
+#X connect 5 0 25 2;
+#X connect 6 0 25 1;
 #X connect 14 0 15 0;
-#X connect 15 0 26 0;
-#X connect 26 0 16 0;
-#X connect 29 0 26 0;
-#X connect 32 0 34 0;
-#X connect 33 0 32 0;
+#X connect 15 0 25 0;
+#X connect 25 0 16 0;
+#X connect 28 0 25 0;
+#X connect 31 0 33 0;
+#X connect 32 0 31 0;
