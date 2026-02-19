@@ -857,10 +857,18 @@ CYCLONE_API void cyclone_setup(void)
     class_addmethod(plusequals_class, (t_method)plusequals_set, gensym("set"), A_FLOAT, 0);
     class_sethelpsymbol(plusequals_class, gensym("plusequals~"));
     
-    char plugin[MAXPDSTRING];
-    sprintf(plugin, "%s/browser-cyclone.tcl", cyclone_class->c_externdir->s_name);
-    pdgui_vmess("load_plugin_script", "s", plugin);
-
+    char plugin_dir[MAXPDSTRING];
+    sprintf(plugin_dir, "%s", cyclone_class->c_externdir->s_name);
+    char plugin_file[MAXPDSTRING];
+    sprintf(plugin_file, "%s/browser-cyclone.tcl", plugin_dir);
+    pdgui_vmess("load_plugin_script", "s", plugin_file);
+    
+    char buf[512];
+    snprintf(buf, sizeof(buf),
+        "set ::category_cyclone_menu::plugin_path {%s} ; category_cyclone_menu::add_menu_entry",
+        plugin_dir);
+    pdgui_vmess(buf, NULL);
+    
 #if CYCLONE_SINGLE_LIBRARY
     setup_single_lib();
 #endif // CYCLONE_SINGLE_LIBRARY
