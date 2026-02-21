@@ -1,4 +1,4 @@
-# Generate menu tree for native objects for the canvas right click popup
+# Gener# Generate menu tree for native objects for the canvas right click popup
 # Code by Porres and Seb Shader
 
 package require pd_menus
@@ -35,7 +35,9 @@ proc category_cyclone_menu::load_menutree {} {
             {data\ storage
                 {coll funbuff histo mtr table}}
             {data\ management
-                {anal bangbang bondo bucket buddy capture cycle decode fromsymbol funnel gate grab iter join listfunnel loadmess match next offer onebang pak past peak prepend pv speedlim split spray substitute switch thresh togedge tosymbol trough unjoin uzi zl}}
+                {list
+                    {iter join listfunnel unjoin zl zl.change zl.compare zl.delace zl.ecils zl.filter zl.group zl.indexmap zl.iter zl.join zl.lace zl.len zl.lookup zl.median zl.mth zl.nth zl.queue zl.reg zl.rev zl.rot zl.scramble zl.sect zl.slice zl.sort zl.stack zl.stream zl.sub zl.sum zl.swap zo.thin zl.union}}
+                {anal bangbang bondo bucket buddy capture cycle decode fromsymbol funnel gate grab loadmess match next offer onebang pak past peak prepend pv speedlim split spray substitute switch thresh togedge tosymbol trough  uzi}}
             {others
                 {active linedrive mousefilter mousestate spell sprintf universal}}
         }
@@ -188,7 +190,11 @@ proc category_cyclone_menu::read_browser_cfg {} {
     if {$::category_cyclone_menu::enabled eq ""} {
         set ::category_cyclone_menu::enabled 1 
     }
-    ::pdwindow::post "Enabled is: $::category_cyclone_menu::enabled\n"
+    if {$::category_cyclone_menu::enabled == 1} {
+        ::pdwindow::post "Cyclone browser plugin is Enabled\n"
+    } else {
+        ::pdwindow::post "Cyclone browser plugin is Disabled\n"
+    }
 }
 
 proc category_cyclone_menu::write_config {{filename browser.cfg}} {
@@ -213,13 +219,10 @@ proc category_cyclone_menu::menu_option_gui {} {
 
     checkbutton .cyclone_options.f.inner.enable \
         -text "Enable browser" \
-        -variable ::category_cyclone_menu::enabled
-    pack .cyclone_options.f.inner.enable -anchor center -pady 4
+        -variable ::category_cyclone_menu::enabled \
+        -command {category_cyclone_menu::write_config}
 
-    button .cyclone_options.f.inner.save_btn \
-        -text "Save setting" \
-        -command category_cyclone_menu::write_config
-    pack .cyclone_options.f.inner.save_btn -anchor center -pady 4
+    pack .cyclone_options.f.inner.enable -anchor center -pady 4
 }
 
 trace add execution ::pdtk_canvas::create_popup leave category_cyclone_menu::create
@@ -229,6 +232,15 @@ proc category_cyclone_menu::add_menu_entry {} {
     .preferences add command \
         -label [_ "Cyclone-Browser-plugin"] \
         -command {category_cyclone_menu::menu_option_gui}
-    category_cyclone_menu::read_browser_cfg
 }
+
+proc category_cyclone_menu::add_menu_entry {} {
+    .preferences add separator
+    .preferences add command \
+        -label [_ "Cyclone-Browser-plugin"] \
+        -command {category_cyclone_menu::menu_option_gui}
+}
+
+category_cyclone_menu::add_menu_entry
+category_cyclone_menu::read_browser_cfg
 
