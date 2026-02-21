@@ -3,10 +3,7 @@
 
 package require pd_menus
 
-namespace eval category_cyclone_menu {
-    variable plugin_path ""
-    variable enabled
-}
+namespace eval category_cyclone_menu {}
 
 proc menu_send_cyclone_obj {w x y item} {
     if {$item eq "cyclone"} {  
@@ -186,11 +183,16 @@ proc category_cyclone_menu::create {cmdstring code result op} {
     }
 }
 
+proc category_cyclone_menu::read_browser_cfg {} {
+    set ::category_cyclone_menu::enabled [::pd_guiprefs::read cyclone_browser_enabled]
+    if {$::category_cyclone_menu::enabled eq ""} {
+        set ::category_cyclone_menu::enabled 1 
+    }
+    ::pdwindow::post "Enabled is: $::category_cyclone_menu::enabled\n"
+}
+
 proc category_cyclone_menu::write_config {{filename browser.cfg}} {
-    set filename [file join $category_cyclone_menu::plugin_path $filename]
-    set fp [open $filename w]
-    puts $fp "enable $::category_cyclone_menu::enabled"
-    close $fp
+    ::pd_guiprefs::write cyclone_browser_enabled $::category_cyclone_menu::enabled
 }
 
 proc category_cyclone_menu::menu_option_gui {} {
@@ -222,23 +224,7 @@ proc category_cyclone_menu::menu_option_gui {} {
 
 trace add execution ::pdtk_canvas::create_popup leave category_cyclone_menu::create
 
-proc category_cyclone_menu::read_browser_cfg {} {
-    set cfgfile [file join $::category_cyclone_menu::plugin_path "browser.cfg"]
-    set fp [open $cfgfile r]
-    while {![eof $fp]} {
-        set line [gets $fp]
-        if {![regexp {^\w} $line]} { continue }
-        set parts [split $line]
-        if {[lindex $parts 0] eq "enable"} {
-            set ::category_cyclone_menu::enabled [lindex $parts 1]
-        }
-    }
-    close $fp
-#    ::pdwindow::post "Enabled is: $::category_cyclone_menu::enabled\n"
-}
-
 proc category_cyclone_menu::add_menu_entry {} {
-#    ::pdwindow::post "Cyclone plugin path is: $::category_cyclone_menu::plugin_path\n"
     .preferences add separator
     .preferences add command \
         -label [_ "Cyclone-Browser-plugin"] \

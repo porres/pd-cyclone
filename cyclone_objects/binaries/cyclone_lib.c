@@ -863,13 +863,7 @@ CYCLONE_API void cyclone_setup(void)
     char plugin_file[MAXPDSTRING];
     sprintf(plugin_file, "%s/browser-cyclone.tcl", plugin_dir);
     pdgui_vmess("load_plugin_script", "s", plugin_file);
-    
-    char buf[512];
-    snprintf(buf, sizeof(buf),
-        "set ::category_cyclone_menu::plugin_path {%s} ; category_cyclone_menu::add_menu_entry",
-        plugin_dir);
-    pdgui_vmess(buf, NULL);
-    
+        
 #if CYCLONE_SINGLE_LIBRARY
     setup_single_lib();
 #endif // CYCLONE_SINGLE_LIBRARY
