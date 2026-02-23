@@ -21,7 +21,8 @@
 #define SEQ_INISEQSIZE           256   /* LATER rethink */
 #define SEQ_INITEMPOMAPSIZE      128   /* LATER rethink */
 #define SEQ_EOM                  255   /* end of message marker, LATER rethink */
-#define SEQ_TICKSPERSEC          48
+#define SEQ_TICKSPERMSEC         0.048 // (48 / 1000.)
+#define SEQ_TICKPERIOD           500 / 24
 #define SEQ_MINTICKDELAY         1.  /* LATER rethink */
 #define SEQ_TICKEPSILON ((double).0001)
 #define SEQ_STARTEPSILON         .0001  /* if inside: play unmodified */
@@ -313,6 +314,7 @@ static void seq_startslavery(t_seq *x){
         x->x_nextscoretime = 0.;
         x->x_prevtime = 0.;
         x->x_slaveprevtime = 0.;
+        x->x_timescale = x->x_newtimescale = 1;
     }
     else
         x->x_mode = SEQ_IDLEMODE;
@@ -356,7 +358,7 @@ static void seq_setmode(t_seq *x, int newmode){
     }
 }
 
-static void seq_settimescale(t_seq *x, float newtimescale){
+static void seq_set_newtimescale(t_seq *x, float newtimescale){
     if(newtimescale < 1e-20)
         x->x_newtimescale = 1e-20;
     else if(newtimescale > 1e20)
@@ -414,37 +416,33 @@ static void seq_slaveclocktick(t_seq *x){
 // LATER dealing with self-invokation (outlet -> 'tick')
 static void seq_tick(t_seq *x){
     if(x->x_mode == SEQ_SLAVEMODE){
-        if(x->x_slaveprevtime >= 0){
+        if(x->x_slaveprevtime == 0){ // first tick
+            x->x_prevtime = x->x_slaveprevtime = clock_getlogicaltime();
+            x->x_clockdelay = x->x_sequence[x->x_playhead].e_delta;
+            clock_delay(x->x_slaveclock, SEQ_TICKPERIOD);
+            clock_delay(x->x_clock, x->x_clockdelay);
+        }
+        else{
             double elapsed = clock_gettimesince(x->x_slaveprevtime);
             if(elapsed < SEQ_MINTICKDELAY)
                 return;
-            clock_delay(x->x_slaveclock, elapsed);
-            seq_settimescale(x, (float)(elapsed * (SEQ_TICKSPERSEC / 1000.)));
-            if(SEQ_ISRUNNING(x)){
-                x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
-                x->x_clockdelay *= x->x_newtimescale / x->x_timescale;
-            }
-            else
-                x->x_clockdelay = x->x_sequence[x->x_playhead].e_delta * x->x_newtimescale;
+            clock_delay(x->x_slaveclock, elapsed); // schedule to unset clock with elapsed time
+            // set x->x_newtimescale from elapsed time (current measured BPM)
+            seq_set_newtimescale(x, (float)(elapsed * SEQ_TICKSPERMSEC));
+            x->x_clockdelay *= x->x_newtimescale / x->x_timescale;
+            x->x_clockdelay -= clock_gettimesince(x->x_prevtime);
             if(x->x_clockdelay < 0.)
                 x->x_clockdelay = 0.;
             clock_delay(x->x_clock, x->x_clockdelay);
-            x->x_prevtime = clock_getlogicaltime();
-            x->x_slaveprevtime = x->x_prevtime;
+            x->x_prevtime = x->x_slaveprevtime = clock_getlogicaltime();
             x->x_timescale = x->x_newtimescale;
-        }
-        else{
-            x->x_clockdelay = 0.;  // redundant
-            x->x_prevtime = 0.;    // redundant
-            x->x_slaveprevtime = clock_getlogicaltime();
-            x->x_timescale = 1.;   // redundant
         }
     }
 }
 
 // CHECKED bang does the same as 'start 1024', not 'start <current-timescale>' (also if already in SEQ_PLAYMODE)
 static void seq_bang(t_seq *x){
-    seq_settimescale(x, 1.);
+    seq_set_newtimescale(x, 1.);
     seq_setmode(x, SEQ_PLAYMODE);  // CHECKED 'bang' stops recording
 }
 
@@ -501,7 +499,7 @@ static void seq_start(t_seq *x, t_floatarg f){
     if(f < -SEQ_STARTEPSILON) /* FIXME */
         seq_setmode(x, SEQ_SLAVEMODE); // ticks
     else{
-        seq_settimescale(x, (f > SEQ_STARTEPSILON ? 1024. / f : 1.));
+        seq_set_newtimescale(x, (f > SEQ_STARTEPSILON ? 1024. / f : 1.));
         seq_setmode(x, SEQ_PLAYMODE);  // CHECKED 'start' stops recording
     }
 }
@@ -590,7 +588,7 @@ static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shi
          if(ms <= SEQ_TICKEPSILON)
              ms = 0.;
          if(x->x_mode != SEQ_PLAYMODE){
-             seq_settimescale(x, x->x_timescale);
+             seq_set_newtimescale(x, x->x_timescale);
              seq_setmode(x, SEQ_PLAYMODE);
              // clock_delay() has been called in setmode, LATER avoid
              clock_unset(x->x_clock);
@@ -640,7 +638,7 @@ static void seq_click(t_seq *x, t_floatarg xpos, t_floatarg ypos, t_floatarg shi
  
  static void seq_tempo(t_seq *x, t_floatarg f){
      if(f > SEQ_TEMPOEPSILON){
-         seq_settimescale(x, 1. / f);
+         seq_set_newtimescale(x, 1. / f);
          if(x->x_mode == SEQ_PLAYMODE)
              seq_startplayback(x, 0);
      }
@@ -1036,10 +1034,7 @@ CYCLONE_OBJ_API void seq_setup(void){
         (t_method)seq_free, sizeof(t_seq), 0, A_DEFSYM, 0);
     class_addbang(seq_class, seq_bang);
     class_addfloat(seq_class, seq_float);
-// CHECKED symbol rejected
-    class_addsymbol(seq_class, seq_symbol);
-// CHECKED 1st atom of a list accepted if a float, ignored if a symbol
-    class_addlist(seq_class, seq_list);
+    class_addsymbol(seq_class, seq_symbol); // CHECKED symbol rejected
     class_addmethod(seq_class, (t_method)seq_clear, gensym("clear"), 0);
     class_addmethod(seq_class, (t_method)seq_record, gensym("record"), 0);
     class_addmethod(seq_class, (t_method)seq_append, gensym("append"), 0);
