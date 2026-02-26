@@ -1442,6 +1442,10 @@ static void zl_symbol(t_zl *x, t_symbol *s){
 
 static void zl_list(t_zl *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
+    if(!ac){
+        zl_bang(x);
+        return;
+    }
     if(zl_modeflags[x->x_mode])
         zldata_addlist(&x->x_inbuf1, ac, av);
     else

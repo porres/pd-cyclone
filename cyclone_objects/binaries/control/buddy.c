@@ -131,6 +131,11 @@ static void buddy_proxy_domessage(t_buddy_proxy *x, int ac, t_atom *av)
 static void buddy_proxy_list(t_buddy_proxy *x,
 			     t_symbol *s, int ac, t_atom *av)
 {
+    if(!ac)
+    {
+        buddy_proxy_bang(x);
+        return;
+    }
     x->p_selector = &s_list;  /* LATER rethink */
     buddy_proxy_domessage(x, ac, av);
 }
@@ -164,6 +169,11 @@ static void buddy_pointer(t_buddy *x, t_gpointer *gp)
 
 static void buddy_list(t_buddy *x, t_symbol *s, int ac, t_atom *av)
 {
+    if(!ac)
+    {
+        buddy_bang(x);
+        return;
+    }
     buddy_proxy_list((t_buddy_proxy *)x->x_proxies[0], s, ac, av);
 }
 

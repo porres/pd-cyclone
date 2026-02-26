@@ -478,6 +478,10 @@ static void seq_symbol(t_seq *x, t_symbol *s){
 
 static void seq_list(t_seq *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
+    if(!ac){
+        seq_bang(x);
+        return;
+    }
     if(ac && av->a_type == A_FLOAT)
         seq_float(x, av->a_w.w_float);
     /* CHECKED anything else/more silently ignored */

@@ -101,6 +101,10 @@ static void matrix_float(t_matrix *x, t_float f){
 }
 
 static void matrix_list(t_matrix *x, t_symbol *s, int argc, t_atom *argv){
+    if(argc == 1 && argv->a_type == A_FLOAT){
+        pd_error(x, "matrix~: no method for float");
+        return;
+    }
     if(argc < 3) // ignore if less than 3 args
         return;
     s = NULL;

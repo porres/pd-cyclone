@@ -79,14 +79,14 @@ typedef struct _funnel_proxy
 static t_class *funnel_class;
 static t_class *funnel_proxy_class;
 
-static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * argv){
+static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int ac, t_atom * av){
     //new method, sets the message but doesn't output - Derek Kwan 2016
     int cursize = x->p_allocsz;
     int heaped = x->p_heaped;
 
 
-    //comparing to argc sizes-1 because need one more slot for inlet number
-    if(heaped && argc <= (FUNNEL_INISIZE - 1)){
+    //comparing to ac sizes-1 because need one more slot for inlet number
+    if(heaped && ac <= (FUNNEL_INISIZE - 1)){
         //if p_msg is pointing to a heap and incoming list can fit into FUNNEL_INISIZE-1
         //deallocate p_msg and point it to stack, update status
         freebytes((x->p_msg), (cursize) * sizeof(t_atom));
@@ -94,11 +94,11 @@ static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * ar
         x->p_heaped = 0;
         x->p_allocsz = FUNNEL_INISIZE;
         }
-    else if(heaped && argc > (FUNNEL_INISIZE-1) && argc > (cursize-1)){
+    else if(heaped && ac > (FUNNEL_INISIZE-1) && ac > (cursize-1)){
         //if already heaped, incoming list can't fit into FUNNEL_INISIZE-1 and can't fit into allocated t_atom
-        //reallocate to accommodate larger list, update status
+        //reallocate to accomodate larger list, update status
         
-        int toalloc = argc + 1; //size to allocate
+        int toalloc = ac + 1; //size to allocate
         //bounds checking for maxsize
         if(toalloc > FUNNEL_MAXSIZE){
             toalloc = FUNNEL_MAXSIZE;
@@ -106,11 +106,11 @@ static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * ar
         x->p_msg = (t_atom *)resizebytes(x->p_msg, cursize * sizeof(t_atom), toalloc * sizeof(t_atom));
         x->p_allocsz = toalloc;
     }
-    else if(!heaped && argc > (FUNNEL_INISIZE-1)){
+    else if(!heaped && ac > (FUNNEL_INISIZE-1)){
         //if not heaped and incoming list can't fit into FUNNEL_INISIZE-1
         //allocate and update status
 
-        int toalloc = argc + 1; //size to allocate
+        int toalloc = ac + 1; //size to allocate
         //bounds checking for maxsize
         if(toalloc > FUNNEL_MAXSIZE){
             toalloc = FUNNEL_MAXSIZE;
@@ -136,15 +136,15 @@ static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * ar
 
     //now copy the rest of the messages up to FUNNEL_MAXSIZE
     int mpos = 0;//position within incoming message
-    while(lpos < FUNNEL_MAXSIZE && mpos < argc){
-        if((argv+mpos)->a_type == A_FLOAT){
+    while(lpos < FUNNEL_MAXSIZE && mpos < ac){
+        if((av+mpos)->a_type == A_FLOAT){
             //if current elt is a float
-            t_float curfloat= atom_getfloatarg(mpos,argc, argv);;
+            t_float curfloat= atom_getfloatarg(mpos,ac, av);;
             SETFLOAT(&x->p_msg[lpos],curfloat);
         }
         else{
             //else count it as a symbol
-            t_symbol * cursym = atom_getsymbolarg(mpos, argc, argv);
+            t_symbol * cursym = atom_getsymbolarg(mpos, ac, av);
             SETSYMBOL(&x->p_msg[lpos],cursym);
         };
         //increment
@@ -156,19 +156,31 @@ static void funnel_msg_set(t_funnel_proxy *x, t_symbol *s, int argc, t_atom * ar
 
 
 }
-static void funnel_proxy_anything(t_funnel_proxy *x,
-			      t_symbol *s, int argc, t_atom *argv){
 
-
-    funnel_msg_set(x, s, argc, argv);
+static void funnel_proxy_bang(t_funnel_proxy *x)
+{
     outlet_list(x->p_out, &s_list, x->p_outsz, x->p_msg);
-
+    
 }
 
-static void funnel_proxy_set(t_funnel_proxy *x, t_symbol* s, int argc, t_atom* argv)
+static void funnel_proxy_list(t_funnel_proxy *x, t_symbol *s, int ac, t_atom *av){
+    if(!ac){
+        funnel_proxy_bang(x);
+        return;
+    }
+    funnel_msg_set(x, s, ac, av);
+    outlet_list(x->p_out, &s_list, x->p_outsz, x->p_msg);
+}
+
+static void funnel_proxy_anything(t_funnel_proxy *x, t_symbol *s, int ac, t_atom *av){
+    funnel_msg_set(x, s, ac, av);
+    outlet_list(x->p_out, &s_list, x->p_outsz, x->p_msg);
+}
+
+static void funnel_proxy_set(t_funnel_proxy *x, t_symbol* s, int ac, t_atom* av)
 {
 
-     funnel_msg_set(x,s,argc,argv);
+     funnel_msg_set(x,s,ac,av);
 }
 
 static void funnel_proxy_float(t_funnel_proxy *x, t_float f)
@@ -196,10 +208,10 @@ static void funnel_symbol(t_funnel *x, t_symbol *s)
     funnel_proxy_symbol((t_funnel_proxy *)x->x_proxies[0], s);
 }
 
-static void funnel_set(t_funnel *x, t_symbol* s, int argc, t_atom* argv)
+static void funnel_set(t_funnel *x, t_symbol* s, int ac, t_atom* av)
 {
 
-    funnel_proxy_set((t_funnel_proxy *)x->x_proxies[0], s, argc, argv);
+    funnel_proxy_set((t_funnel_proxy *)x->x_proxies[0], s, ac, av);
 }
 
 static void funnel_anything(t_funnel *x, t_symbol *s, int ac, t_atom *av)
@@ -207,17 +219,18 @@ static void funnel_anything(t_funnel *x, t_symbol *s, int ac, t_atom *av)
     funnel_proxy_anything((t_funnel_proxy *)x->x_proxies[0], s, ac, av);
 }
 
-
-static void funnel_proxy_bang(t_funnel_proxy *x)
-{
- 
-    outlet_list(x->p_out, &s_list, x->p_outsz, x->p_msg);
-    
-}
-
 static void funnel_bang(t_funnel *x)
 {
     funnel_proxy_bang((t_funnel_proxy *)x->x_proxies[0]);
+}
+
+static void funnel_list(t_funnel *x, t_symbol *s, int ac, t_atom *av)
+{
+    if(!ac){
+        funnel_bang(x);
+        return;
+    }
+    funnel_proxy_anything((t_funnel_proxy *)x->x_proxies[0], s, ac, av);
 }
 
 
@@ -311,7 +324,7 @@ CYCLONE_OBJ_API void funnel_setup(void)
     class_addbang(funnel_class, funnel_bang);
     class_addfloat(funnel_class, funnel_float);
     class_addsymbol(funnel_class, funnel_symbol);
-    class_addlist(funnel_class, funnel_anything);
+    class_addlist(funnel_class, funnel_list);
     class_addanything(funnel_class, funnel_anything);
     class_addmethod(funnel_class, (t_method)funnel_set, gensym("set"), A_GIMME, 0);
     class_addmethod(funnel_class, (t_method)funnel_offset, gensym("offset"), A_FLOAT, 0);
@@ -324,7 +337,7 @@ CYCLONE_OBJ_API void funnel_setup(void)
     
 // new proxy methods // add symbol, anything, offset, set
     class_addsymbol(funnel_proxy_class, funnel_proxy_symbol);
-    class_addlist(funnel_proxy_class, funnel_proxy_anything);
+    class_addlist(funnel_proxy_class, funnel_proxy_list);
     class_addanything(funnel_proxy_class, funnel_proxy_anything);
     class_addmethod(funnel_proxy_class, (t_method)funnel_proxy_set, gensym("set"), A_GIMME, 0);
     class_addmethod(funnel_proxy_class, (t_method)funnel_proxy_offset, gensym("offset"), A_FLOAT, 0);

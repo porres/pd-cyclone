@@ -91,8 +91,55 @@ static void prob_clear(t_prob *x){
     x->x_default = 0;  // CHECKED: default number is not kept
 }
 
+static void prob_bang(t_prob *x){
+    if(x->x_state){  // no output after clear
+        int rnd = rand_int(&x->x_seed, x->x_state->tr_count);
+        t_probtrans *trans = x->x_state->tr_nexttrans;
+        if(trans){
+            for(trans = x->x_state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
+                if((rnd -= trans->tr_count) < 0)
+                    break;
+            if(trans){
+                t_probtrans *nextstate = trans->tr_suffix;
+                if(nextstate){
+                    outlet_float(((t_object *)x)->ob_outlet, nextstate->tr_value);
+                    x->x_state = nextstate;
+                }
+                else
+                    pd_error(x, "[prob] bug; prob_bang: void suffix");
+            }
+            else
+                pd_error(x, "[prob] bug; prob_bang: search overflow");
+        }
+        else{
+            outlet_bang(x->x_bangout);
+            if(x->x_default)  // CHECKED: stays at dead-end if no default
+                x->x_state = x->x_default;
+        }
+    }
+}
+
+static void prob_float(t_prob *x, t_float f){
+    int value = (int)f;
+    if(f == value){ // CHECKED
+        t_probtrans *state = prob_findstate(x, value, 1);
+        if(state)  // CHECKED
+            x->x_state = state;
+    }
+    else
+        pd_error(x, "[prob]: doesn't understand \"noninteger float\"");
+}
+
 static void prob_list(t_prob *x, t_symbol *s, int ac, t_atom *av){
     s = NULL;
+    if(!ac){
+        prob_bang(x);
+        return;
+    }
+    if(ac == 1 && av->a_type == A_FLOAT){
+        prob_float(x, av->a_w.w_float);
+        return;
+    }
     int prefval, suffval, count;
     if (ac == 3 && av->a_type == A_FLOAT
     && av[1].a_type == A_FLOAT && av[2].a_type == A_FLOAT
@@ -163,45 +210,6 @@ static void prob_dump(t_prob *x){ // CHECKED
             post(" from %3d to %3d: %d", state->tr_value, trans->tr_value, trans->tr_count);
         post("total weights for state %d: %d", state->tr_value, state->tr_count);
     }
-}
-
-static void prob_bang(t_prob *x){
-    if(x->x_state){  // no output after clear
-        int rnd = rand_int(&x->x_seed, x->x_state->tr_count);
-        t_probtrans *trans = x->x_state->tr_nexttrans;
-        if(trans){
-            for(trans = x->x_state->tr_nexttrans; trans; trans = trans->tr_nexttrans)
-                if((rnd -= trans->tr_count) < 0)
-                    break;
-            if(trans){
-                t_probtrans *nextstate = trans->tr_suffix;
-                if(nextstate){
-                    outlet_float(((t_object *)x)->ob_outlet, nextstate->tr_value);
-                    x->x_state = nextstate;
-                }
-                else
-                    pd_error(x, "[prob] bug; prob_bang: void suffix");
-            }
-            else
-                pd_error(x, "[prob] bug; prob_bang: search overflow");
-        }
-        else{
-            outlet_bang(x->x_bangout);
-            if(x->x_default)  // CHECKED: stays at dead-end if no default
-                x->x_state = x->x_default;
-        }
-    }
-}
-
-static void prob_float(t_prob *x, t_float f){
-    int value = (int)f;
-    if(f == value){ // CHECKED
-        t_probtrans *state = prob_findstate(x, value, 1);
-        if(state)  // CHECKED
-            x->x_state = state;
-    }
-    else
-        pd_error(x, "[prob]: doesn't understand \"noninteger float\"");
 }
 
 static void prob_free(t_prob *x){

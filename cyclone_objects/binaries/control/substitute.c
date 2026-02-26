@@ -27,7 +27,7 @@ typedef struct _substitute
     t_pd      *x_proxy;
     t_atom     x_match;
     t_atom     x_repl;
-    int        x_size;    /* as allocated */
+    int        x_size;    // as allocated
     t_atom    *x_message;
     t_atom     x_messini[SUBSTITUTE_INISIZE];
     int        x_entered;
@@ -276,7 +276,10 @@ static void substitute_symbol(t_substitute *x, t_symbol *s)
 
 static void substitute_list(t_substitute *x, t_symbol *s, int ac, t_atom *av)
 {
-    substitute_anything(x, 0, ac, av);
+    if(!ac)
+        substitute_bang(x);
+    else
+        substitute_anything(x, 0, ac, av);
 }
 
 static int substitute_atomvalidate(t_atom *ap)

@@ -174,6 +174,10 @@ static void tosymbol_separator(t_tosymbol *x, t_symbol *s, int argc, t_atom * ar
 
 static void tosymbol_list(t_tosymbol *x, t_symbol *s, int ac, t_atom *av)
 {
+    if(!ac){
+        tosymbol_bang(x);
+        return;
+    }
     tosymbol_anything(x, 0, ac, av);
 }
 

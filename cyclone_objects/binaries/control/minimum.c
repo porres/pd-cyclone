@@ -48,6 +48,10 @@ static void minimum_float(t_minimum *x, t_float f)
 }
 
 static void minimum_list(t_minimum *x, t_symbol *s, int argc, t_atom *argv){
+    if(!argc){
+        minimum_bang(x);
+        return;
+    }
     if(argc && argc <= PDCYMINN){
         int numfloats = 0; //counting floats, mainly we're interested if there's more than one float - DK
         t_float second = 0;//second smallest

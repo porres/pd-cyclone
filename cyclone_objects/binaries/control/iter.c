@@ -75,6 +75,10 @@ static void iter_anything(t_iter *x, t_symbol *s, int ac, t_atom *av){
 
 static void iter_list(t_iter *x, t_symbol *s, int ac, t_atom *av)
 {
+    if(!ac){
+        iter_bang(x);
+        return;
+    }
     iter_anything(x, 0, ac, av);
 }
 

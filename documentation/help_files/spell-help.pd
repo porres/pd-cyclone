@@ -20,10 +20,10 @@
 #X text 120 453 2) float;
 #X text 178 453 - fill characters in ASCII (default is 32: space character);
 #X text 178 367 - any message to convert to ascii;
-#N canvas 891 50 408 636 example 0;
+#N canvas 779 56 408 636 example 0;
 #X obj 114 201 print spell;
-#X msg 114 113 1 2;
-#X msg 159 114 a b;
+#X msg 114 103 1 2;
+#X msg 159 104 a b;
 #X obj 114 161 cyclone/spell 4;
 #X obj 125 379 print spell;
 #X msg 125 291 1 2;
@@ -35,7 +35,10 @@
 #X msg 170 477 1.2;
 #X obj 170 590 print spell;
 #X obj 170 550 cyclone/spell;
-#X text 28 418 Since you can't input a float value \, you can use [tosymbol] to convert a float to a symbol and then send it to the [spell] object.;
+#X msg 176 131 list a b;
+#X text 236 131 not supported;
+#X msg 206 484 list a b;
+#X text 28 418 Since you can't input a float value \, you can use [tosymbol] to convert a float to a symbol and then send it to the [spell] object. Same with lists containing symbols.;
 #X connect 1 0 3 0;
 #X connect 2 0 3 0;
 #X connect 3 0 0 0;
@@ -45,6 +48,8 @@
 #X connect 10 0 13 0;
 #X connect 11 0 10 0;
 #X connect 13 0 12 0;
+#X connect 14 0 3 0;
+#X connect 16 0 10 0;
 #X restore 467 265 pd example;
 #X floatatom 136 214 5 0 0 0 - - - 0;
 #X text 178 402 - the ascii representation of each input digit/character;
@@ -53,10 +58,10 @@
 #X text 22 63 Convert input to ASCII values;
 #X text 78 317 see also:;
 #X obj 144 318 list fromsymbol;
-#X text 65 94 [spell] takes any message and converts each containing digit and character to UTF-8 (Unicode) values ([spell] doesn't understand non-integer float messages). The 1st argument sets the minimum output size. If the input doesn't "spell" to the minimum \, the output is filled with characters (32 space character by default and specified by 2nd argumment)., f 75;
 #X obj 272 318 fudiformat;
 #X text 243 317 and;
 #X text 348 320 as vanilla alternatives;
+#X text 65 94 [spell] converts each containing digit and character to UTF-8 (Unicode) values. Note that [spell] doesn't understand non-integer float messages and lists of symbols. The 1st argument sets the minimum output size. If the input doesn't "spell" to the minimum \, the output is filled with characters (32 space character by default and specified by 2nd argumment)., f 71;
 #X connect 5 0 14 0;
 #X connect 6 0 14 0;
 #X connect 7 0 14 0;

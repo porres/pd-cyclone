@@ -48,6 +48,10 @@ static void maximum_float(t_maximum *x, t_float f)
 }
 
 static void maximum_list(t_maximum *x, t_symbol *s, int argc, t_atom *argv){
+    if(!argc){
+        maximum_bang(x);
+        return;
+    }
     if(argc && argc <= PDCYMAXN){
         int numfloats = 0; //counting floats, mainly we're interested if there's more than one float - DK
         t_float second = 0;//second largest

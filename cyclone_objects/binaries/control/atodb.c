@@ -45,16 +45,6 @@ static t_float convert(t_float f)
   return 20*log10(f);
 }
 
-static void atodb_list(t_atodb *x, t_symbol *s, int argc, t_atom *argv)
-{
-  int old_bytes = x->bytes, i = 0;
-  x->bytes = argc*sizeof(t_atom);
-  x->output_list = (t_atom *)t_resizebytes(x->output_list,old_bytes,x->bytes);
-  for(i=0;i<argc;i++)
-    SETFLOAT(x->output_list+i,convert(atom_getfloatarg(i,argc,argv)));
-  outlet_list(x->float_outlet,0,argc,x->output_list);
-}
-
 static void atodb_set(t_atodb *x, t_float f)
 {
   x->f = f;
@@ -63,6 +53,21 @@ static void atodb_set(t_atodb *x, t_float f)
 static void atodb_bang(t_atodb *x)
 {
   outlet_float(x->float_outlet,convert(x->f));
+}
+
+static void atodb_list(t_atodb *x, t_symbol *s, int argc, t_atom *argv)
+{
+    if(!argc)
+    {
+        atodb_bang(x);
+        return;
+    }
+    int old_bytes = x->bytes, i = 0;
+    x->bytes = argc*sizeof(t_atom);
+    x->output_list = (t_atom *)t_resizebytes(x->output_list,old_bytes,x->bytes);
+    for(i = 0; i < argc; i++)
+        SETFLOAT(x->output_list+i,convert(atom_getfloatarg(i,argc,argv)));
+    outlet_list(x->float_outlet,0,argc,x->output_list);
 }
 
 

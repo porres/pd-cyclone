@@ -133,9 +133,17 @@ static void fromsymbol_symbol(t_fromsymbol *x, t_symbol *s){
 
 static void fromsymbol_list(t_fromsymbol *x, t_symbol *s, int argc, t_atom *argv){
     s = NULL;
+    if(!argc){
+        fromsymbol_bang(x);
+        return;
+    }
     if(argv->a_type == A_FLOAT){
         t_float f = atom_getfloatarg(0, argc, argv);
         outlet_float(((t_object *)x)->ob_outlet, f);
+    }
+    else if(argv->a_type == A_SYMBOL){
+        t_symbol *sym = atom_getsymbolarg(0, argc, argv);
+        outlet_symbol(((t_object *)x)->ob_outlet, sym);
     }
 }
 

@@ -62,7 +62,10 @@ static void thresh_tick(t_thresh *x)
 
 static void thresh_list(t_thresh *x, t_symbol *s, int ac, t_atom *av)
 {
-    
+    if(!ac){
+        pd_error(x, "[thresh]: no method for 'bang'");
+        return;
+    }
     int ntotal = x->x_natoms + ac;
     t_atom *buf;
     clock_unset(x->x_clock);

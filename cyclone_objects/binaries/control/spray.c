@@ -31,6 +31,10 @@ static void spray_float(t_spray *x, t_float f)
    or causing a list to be ignored as in max (CHECKED) */
 static void spray_list(t_spray *x, t_symbol *s, int ac, t_atom *av)
 {
+    if(ac == 1 && av->a_type == A_FLOAT){
+        pd_error(x, "spray: no method for float");
+        return;
+    }
     int ndx;
     if(ac >= 2 && av->a_type == A_FLOAT
             /* CHECKED: lists with negative effective ndx are ignored */
@@ -63,8 +67,6 @@ static void spray_list(t_spray *x, t_symbol *s, int ac, t_atom *av)
         else{
             //new listmode, send entire list out outlet specified by first elt
                outlet_list(x->x_outs[ndx],  &s_list, ac-1, av+1);
-
-
         };
     };
 }
@@ -104,10 +106,8 @@ static void *spray_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
 
 CYCLONE_OBJ_API void spray_setup(void)
 {
-    spray_class = class_new(gensym("spray"),
-			    (t_newmethod)spray_new,
-			    (t_method)spray_free,
-			    sizeof(t_spray), 0, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+    spray_class = class_new(gensym("spray"), (t_newmethod)spray_new,
+        (t_method)spray_free, sizeof(t_spray), 0, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
     /* CHECKED: bang, symbol, anything -- ``doesn't understand'' */
     class_addfloat(spray_class, spray_float);
     class_addlist(spray_class, spray_list);
