@@ -56,12 +56,14 @@ static void switch_proxy_pointer(t_switch_proxy *x, t_gpointer *gp)
 	outlet_pointer(((t_object *)master)->ob_outlet, gp);
 }
 
-static void switch_proxy_list(t_switch_proxy *x,
-			      t_symbol *s, int ac, t_atom *av)
-{
+static void switch_proxy_list(t_switch_proxy *x, t_symbol *s, int ac, t_atom *av){
+    if(!ac){
+        switch_proxy_bang(x);
+        return;
+    }
     t_switch *master = x->p_master;
-    if (master->x_open == x->p_id)
-	outlet_list(((t_object *)master)->ob_outlet, s, ac, av);
+    if(master->x_open == x->p_id)
+        outlet_list(((t_object *)master)->ob_outlet, s, ac, av);
 }
 
 static void switch_proxy_anything(t_switch_proxy *x,
@@ -131,18 +133,13 @@ static void *switch_new(t_floatarg f1, t_floatarg f2)
     return (x);
 }
 
-CYCLONE_OBJ_API void switch_setup(void)
-{
-    switch_class = class_new(gensym("switch"),
-			     (t_newmethod)switch_new,
-			     (t_method)switch_free,
-			     sizeof(t_switch), 0,
-			     A_DEFFLOAT, A_DEFFLOAT, 0);
+CYCLONE_OBJ_API void switch_setup(void){
+    switch_class = class_new(gensym("switch"), (t_newmethod)switch_new,
+        (t_method)switch_free, sizeof(t_switch), 0, A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addfloat(switch_class, switch_float);
     class_addbang(switch_class, switch_bang);
     switch_proxy_class = class_new(gensym("_switch_proxy"), 0, 0,
-				   sizeof(t_switch_proxy),
-				   CLASS_PD | CLASS_NOINLET, 0);
+        sizeof(t_switch_proxy), CLASS_PD | CLASS_NOINLET, 0);
     class_addfloat(switch_proxy_class, switch_proxy_float);
     class_addbang(switch_proxy_class, switch_proxy_bang);
     class_addsymbol(switch_proxy_class, switch_proxy_symbol);

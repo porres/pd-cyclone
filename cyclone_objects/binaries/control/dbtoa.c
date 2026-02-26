@@ -40,16 +40,6 @@ static t_float convert(t_float f)
   return pow(10, f / 20);
 }
 
-static void dbtoa_list(t_dbtoa *x, t_symbol *s, int argc, t_atom *argv)
-{
-  int old_bytes = x->bytes, i = 0;
-  x->bytes = argc*sizeof(t_atom);
-  x->output_list = (t_atom *)t_resizebytes(x->output_list,old_bytes,x->bytes);
-  for(i=0;i<argc;i++)
-    SETFLOAT(x->output_list+i,convert(atom_getfloatarg(i,argc,argv)));
-  outlet_list(x->float_outlet,0,argc,x->output_list);
-}
-
 static void dbtoa_set(t_dbtoa *x, t_float f)
 {
   x->f = f;
@@ -60,6 +50,19 @@ static void dbtoa_bang(t_dbtoa *x)
   outlet_float(x->float_outlet,convert(x->f));
 }
 
+static void dbtoa_list(t_dbtoa *x, t_symbol *s, int argc, t_atom *argv)
+{
+    if(!argc){
+        dbtoa_bang(x);
+        return;
+    }
+  int old_bytes = x->bytes, i = 0;
+  x->bytes = argc*sizeof(t_atom);
+  x->output_list = (t_atom *)t_resizebytes(x->output_list,old_bytes,x->bytes);
+  for(i=0;i<argc;i++)
+    SETFLOAT(x->output_list+i,convert(atom_getfloatarg(i,argc,argv)));
+  outlet_list(x->float_outlet,0,argc,x->output_list);
+}
 
 static void *dbtoa_new(void)
 {

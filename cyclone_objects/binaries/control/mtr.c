@@ -219,7 +219,19 @@ static void mtrack_symbol(t_mtrack *tp, t_symbol *s){
     }
 }
 
+static void mtrack_bang(t_mtrack *tp){
+    if(tp->tr_mode == MTR_RECMODE){
+        t_atom at[1];
+        SETSYMBOL(&at[0], gensym("bang"));
+        mtrack_doadd(tp, 1, at);
+    }
+}
+
 static void mtrack_list(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
+    if(!ac){
+        mtrack_bang(tp);
+        return;
+    }
     if(tp->tr_mode == MTR_RECMODE){
         if(av->a_type == A_FLOAT)
             mtrack_doadd(tp, ac, av);
@@ -235,14 +247,6 @@ static void mtrack_list(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
             mtrack_doadd(tp, ac+1, at);
             free(at);
         }
-    }
-}
-
-static void mtrack_bang(t_mtrack *tp){
-    if(tp->tr_mode == MTR_RECMODE){
-        t_atom at[1];
-        SETSYMBOL(&at[0], gensym("bang"));
-        mtrack_doadd(tp, 1, at);
     }
 }
 

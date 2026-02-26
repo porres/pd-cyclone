@@ -244,6 +244,10 @@ static void sprintf_doanything(t_sprintf *x, t_symbol *s, int ac, t_atom *av, in
 }
 
 static void sprintf_proxy_list(t_sprintf_proxy *x, t_symbol *s, int ac, t_atom *av){
+    if(!ac){
+        sprintf_proxy_bang(x);
+        return;
+    }
     sprintf_dolist(x->p_master, s, ac, av, x->p_id);
 }
 
@@ -275,6 +279,10 @@ static void sprintf_symbol(t_sprintf *x, t_symbol *s){
 }
 
 static void sprintf_list(t_sprintf *x, t_symbol *s, int ac, t_atom *av){
+    if(!ac){
+        sprintf_bang(x);
+        return;
+    }
     if(x->x_nslots)
         sprintf_dolist(x, s, ac, av, 0);
     else

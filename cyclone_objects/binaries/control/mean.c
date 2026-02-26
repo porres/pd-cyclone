@@ -41,6 +41,10 @@ static void mean_float(t_mean *x, t_float f)
 
 static void mean_list(t_mean *x, t_symbol *s, int ac, t_atom *av)
 {
+    if(!ac){
+        mean_bang(x);
+        return;
+    }
     mean_clear(x);
     while (ac--)
     {

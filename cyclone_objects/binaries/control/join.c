@@ -168,13 +168,14 @@ static void join_inlet_bang(t_join_inlet *x)
 	//};
 }
 
-static void join_inlet_list(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)
-{
-		join_inlet_atoms(x, argc, argv);
-		if(x->x_trig == 1){
-			join_output(x->x_owner);
-		};
-
+static void join_inlet_list(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv){
+    if(!argc){
+        join_inlet_bang(x);
+        return;
+    }
+    join_inlet_atoms(x, argc, argv);
+    if(x->x_trig == 1)
+        join_output(x->x_owner);
 }
 
 static void join_inlet_anything(t_join_inlet *x, t_symbol* s, int argc, t_atom* argv)

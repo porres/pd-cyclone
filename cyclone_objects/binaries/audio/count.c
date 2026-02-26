@@ -61,6 +61,10 @@ static void count_float(t_count *x, t_floatarg f)
 
 static void count_list(t_count *x, t_symbol *s, int ac, t_atom *av)
 {
+    if(!ac){
+        count_bang(x);
+        return;
+    }
     int i;
     if (ac > 4) ac = 4;
     for (i = 0; i < ac; i++)

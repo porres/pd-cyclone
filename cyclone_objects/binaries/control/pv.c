@@ -348,11 +348,15 @@ static void pvfamily_domessage(t_pvfamily *pf, int ac, t_atom *av)
 
 static void pv_list(t_pv *x, t_symbol *s, int ac, t_atom *av)
 {
+    if(!ac){
+        pv_bang(x);
+        return;
+    }
     t_pvfamily *pf = pv_checkfamily(x);
     if (pf)
     {
-	pf->f_selector = &s_list;  /* LATER rethink */
-	pvfamily_domessage(pf, ac, av);
+        pf->f_selector = &s_list;  /* LATER rethink */
+        pvfamily_domessage(pf, ac, av);
     }
 }
 

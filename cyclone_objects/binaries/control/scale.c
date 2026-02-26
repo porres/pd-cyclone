@@ -204,19 +204,22 @@ static void scale_bang(t_scale *x)
   return;
 }
 
-static void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv)
-{
-  int i = 0;
-  int old_a = x->a_bytes;
-  x->ac = argc;
-  x->a_bytes = argc*sizeof(t_atom);
-  x->output_list = (t_atom *)t_resizebytes(x->output_list,old_a,x->a_bytes);
-  check(x);
-  x->in = atom_getfloatarg(0,argc,argv);
-  for(i=0;i<argc;i++)
-    SETFLOAT(x->output_list + i, ptrtoscaling(x, atom_getfloatarg(i, argc, argv)));
-  outlet_list(x->float_outlet, 0, argc, x->output_list);
-  return;
+static void scale_list(t_scale *x, t_symbol *s, int argc, t_atom *argv){
+    if(!argc){
+        scale_bang(x);
+        return;
+    }
+    int i = 0;
+    int old_a = x->a_bytes;
+    x->ac = argc;
+    x->a_bytes = argc*sizeof(t_atom);
+    x->output_list = (t_atom *)t_resizebytes(x->output_list,old_a,x->a_bytes);
+    check(x);
+    x->in = atom_getfloatarg(0,argc,argv);
+    for(i = 0; i < argc; i++)
+        SETFLOAT(x->output_list + i, ptrtoscaling(x, atom_getfloatarg(i, argc, argv)));
+    outlet_list(x->float_outlet, 0, argc, x->output_list);
+    return;
 }
 
 static void check(t_scale *x)

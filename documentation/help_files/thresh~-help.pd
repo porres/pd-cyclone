@@ -35,7 +35,7 @@
 #X text 227 666 - sets high threshold (default 0);
 #X text 227 650 - sets low threshold (default 0);
 #X obj 499 69 cyclone/dsponoff~;
-#X obj 2 3 ./header tresh~;
+#X obj 2 3 ./header thresh~;
 #X text 22 63 Detect signal above a threshold;
 #X obj 257 343 cyclone/snapshot~ 1;
 #X obj 257 370 nbx 7 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;

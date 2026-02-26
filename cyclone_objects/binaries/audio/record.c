@@ -59,8 +59,24 @@ typedef struct _record{
     t_float    *x_ovec;         // output vector
 }t_record;
 
+static void record_float(t_record *x, t_float f){
+    x->x_isrunning = (f != 0);
+    if(x->x_isrunning)
+        x->x_newrun = 1;
+    else{
+        clock_delay(x->x_clock, 0); // trigger a redraw
+        x->x_sync = 0.;
+        if(!x->x_appendmode)
+            x->x_phase = 0.;
+    }
+}
+
 static void record_list(t_record *x, t_symbol *s, int argc, t_atom * argv){
     s = NULL;
+    if(argc == 1 && argv->a_type == A_FLOAT){
+        record_float(x, atom_getfloat(argv));
+        return;
+    }
     t_float startms, endms;
     switch(argc){
         case 0: // nothing passed
@@ -122,18 +138,6 @@ static int record_endpoint(t_record *x, t_floatarg f){
     if(endindex >= npts || endindex < 0)
 		endindex = npts - 1;
     return(endindex);
-}
-
-static void record_float(t_record *x, t_float f){
-    x->x_isrunning = (f != 0);
-    if(x->x_isrunning)
-        x->x_newrun = 1;
-    else{
-        clock_delay(x->x_clock, 0); // trigger a redraw
-        x->x_sync = 0.;
-        if(!x->x_appendmode)
-            x->x_phase = 0.;
-    }
 }
 
 static void record_append(t_record *x, t_floatarg f){

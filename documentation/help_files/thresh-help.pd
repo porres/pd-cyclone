@@ -56,7 +56,7 @@
 #X text 115 159 <-- outputs a counter list;
 #X text 265 192 <-- click and drag for;
 #X text 301 209 a short period;
-#X obj 2 4 ./header tresh;
+#X obj 2 4 ./header thresh;
 #X text 25 60 Combine data received close together;
 #X obj 394 316 open-else;
 #X text 446 287 click;
