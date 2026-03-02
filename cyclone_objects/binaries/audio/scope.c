@@ -96,11 +96,11 @@ static void scope_draw_handle(t_scope *x, int state){
     t_handle *sh = (t_handle *)x->x_handle;
     // always destroy (otherwise it may already exist)
     sys_vgui("destroy %s\n", sh->h_pathname);
-    if(state){        
+    char sel[32];
+    snprintf(sel, sizeof(sel), "#%06x", THISGUI->i_selectcolor);
+    if(state){
         sys_vgui("canvas %s -width %d -height %d -bg %s -highlightthickness %d -cursor bottom_right_corner\n",
-            sh->h_pathname, HANDLE_SIZE, HANDLE_SIZE,
-//            THISGUI->i_selectcolor->s_name, 2*x->x_zoom);
-            "blue", 2*x->x_zoom);
+            sh->h_pathname, HANDLE_SIZE, HANDLE_SIZE, sel, 2*x->x_zoom);
         int x1, y1, x2, y2;
         scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         sys_vgui(".x%lx.c create window %d %d -anchor nw -width %d -height %d -window %s -tags all%lx\n",
@@ -193,15 +193,14 @@ static void scope_draw_bg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int 
 static void scope_draw_inlets(t_scope *x){
     if(x->x_edit && x->x_receive == &s_){
         t_canvas *cv = glist_getcanvas(x->x_glist);
+        char fg[32];
+        snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
         int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill %s -tags {%lx_in1 inlets%lx all%lx}\n",
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -fill %s -tags {%lx_in1 inlets%lx all%lx}\n",
             cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom),
-            // THISGUI->i_foregroundcolor->s_name, x, x, x);
-            "black", x, x, x);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill %s -tags {%lx_in2 inlets%lx all%lx}\n",
-            cv, xpos+x->x_width, ypos, xpos+x->x_width-(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom),
-                // THISGUI->i_foregroundcolor->s_name, x, x, x);
-                "black", x, x, x);
+            fg, fg, x, x, x);
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -fill %s -tags {%lx_in2 inlets%lx all%lx}\n",
+            cv, xpos+x->x_width, ypos, xpos+x->x_width-(IOWIDTH*x->x_zoom), ypos+(IHEIGHT*x->x_zoom), fg, fg, x, x, x);
     }
 }
 
@@ -338,16 +337,18 @@ static void scope_select(t_gobj *z, t_glist *glist, int state){
     t_scope *x = (t_scope *)z;
     t_canvas *cv = glist_getcanvas(glist);
     x->x_select = state;
-    if(state)
-        sys_vgui(".x%lx.c itemconfigure bg%lx -outline %s -width %d -fill #%.2x%.2x%.2x\n", cv, x,
-            // THISGUI->i_selectcolor->s_name,
-            "blue",
-            x->x_zoom, x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-    else
-        sys_vgui(".x%lx.c itemconfigure bg%lx -outline %s -width %d -fill #%.2x%.2x%.2x\n",
-           // cv, x, THISGUI->i_foregroundcolor->s_name,
-            cv, x, "black",
-            x->x_zoom, x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+    if(state){
+        char sel[32];
+        snprintf(sel, sizeof(sel), "#%06x", THISGUI->i_selectcolor);
+        sys_vgui(".x%lx.c itemconfigure bg%lx -outline %s -width %d -fill #%.2x%.2x%.2x\n", cv, x, sel, x->x_zoom,
+                 x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+    }
+    else{
+        char fg[32];
+        snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
+        sys_vgui(".x%lx.c itemconfigure bg%lx -outline %s -width %d -fill #%.2x%.2x%.2x\n", cv, x, fg, x->x_zoom,
+                 x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+    }
 }
 
 static void scope_delete(t_gobj *z, t_glist *glist){
@@ -605,6 +606,8 @@ static void scope_zoom(t_scope *x, t_floatarg zoom){
 static void handle__click_callback(t_handle *sh, t_floatarg f){
     int click = (int)f;
     t_scope *x = sh->h_master;
+    char sel[32];
+    snprintf(sel, sizeof(sel), "#%06x", THISGUI->i_selectcolor);
     if(sh->h_dragon && click == 0){
         sys_vgui(".x%lx.c delete %s\n", x->x_cv, sh->h_outlinetag);
         t_atom undo[2];
@@ -624,10 +627,7 @@ static void handle__click_callback(t_handle *sh, t_floatarg f){
     else if(!sh->h_dragon && click){
         int x1, y1, x2, y2;
         scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -width %d -tags %s\n",
-            x->x_cv, x1, y1, x2, y2,
-            // THISGUI->i_selectcolor->s_name,
-            "blue",
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -width %d -tags %s\n", x->x_cv, x1, y1, x2, y2, sel,
             SCOPE_SELBDWIDTH*x->x_zoom, sh->h_outlinetag);
         sh->h_dragx = sh->h_dragy = 0;
     }
