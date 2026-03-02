@@ -191,9 +191,9 @@ proc category_cyclone_menu::read_browser_cfg {} {
         set ::category_cyclone_menu::enabled 1 
     }
     if {$::category_cyclone_menu::enabled == 1} {
-        ::pdwindow::post "Cyclone browser plugin is Enabled\n"
+        ::pdwindow::post "Cyclone browser plugin is Enabled\n\n"
     } else {
-        ::pdwindow::post "Cyclone browser plugin is Disabled\n"
+        ::pdwindow::post "Cyclone browser plugin is Disabled\n\n"
     }
 }
 
