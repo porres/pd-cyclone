@@ -2,9 +2,9 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
-/* CHECKME undocumented: readbinbuf, writebinbuf (a clipboard-like thing?) */
+// CHECKME undocumented: readbinbuf, writebinbuf (a clipboard-like thing?)
 
-//Derek Kwan 2016 - changing mtrack_list to mtrack_anything, fixing issues with first elts interpreted as selectors, changing mtrack_float and mtrack_symbol to feed through mtrack_anything, changing mtrack_donext to treat everything as a list
+// Derek Kwan 2016 - changing mtrack_list to mtrack_anything, fixing issues with first elts interpreted as selectors, changing mtrack_float and mtrack_symbol to feed through mtrack_anything, changing mtrack_donext to treat everything as a list
 
 // Porres 2023 started adding MAX 7 stuff; Matt did 'embed'
 
@@ -35,8 +35,12 @@ typedef struct _mtrack{
     int            tr_ixnext;
     t_binbuf      *tr_binbuf;
     float          tr_tempo;
+    float          tr_sel_start;
+    float          tr_sel_end;
     double         tr_clockdelay;
     double         tr_prevtime;
+    double         tr_playtime;
+    double         tr_trackdur;
     t_clock       *tr_clock;
     t_outlet      *tr_trackout;
     t_outlet      *tr_mainout;
@@ -62,89 +66,279 @@ static t_class *mtr_class;
 static void mtrack_play(t_mtrack *tp);
 
 static void mtrack_donext(t_mtrack *tp){
-    if(tp->tr_ixnext < 0)
+ if(tp->tr_ixnext < 0)
+     goto endoftrack;
+ while(1){
+     int natoms = binbuf_getnatom(tp->tr_binbuf);
+     int ixmess = tp->tr_ixnext;
+     t_atom *atmess;
+//        int last_item = (ixmess >= (natoms - 2));
+     if(ixmess >= natoms)
+         goto endoftrack;
+     atmess = binbuf_getvec(tp->tr_binbuf) + ixmess;
+     while(atmess->a_type == A_SEMI){
+         if(++ixmess >= natoms)
+             goto endoftrack;
+         atmess++;
+     }
+     if(!tp->tr_atdelta && atmess->a_type == A_FLOAT){  // delta atom
+         float delta = atmess->a_w.w_float;
+         if(delta < 0.)
+             delta = 0.;
+         tp->tr_atdelta = atmess;
+         tp->tr_ixnext = ixmess + 1;
+         float speed = tp->tr_owner->x_speed * tp->tr_tempo;
+         if(tp->tr_mode == MTR_PLAYMODE){
+             clock_delay(tp->tr_clock, tp->tr_clockdelay = delta*speed);
+             tp->tr_prevtime = clock_getlogicaltime();
+         }
+         else if(ixmess < 2)  // LATER rethink
+             continue;  // CHECKED first delta skipped
+         else{  // CHECKED this is not blocked with the muted flag
+             t_atom at[2];
+             SETFLOAT(&at[0], tp->tr_id);
+             SETFLOAT(&at[1], delta);
+             outlet_list(tp->tr_mainout, 0, 2, at);
+         }
+         return;
+     }
+     else{  // message beginning
+         int wasrestarted = tp->tr_restarted;  // LATER rethink
+         int ixnext = ixmess + 1;
+         t_atom *atnext = atmess + 1;
+         while(ixnext < natoms && atnext->a_type != A_SEMI)
+             ixnext++, atnext++;
+         tp->tr_restarted = 0;
+         if(!tp->tr_muted){
+             int ac = ixnext - ixmess;
+//                if(!last_item){ // for length set
+                 if(atmess->a_type == A_FLOAT)
+                     outlet_list(tp->tr_trackout, &s_list, ac, atmess);
+                 else if(atmess->a_type == A_SYMBOL)
+                     outlet_anything(tp->tr_trackout, atmess->a_w.w_symbol, ac-1, atmess+1);
+             }
+//            }
+         tp->tr_atdelta = 0;
+         tp->tr_ixnext = ixnext;
+         if(tp->tr_restarted)
+             return;
+         tp->tr_restarted = wasrestarted;
+     }
+ }
+endoftrack:
+ if(tp->tr_mode == MTR_PLAYMODE)
+     tp->tr_ixnext = 0;   // ready to go in step mode after play
+ else{
+     if(tp->tr_ixnext > 0){
+         t_atom at[2];
+         SETFLOAT(&at[0], tp->tr_id);
+         SETFLOAT(&at[1], -1.);  // CHECKED eot marker
+         outlet_list(tp->tr_mainout, 0, 2, at);
+     }
+     tp->tr_ixnext = -1;  // CHECKED no loop-over
+ }
+ tp->tr_atdelta = 0;
+ tp->tr_prevtime = 0.;
+ tp->tr_mode = MTR_STEPMODE;
+ if(tp->tr_loop)
+     mtrack_play(tp);
+}
+
+/*static void mtrack_donext(t_mtrack *tp){
+    if(tp->tr_ixnext < 0){
+        post("mtr[%d]: ixnext < 0 → endoftrack", tp->tr_id);
         goto endoftrack;
+    }
+
     while(1){
         int natoms = binbuf_getnatom(tp->tr_binbuf);
         int ixmess = tp->tr_ixnext;
         t_atom *atmess;
-//        int last_item = (ixmess >= (natoms - 2));
-        if(ixmess >= natoms)
+
+        if(ixmess >= natoms){
+            post("mtr[%d]: ixmess >= natoms → endoftrack", tp->tr_id);
             goto endoftrack;
+        }
+
         atmess = binbuf_getvec(tp->tr_binbuf) + ixmess;
+
         while(atmess->a_type == A_SEMI){
-            if(++ixmess >= natoms)
+            if(++ixmess >= natoms){
+                post("mtr[%d]: reached natoms while skipping SEMI → endoftrack", tp->tr_id);
                 goto endoftrack;
+            }
             atmess++;
         }
-        if(!tp->tr_atdelta && atmess->a_type == A_FLOAT){  /* delta atom */
+
+        if(!tp->tr_atdelta && atmess->a_type == A_FLOAT){
+
             float delta = atmess->a_w.w_float;
             if(delta < 0.)
                 delta = 0.;
+            
+            if((atmess+1)->a_type == A_FLOAT){
+                post("data is --------------> %f", atom_getfloat(atmess+1));
+            }
+
+
+            double prevtime = tp->tr_playtime;
+            double newtime  = prevtime + delta;
+
+            double selstart = tp->tr_sel_start * tp->tr_trackdur;
+            double selend   = tp->tr_sel_end   * tp->tr_trackdur;
+
+            post("mtr[%d]: ---- DELTA ----", tp->tr_id);
+            post("  raw delta = %f", delta);
+            post("  prevtime  = %f", prevtime);
+            post("  newtime   = %f", newtime);
+            post("  selstart  = %f", selstart);
+            post("  selend    = %f", selend);
+
+            // entirely before selection
+            if(newtime < selstart){
+                post("  skipping (before selection)");
+                tp->tr_playtime = newtime;
+                tp->tr_ixnext = ixmess + 1;
+                continue;
+            }
+
+            // entirely after selection
+            if(prevtime >= selend){
+                post("  prevtime >= selend → endoftrack");
+                goto endoftrack;
+            }
+
+            // trim beginning
+            if(prevtime < selstart && newtime > selstart){
+                double olddelta = delta;
+                delta = newtime - selstart;
+                tp->tr_playtime = selstart;
+                post("  trimmed at start: old=%f new=%f", olddelta, delta);
+            }
+            else{
+                tp->tr_playtime = newtime;
+            }
+
+            // trim end
+            if(tp->tr_playtime >= selend){
+                double olddelta = delta;
+                delta = selend - prevtime;
+                tp->tr_playtime = selend;
+                post("  trimmed at end: old=%f new=%f", olddelta, delta);
+            }
+
+            post("  final delta scheduled = %f", delta);
+            post("  updated playtime = %f", tp->tr_playtime);
+
             tp->tr_atdelta = atmess;
             tp->tr_ixnext = ixmess + 1;
+
             float speed = tp->tr_owner->x_speed * tp->tr_tempo;
+
             if(tp->tr_mode == MTR_PLAYMODE){
-                clock_delay(tp->tr_clock, tp->tr_clockdelay = delta*speed);
+                double delay = delta * speed;
+                post("  clock_delay = %f (speed=%f)", delay, speed);
+                clock_delay(tp->tr_clock,
+                    tp->tr_clockdelay = delay);
                 tp->tr_prevtime = clock_getlogicaltime();
             }
-            else if(ixmess < 2)  /* LATER rethink */
-                continue;  /* CHECKED first delta skipped */
-            else{  /* CHECKED this is not blocked with the muted flag */
+            else if(ixmess < 2){
+                post("  stepmode first delta skip");
+                continue;
+            }
+            else{
                 t_atom at[2];
                 SETFLOAT(&at[0], tp->tr_id);
                 SETFLOAT(&at[1], delta);
                 outlet_list(tp->tr_mainout, 0, 2, at);
             }
+
             return;
         }
-        else{  /* message beginning */
-            int wasrestarted = tp->tr_restarted;  /* LATER rethink */
+        else{
+            int wasrestarted = tp->tr_restarted;
             int ixnext = ixmess + 1;
             t_atom *atnext = atmess + 1;
+
             while(ixnext < natoms && atnext->a_type != A_SEMI)
                 ixnext++, atnext++;
+
             tp->tr_restarted = 0;
+
+            post("mtr[%d]: ---- MESSAGE ---- (ix=%d)", tp->tr_id, ixmess);
+
             if(!tp->tr_muted){
                 int ac = ixnext - ixmess;
-//                if(!last_item){ // for length set
-                    if(atmess->a_type == A_FLOAT)
-                        outlet_list(tp->tr_trackout, &s_list, ac, atmess);
-                    else if(atmess->a_type == A_SYMBOL)
-                        outlet_anything(tp->tr_trackout, atmess->a_w.w_symbol, ac-1, atmess+1);
-                }
-//            }
+
+                if(atmess->a_type == A_FLOAT)
+                    outlet_list(tp->tr_trackout, &s_list, ac, atmess);
+                else if(atmess->a_type == A_SYMBOL)
+                    outlet_anything(tp->tr_trackout,
+                        atmess->a_w.w_symbol,
+                        ac-1, atmess+1);
+            }
+
             tp->tr_atdelta = 0;
             tp->tr_ixnext = ixnext;
-            if(tp->tr_restarted)
+
+            if(tp->tr_restarted){
+                post("  restarted during message");
                 return;
+            }
+
             tp->tr_restarted = wasrestarted;
         }
     }
+
 endoftrack:
+
+    post("mtr[%d]: **** END OF TRACK ****", tp->tr_id);
+
     if(tp->tr_mode == MTR_PLAYMODE)
-        tp->tr_ixnext = 0;   // ready to go in step mode after play
+        tp->tr_ixnext = 0;
     else{
         if(tp->tr_ixnext > 0){
             t_atom at[2];
             SETFLOAT(&at[0], tp->tr_id);
-            SETFLOAT(&at[1], -1.);  /* CHECKED eot marker */
+            SETFLOAT(&at[1], -1.);
             outlet_list(tp->tr_mainout, 0, 2, at);
         }
-        tp->tr_ixnext = -1;  /* CHECKED no loop-over */
+        tp->tr_ixnext = -1;
     }
+
     tp->tr_atdelta = 0;
     tp->tr_prevtime = 0.;
+    tp->tr_playtime = 0.;
     tp->tr_mode = MTR_STEPMODE;
-    if(tp->tr_loop)
+
+    if(tp->tr_loop){
+        post("  looping → restarting");
         mtrack_play(tp);
-}
+    }
+}*/
 
 static void mtrack_tick(t_mtrack *tp){
     if(tp->tr_mode == MTR_PLAYMODE){
         tp->tr_prevtime = 0.;
         mtrack_donext(tp);
     }
+}
+
+static double mtrack_getduration(t_mtrack *tp){
+    int natoms = binbuf_getnatom(tp->tr_binbuf);
+    t_atom *ap = binbuf_getvec(tp->tr_binbuf);
+    double total = 0;
+    int first = 1;
+    while(natoms--){
+        if(ap->a_type == A_FLOAT && first){
+            first = 0;
+            total += ap->a_w.w_float;
+        }
+        if(ap->a_type == A_SEMI)
+            first = 1;
+        ap++;
+    }
+    return(total);
 }
 
 static void mtrack_setmode(t_mtrack *tp, int newmode){
@@ -163,6 +357,8 @@ static void mtrack_setmode(t_mtrack *tp, int newmode){
             tp->tr_atdelta = 0;
             tp->tr_ixnext = 0;
             tp->tr_prevtime = 0.;
+            tp->tr_trackdur = mtrack_getduration(tp);
+            tp->tr_playtime = 0.;
             mtrack_donext(tp);
             break;
         default:
@@ -395,35 +591,42 @@ static void mtrack_loop(t_mtrack *tp, t_floatarg f){
     tp->tr_loop = (int)(f != 0);
 }
 
+static void mtrack_selection(t_mtrack *tp, t_floatarg f1, t_floatarg f2){
+    float start = f1 < 0 ? 0 : f1 > 1 ? 1 : f1;
+    float end = f2 < 0 ? 0 : f2 > 1 ? 1 : f2;
+    if(start >= end)
+        return;
+    tp->tr_sel_start = start;
+    tp->tr_sel_end = end;
+}
+
 static void mtr_calltracks(t_mtr *x, t_mtrackfn fn, t_symbol *s, int ac, t_atom *av){
     s = NULL;
     int ntracks = x->x_ntracks;
     t_mtrack **tpp = x->x_tracks;
-    if (ac)
-    {
-	/* FIXME: CHECKED tracks called in the order of being mentioned
+    if(ac){
+        /* FIXME: CHECKED tracks called in the order of being mentioned
 	   (without duplicates) */
-	while (ntracks--) (*tpp++)->tr_listed = 0;
-	while (ac--)
-	{
-	    /* CHECKED silently ignoring out-of-bounds and non-ints */
-	    if (av->a_type == A_FLOAT)
-	    {
-		int id = (int)av->a_w.w_float - 1;  /* CHECKED 1-based */
-		if (id >= 0 && id < x->x_ntracks)
-		    x->x_tracks[id]->tr_listed = 1;
-	    }
-	    av++;
-	}
-	ntracks = x->x_ntracks;
-	tpp = x->x_tracks;
-	while (ntracks--)
-	{
-	    if ((*tpp)->tr_listed) fn(*tpp);
-	    tpp++;
-	}
+        while(ntracks--)
+            (*tpp++)->tr_listed = 0;
+        while(ac--){ // CHECKED silently ignoring out-of-bounds and non-ints
+            if(av->a_type == A_FLOAT){
+                int id = (int)av->a_w.w_float - 1;  // CHECKED 1-based
+                if(id >= 0 && id < x->x_ntracks)
+                    x->x_tracks[id]->tr_listed = 1;
+            }
+            av++;
+        }
+        ntracks = x->x_ntracks;
+        tpp = x->x_tracks;
+        while(ntracks--){
+            if((*tpp)->tr_listed)
+                fn(*tpp);
+            tpp++;
+        }
     }
-    else while (ntracks--) fn(*tpp++);
+    else while(ntracks--)
+        fn(*tpp++);
 }
 
 static void mtr_record(t_mtr *x, t_symbol *s, int ac, t_atom *av){
@@ -470,6 +673,13 @@ static void mtr_loop(t_mtr *x, t_floatarg f){
     t_mtrack **tpp = x->x_tracks;
     while(ntracks--)
         mtrack_loop(*tpp++, (int)(f != 0));
+}
+
+static void mtr_selection(t_mtr *x, t_floatarg f1, t_floatarg f2){
+    int ntracks = x->x_ntracks;
+    t_mtrack **tpp = x->x_tracks;
+    while(ntracks--)
+        mtrack_selection(*tpp++, f1, f2);
 }
 
 static void mtr_delay(t_mtr *x, t_floatarg f){
@@ -811,6 +1021,8 @@ static void *mtr_new(t_symbol *s, int ac, t_atom *av){
                 tp->tr_mode = MTR_STEPMODE;
                 tp->tr_muted = 0;
                 tp->tr_loop = 0;
+                tp->tr_sel_start = 0.;
+                tp->tr_sel_end = 1.;
                 tp->tr_restarted = 0;
                 tp->tr_atdelta = 0;
                 tp->tr_ixnext = 0;
@@ -833,6 +1045,13 @@ static void *mtr_new(t_symbol *s, int ac, t_atom *av){
             else if(sym == gensym("@speed")){
                 if(ac && (av)->a_type == A_FLOAT){
                     mtr_speed(x, atom_getfloat(av));
+                    ac--, av++;
+                }
+            }
+            else if(sym == gensym("@selection")){
+                if(ac && (av)->a_type == A_FLOAT && (av+1)->a_type == A_FLOAT){
+                    mtr_selection(x, atom_getfloat(av), atom_getfloat(av+1));
+                    ac--, av++;
                     ac--, av++;
                 }
             }
@@ -864,68 +1083,39 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addsymbol(mtrack_class, mtrack_symbol);
     class_addanything(mtrack_class, mtrack_anything);
     class_addlist(mtrack_class, mtrack_list);
-    class_addmethod(mtrack_class, (t_method)mtrack_record,
-        gensym("record"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_play,
-        gensym("play"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_stop,
-        gensym("stop"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_next,
-        gensym("next"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_rewind,
-        gensym("rewind"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_mute,
-        gensym("mute"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_unmute,
-        gensym("unmute"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_clear,
-        gensym("clear"), 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_delay,
-        gensym("delay"), A_FLOAT, 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_first,
-        gensym("first"), A_FLOAT, 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_read,
-        gensym("read"), A_DEFSYM, 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_write,
-        gensym("write"), A_DEFSYM, 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_trackspeed,
-        gensym("trackspeed"), A_FLOAT, 0);
-    class_addmethod(mtrack_class, (t_method)mtrack_loop,
-        gensym("loop"), A_FLOAT, 0);
-    
+    class_addmethod(mtrack_class, (t_method)mtrack_record, gensym("record"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_play, gensym("play"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_stop, gensym("stop"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_next, gensym("next"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_rewind, gensym("rewind"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_mute, gensym("mute"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_unmute, gensym("unmute"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_clear, gensym("clear"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_delay, gensym("delay"), A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_first, gensym("first"), A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_read, gensym("read"), A_DEFSYM, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_write, gensym("write"), A_DEFSYM, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_trackspeed, gensym("trackspeed"), A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_loop, gensym("loop"), A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_selection, gensym("selection"), A_FLOAT, A_FLOAT, 0);
     mtr_class = class_new(gensym("mtr"), (t_newmethod)mtr_new,
         (t_method)mtr_free, sizeof(t_mtr), 0, A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_speed,
-        gensym("speed"), A_FLOAT, 0);
-    class_addmethod(mtr_class, (t_method)mtr_embed,
-        gensym("embed"), A_FLOAT, 0);
-    class_addmethod(mtr_class, (t_method)mtr_loop,
-        gensym("loop"), A_FLOAT, 0);
-    class_addmethod(mtr_class, (t_method)mtr_record,
-        gensym("record"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_play,
-        gensym("play"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_stop,
-        gensym("stop"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_next,
-        gensym("next"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_rewind,
-        gensym("rewind"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_mute,
-        gensym("mute"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_unmute,
-        gensym("unmute"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_clear,
-        gensym("clear"), A_GIMME, 0);
-    class_addmethod(mtr_class, (t_method)mtr_delay,
-        gensym("delay"), A_FLOAT, 0);
-    class_addmethod(mtr_class, (t_method)mtr_first,
-        gensym("first"), A_FLOAT, 0);
-    class_addmethod(mtr_class, (t_method)mtr_read,
-        gensym("read"), A_DEFSYM, 0);
-    class_addmethod(mtr_class, (t_method)mtr_write,
-        gensym("write"), A_DEFSYM, 0);
-	class_addmethod(mtr_class, (t_method)mtr_embtrack,
-        gensym("_track"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_speed, gensym("speed"), A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_embed, gensym("embed"), A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_loop, gensym("loop"), A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_record, gensym("record"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_play, gensym("play"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_stop, gensym("stop"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_next, gensym("next"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_rewind, gensym("rewind"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_mute, gensym("mute"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_unmute, gensym("unmute"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_clear, gensym("clear"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_delay, gensym("delay"), A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_first, gensym("first"), A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_read, gensym("read"), A_DEFSYM, 0);
+    class_addmethod(mtr_class, (t_method)mtr_write, gensym("write"), A_DEFSYM, 0);
+    class_addmethod(mtr_class, (t_method)mtr_selection, gensym("selection"), A_FLOAT, A_FLOAT, 0);
+	class_addmethod(mtr_class, (t_method)mtr_embtrack, gensym("_track"), A_GIMME, 0);
     file_setup(mtr_class, 1);
 }
