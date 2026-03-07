@@ -5,118 +5,58 @@
 #include <math.h>
 #include "m_pd.h"
 #include <common/api.h>
-#include "common/magicbit.h"
 
-typedef struct _cartopol
-{
+static t_class *cartopol_tilde_class;
+
+typedef struct _cartopol_tilde{
     t_object x_obj;
-    t_inlet *cartopol;
-    t_outlet  *x_out2;
-    
-    t_glist *x_glist;
-    t_float *x_signalscalar;
-    t_int      x_hasfeeders;
-} t_cartopol;
+}t_cartopol_tilde;
 
-static t_class *cartopol_class;
-
-//EXTERN t_float *obj_findsignalscalar(t_object *x, int m);
-
-static t_int *cartopol_perform(t_int *w)
-{
-    t_cartopol *x = (t_cartopol *)(w[1]);
-    int nblock = (int)(w[2]);
-    t_float *in1 = (t_float *)(w[3]);
-    t_float *in2 = (t_float *)(w[4]);
-    t_float *out1 = (t_float *)(w[5]);
-    t_float *out2 = (t_float *)(w[6]);
-    
-    // MAGIC: poll float for error
-    if (!magic_isnan(*x->x_signalscalar))
-	{
-		magic_setnan(x->x_signalscalar);
-        pd_error(x, "cartopol~: doesn't understand 'float'");
+t_int *cartopol_tilde_perform(t_int *w){
+    t_sample *in1 = (t_sample *)(w[1]);
+    t_sample *in2 = (t_sample *)(w[2]);
+    t_sample *out1 = (t_sample *)(w[3]);
+    t_sample *out2 = (t_sample *)(w[4]);
+    int n = (int)(w[5]);
+    while(n--){
+        t_sample f1 = *in1++, f2 = *in2++;
+        *out1++ = sqrt(f1*f1 + f2*f2);
+        *out2++ = atan2(f2, f1);
     }
-    
-    while (nblock--)
-    {
-        float re, im, amp, ph;
-        // MAGIC
-        if (x->x_hasfeeders)
-            {
-            re = *in1++;
-            im = *in2++;
-            amp = hypotf(re, im);
-            ph = atan2f(im, re);
-            }
-        else amp = ph = 0.0;
-        *out1++ = amp;
-        *out2++ = ph;
-    }
-    return (w + 7);
+    return(w+6);
 }
 
-static t_int *cartopol_perform_nophase(t_int *w)
-{
-    t_cartopol *x = (t_cartopol *)(w[1]);
-    int nblock = (int)(w[2]);
-    t_float *in1 = (t_float *)(w[3]);
-    t_float *in2 = (t_float *)(w[4]);
-    t_float *out1 = (t_float *)(w[5]);
-    
-    // MAGIC: poll float for error
-    if (!magic_isnan(*x->x_signalscalar))
-	{
-		magic_setnan(x->x_signalscalar);
-        pd_error(x, "cartopol~: doesn't understand 'float'"); // i think it's this one...
+static void cartopol_tilde_dsp(t_cartopol_tilde *x, t_signal **sp){
+    x = NULL;
+    int n1 = sp[0]->s_length * sp[0]->s_nchans;
+    int n2 = sp[1]->s_length * sp[1]->s_nchans;
+    int outchans = sp[0]->s_nchans;
+    signal_setmultiout(&sp[2], outchans);
+    signal_setmultiout(&sp[3], outchans);
+    if(sp[0]->s_nchans != sp[1]->s_nchans){
+        pd_error(x, "[cartopol~]: number of channels mismatch");
+        return;
     }
-    
-    while (nblock--)
-    {
-        float re, im, amp;
-
-        // MAGIC
-        if (x->x_hasfeeders)
-            {
-            re = *in1++;
-            im = *in2++;
-            amp = hypotf(re, im);
-            }
-        else amp = 0.0;
-        
-        *out1++ = amp;
+    t_sample *in1 = sp[0]->s_vec, *in2 = sp[1]->s_vec;
+    t_sample *out1 = sp[2]->s_vec, *out2 = sp[3]->s_vec;
+    for(int i = (n1+n2-1)/n1; i--; ){
+        t_int blocksize = (n1 < n2 - i*n1 ? n1 : n2 - i*n1);
+        dsp_add(cartopol_tilde_perform, 5, in1, in2 + i*n1,
+                out1 + i*n1, out2 + i*n1, blocksize);
     }
-    return (w + 6);
 }
 
-static void cartopol_dsp(t_cartopol *x, t_signal **sp)
-{
-    // MAGIC
-    x->x_hasfeeders = magic_inlet_connection((t_object *)x, x->x_glist, 1, &s_signal);
-    if (magic_outlet_connections(x->x_out2))
-        dsp_add(cartopol_perform, 6, x, sp[0]->s_n, sp[0]->s_vec,
-                sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec);
-    else
-        dsp_add(cartopol_perform_nophase, 5, x, sp[0]->s_n, sp[0]->s_vec,
-                sp[1]->s_vec, sp[2]->s_vec);
+static void *cartopol_tilde_new(void){
+    t_cartopol_tilde *x = (t_cartopol_tilde *)pd_new(cartopol_tilde_class);
+    inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
+    outlet_new(&x->x_obj, &s_signal);
+    outlet_new(&x->x_obj, &s_signal);
+    return(x);
 }
 
-static void *cartopol_new(void)
-{
-    t_cartopol *x = (t_cartopol *)pd_new(cartopol_class);
-    inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
-    outlet_new((t_object *)x, &s_signal);
-    x->x_glist = canvas_getcurrent();
-    x->x_signalscalar = obj_findsignalscalar((t_object *)x, 1);
-    magic_setnan(x->x_signalscalar);
-    x->x_out2 = outlet_new((t_object *)x, &s_signal);
-    return (x);
-}
-
-CYCLONE_OBJ_API void cartopol_tilde_setup(void)
-{
-    cartopol_class = class_new(gensym("cartopol~"), (t_newmethod)cartopol_new, 0,
-            sizeof(t_cartopol), 0, 0);
-    class_addmethod(cartopol_class, nullfn, gensym("signal"), 0);
-    class_addmethod(cartopol_class, (t_method) cartopol_dsp, gensym("dsp"), A_CANT, 0);
+CYCLONE_OBJ_API void cartopol_tilde_setup(void){
+    cartopol_tilde_class = class_new(gensym("cartopol~"), (t_newmethod)cartopol_tilde_new, 0,
+        sizeof(t_cartopol_tilde), CLASS_MULTICHANNEL, 0);
+    class_addmethod(cartopol_tilde_class, nullfn, gensym("signal"), 0);
+    class_addmethod(cartopol_tilde_class, (t_method)cartopol_tilde_dsp, gensym("dsp"), A_CANT, 0);
 }

@@ -1,4 +1,4 @@
-#N canvas 338 91 566 581 10;
+#N canvas 349 90 566 581 10;
 #X obj 3 376 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 454 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 518 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -25,7 +25,6 @@
 #X text 190 386 - converts the last received coordinates pair;
 #X obj 206 194 t bang float;
 #X obj 182 226 cyclone/poltocar;
-#X text 86 88 [poltocar] converts polar coordinates (amplitude / phase) to cartesian coordinates (real / imaginary).;
 #X text 190 403 - amplitude from the polar coordinates, f 43;
 #X text 191 431 - phase (in radians) from the polar coordinates;
 #X text 191 466 - real part of the cartesian form;
@@ -37,12 +36,13 @@
 #X text 448 298 click:;
 #X obj 87 319 cyclone/poltocar~;
 #X obj 87 339 cyclone/cartopol;
-#X msg 445 321 pol2car;
-#X text 215 319 Plugdata users or those with ELSE can also use [else/pol2car] as an alternative, f 33;
+#X text 86 88 [poltocar] converts polar coordinates (amplitude / phase) to cartesian coordinates (real / imaginary). This is the same as ELSE's [cartopol] object (see below).;
+#X msg 445 321 poltocar;
+#X text 215 319 Plugdata users or those with ELSE can also use [else/poltocar] as an alternative., f 33;
 #X connect 20 0 25 0;
 #X connect 21 0 24 0;
 #X connect 24 0 25 0;
 #X connect 24 1 25 1;
 #X connect 25 0 16 0;
 #X connect 25 1 17 0;
-#X connect 38 0 34 0;
+#X connect 38 0 33 0;
