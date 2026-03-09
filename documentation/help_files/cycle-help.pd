@@ -69,9 +69,13 @@
 #X text 23 60 Round-robin messages to outlets;
 #X obj 247 248 bng 19 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
 #X obj 291 247 bng 19 250 50 0 empty empty empty 17 7 0 10 #dcdcdc #000000 #000000;
-#X text 112 301 see also:;
-#X obj 185 302 cyclone/bucket;
-#X obj 286 302 cyclone/spray, f 14;
+#X text 32 255 see also:;
+#X obj 34 278 cyclone/bucket;
+#X obj 34 301 cyclone/spray, f 14;
+#X obj 416 311 open-else;
+#X text 419 267 click:;
+#X text 174 287 Plugdata users or those with ELSE can also use [else/robin] as an alternative, f 33;
+#X msg 416 290 robin;
 #X connect 5 0 26 0;
 #X connect 6 0 26 0;
 #X connect 7 0 26 0;
@@ -83,3 +87,4 @@
 #X connect 26 0 20 0;
 #X connect 26 1 21 0;
 #X connect 26 2 22 0;
+#X connect 42 0 39 0;
