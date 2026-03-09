@@ -33,7 +33,7 @@ static void bucket_float(t_bucket *x, t_float val)
 {
     int i;
 
-    if (!x->x_frozen)
+    if (!x->x_max5mode && !x->x_frozen)
 	bucket_bang(x);
     if (!x->x_dir)
     {
