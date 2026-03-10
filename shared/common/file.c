@@ -377,15 +377,27 @@ static void editor_guidefs(void){
     sys_gui("     bind $name <Control-s> \"editor_send $name; editor_setdirty $name 0\"\n");
     sys_gui("    }\n");
     sys_gui("   }\n");
-    
-    sys_gui("  text $name.text -relief raised -bd 2 \\\n");
-    sys_gui("   -font [list -*-courier-medium--normal--$fontsize-*] \\\n");
+
+    sys_gui("  text $name.text -relief raised -highlightthickness 0 -bd 2 \\\n");
+    sys_gui("   -font [get_font_for_size $fontsize] \\\n");
     sys_gui("   -yscrollcommand \"$name.scroll set\" \\\n");
-    sys_gui("   -background $bg -foreground $fg -insertbackground $fg -selectbackground $sel \n");
+    sys_gui("   -background $bg -foreground $fg -insertbackground $fg -selectbackground $sel \\\n");
+    sys_gui("   -exportselection 1 -undo 1\n");
     sys_gui("  scrollbar $name.scroll -command \"$name.text yview\"\n");
     sys_gui("  pack $name.scroll -side right -fill y\n");
     sys_gui("  pack $name.text -side left -fill both -expand 1\n");
+    sys_gui("  bind $name.text <$::modifier-Key-z> \"editor_undo $name; break\"\n");
+    sys_gui("  bind $name.text <$::modifier-Shift-Key-Z> \"editor_redo $name; break\"\n");
+    sys_gui("  bind $name.text <$::modifier-Shift-Key-z> \"editor_redo $name; break\"\n");
     sys_gui(" }\n");
+    sys_gui("}\n");
+
+    sys_gui("proc editor_undo {name} {\n");
+    sys_gui(" if {[winfo exists $name]} {catch {$name.text edit undo}}\n");
+    sys_gui("}\n");
+
+    sys_gui("proc editor_redo {name} {\n");
+    sys_gui(" if {[winfo exists $name]} {catch {$name.text edit redo}}\n");
     sys_gui("}\n");
 
     sys_gui("proc editor_dodirty {name} {\n");
@@ -470,13 +482,13 @@ void editor_open(t_file *f, char *title, char *owner){
         sys_vgui("editor_open .%lx %dx%d {%s: %s} %d #%06X #%06X #%06X %i\n",
         (unsigned long)f, 600, 340, owner, title, (f->f_editorfn != 0),
         THISGUI->i_backgroundcolor, THISGUI->i_foregroundcolor, THISGUI->i_selectcolor,
-        (glist_getfont(f->f_canvas) * 6 / 5));
+        sys_hostfontsize(glist_getfont(f->f_canvas), glist_getzoom(f->f_canvas)) * 6 / 5);
     else
         sys_vgui("editor_open .%lx %dx%d {%s} %d #%06X #%06X #%06X %i\n",
         (unsigned long)f, 600, 340, (title ? title : "Untitled"),
         (f->f_editorfn != 0),
         THISGUI->i_backgroundcolor, THISGUI->i_foregroundcolor, THISGUI->i_selectcolor,
-        (glist_getfont(f->f_canvas) * 6 / 5));
+        sys_hostfontsize(glist_getfont(f->f_canvas), glist_getzoom(f->f_canvas)) * 6 / 5);
 }
 
 static void editor_tick(t_file *f){
