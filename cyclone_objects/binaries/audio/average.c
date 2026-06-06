@@ -24,38 +24,34 @@
 #include "m_pd.h"
 #include <common/api.h>
 
-#define AVERAGE_STACK    44100 //stack value
-#define AVERAGE_MAXBUF  882000 //max buffer size
-#define AVERAGE_DEFNPOINTS  100  /* CHECKME */
+#define AVERAGE_STACK       44100   // stack value
+#define AVERAGE_MAXBUF      882000  // max buffer size
+#define AVERAGE_DEFNPOINTS  100     // CHECKME
 #define AVERAGE_DEFMODE     AVERAGE_BIPOLAR
 enum { AVERAGE_BIPOLAR, AVERAGE_ABSOLUTE, AVERAGE_RMS };
 
-typedef struct _average
-{
-    t_object    x_obj;
-    t_inlet    *x_inlet1;
-    int         x_mode;
-    double      (*x_sumfn)(double, double, int);
-    unsigned int         x_count; //number of samples seen so far, will no go beyond x_npoints + 1
-    unsigned int         x_npoints; //number of samples for moving average
-    double     x_accum; //sum
-    double	   x_calib; //accumulator calibrator
-    double      *x_buf; //buffer pointer
-    double     x_stack[AVERAGE_STACK]; //buffer
-    int         x_alloc; //if x_buf is allocated or stack
+typedef struct _average{
+    t_object        x_obj;
+    t_inlet        *x_inlet1;
+    int             x_mode;
+    double          (*x_sumfn)(double, double, int);
+    unsigned int    x_count; //number of samples seen so far, will no go beyond x_npoints + 1
+    unsigned int    x_npoints; //number of samples for moving average
+    double          x_accum; //sum
+    double	        x_calib; //accumulator calibrator
+    double         *x_buf; //buffer pointer
+    double          x_stack[AVERAGE_STACK]; //buffer
+    int             x_alloc; //if x_buf is allocated or stack
     unsigned int    x_sz; //allocated size for x_buf
     unsigned int    x_bufrd; //readhead for buffer
-    unsigned int         x_max; //max size of buffer as specified by argt
-} t_average;
+    unsigned int    x_max; //max size of buffer as specified by argt
+}t_average;
 
 static t_class *average_class;
 
 static void average_zerobuf(t_average *x){
-
-    unsigned int i;
-    for(i=0; i < x->x_sz; i++){
+    for(unsigned int i = 0; i < x->x_sz; i++)
         x->x_buf[i] = 0.;
-    };
 }
 
 static void average_reset(t_average * x){
@@ -71,12 +67,10 @@ static void average_sz(t_average *x, unsigned int newsz){
     int alloc = x->x_alloc;
     unsigned int cursz = x->x_sz; //current size
     //requested size
-    if(newsz < 0){
+    if(newsz < 0)
         newsz = 0;
-    }
-    else if(newsz > AVERAGE_MAXBUF){
+    else if(newsz > AVERAGE_MAXBUF)
         newsz = AVERAGE_MAXBUF;
-    };
     if(!alloc && newsz > AVERAGE_STACK){
         x->x_buf = (double *)malloc(sizeof(double)*newsz);
         x->x_alloc = 1;
@@ -95,83 +89,64 @@ static void average_sz(t_average *x, unsigned int newsz){
     average_reset(x);
 }
 
-
-static double average_bipolarsum(double input, double accum, int add)
-{
-    if(add){
+static double average_bipolarsum(double input, double accum, int add){
+    if(add)
         accum += input;
-    }
-    else{
+    else
         accum -= input;
-    };
-    return (accum);
+    return(accum);
 }
 
-static double average_absolutesum(double input, double accum, int add)
-{
-    if(add){
+static double average_absolutesum(double input, double accum, int add){
+    if(add)
         accum += (input >= 0 ? input : -input);
-    }
-    else{
+    else
         accum -= (input >= 0 ? input : -input);
-    };
-    return (accum);
+    return(accum);
 }
 
-static double average_rmssum(double input, double accum, int add)
-{
-    if(add){
+static double average_rmssum(double input, double accum, int add){
+    if(add)
         accum += (input * input);
-    }
-    else{
+    else
         accum -= (input * input);
-    };
-    return (accum);
+    return(accum);
 }
 
-static void average_setmode(t_average *x, int mode)
-{
-    if (mode == AVERAGE_BIPOLAR)
-	x->x_sumfn = average_bipolarsum;
-    else if (mode == AVERAGE_ABSOLUTE)
-	x->x_sumfn = average_absolutesum;
-    else if (mode == AVERAGE_RMS)
-	x->x_sumfn = average_rmssum;
+static void average_setmode(t_average *x, int mode){
+    if(mode == AVERAGE_BIPOLAR)
+        x->x_sumfn = average_bipolarsum;
+    else if(mode == AVERAGE_ABSOLUTE)
+        x->x_sumfn = average_absolutesum;
+    else if(mode == AVERAGE_RMS)
+        x->x_sumfn = average_rmssum;
     x->x_mode = mode;
     average_reset(x);
 }
 
-static void average_float(t_average *x, t_float f)
-{
-    unsigned int i = (unsigned int)f;  /* CHECKME noninteger */
-    if (i > 0)  /* CHECKME */
-    {
-        //clip at max
-        if(i >= x->x_max){
+static void average_float(t_average *x, t_float f){
+    unsigned int i = (unsigned int)f;  // CHECKME noninteger
+    if(i > 0){  // CHECKME
+        if(i >= x->x_max) // clip at max
             i = x->x_max;
-        };
-	x->x_npoints = i;
+        x->x_npoints = i;
         average_reset(x);
     }
 }
 
-static void average_bipolar(t_average *x)
-{
+static void average_bipolar(t_average *x){
     average_setmode(x, AVERAGE_BIPOLAR);
 }
 
-static void average_absolute(t_average *x)
-{
+static void average_absolute(t_average *x){
     average_setmode(x, AVERAGE_ABSOLUTE);
 }
 
-static void average_rms(t_average *x)
-{
+static void average_rms(t_average *x){
     average_setmode(x, AVERAGE_RMS);
 }
 
-static t_int *average_perform(t_int *w)
-{
+static t_int *average_perform(t_int *w){
     t_average *x = (t_average *)(w[1]);
     int nblock = (int)(w[2]);
     t_float *in = (t_float *)(w[3]);
@@ -179,11 +154,10 @@ static t_int *average_perform(t_int *w)
     double (*sumfn)(double, double, int) = x->x_sumfn;
     int i;
     unsigned int npoints = x->x_npoints;
-    for(i=0; i <nblock; i++){
-        double result; //eventual result
+    for(i = 0; i <nblock; i++){
+        double result; // eventual result
         double input = (double)in[i];
-        if(npoints > 1)
-        {
+        if(npoints > 1){
             unsigned int bufrd = x->x_bufrd;
             //add input to accumulator
             x->x_accum = (*sumfn)(input, x->x_accum, 1);
@@ -201,22 +175,17 @@ static t_int *average_perform(t_int *w)
                   so you subtract 0 from accum and add 2 and 0 = bufrd - npoints
                   if we are only using npoints of the x_buf, then bufrd will be the value we want to subtract
                 */
-            
-                //subtract current value in bufrd's location from accum
+                // subtract current value in bufrd's location from accum
                 x->x_accum = (*sumfn)(x->x_buf[bufrd], x->x_accum, 0);
 
             };
-
-            //overwrite/store current input value into buf
+            // overwrite/store current input value into buf
             x->x_buf[bufrd] = input;
- 
-
-            //calculate result
+            // calculate result
             result = x->x_accum/(double)npoints;
-            if (x->x_mode == AVERAGE_RMS)
-                result = sqrt(result);           
-            
-            //incrementation step
+            if(x->x_mode == AVERAGE_RMS)
+                result = sqrt(result);
+            // incrementation step
             bufrd++;
             if(bufrd >= npoints){
                 bufrd = 0;
@@ -226,35 +195,27 @@ static t_int *average_perform(t_int *w)
             x->x_bufrd = bufrd;
 
         }
-        else{
-            //npoints = 1, just pass through (or absolute)
-            if(x->x_mode == AVERAGE_ABSOLUTE || x->x_mode == AVERAGE_RMS){
+        else{ // npoints = 1, just pass through (or absolute)
+            if(x->x_mode == AVERAGE_ABSOLUTE || x->x_mode == AVERAGE_RMS)
                 result = fabs(input);
-            }
-            else{
+            else
                 result = input;
-            };
         };
         out[i] = result;
     };
-
-    return (w + 5);
+    return(w+5);
 }
 
-static void average_dsp(t_average *x, t_signal **sp)
-{
+static void average_dsp(t_average *x, t_signal **sp){
     dsp_add(average_perform, 4, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void average_free(t_average *x)
-{
-    if(x->x_alloc){
+static void average_free(t_average *x){
+    if(x->x_alloc)
         free(x->x_buf);
-    };
 }
 
-static void *average_new(t_symbol *s, int argc, t_atom * argv)
-{
+static void *average_new(t_symbol *s, int argc, t_atom * argv){
     t_average *x = (t_average *)pd_new(average_class);
     int mode;
     t_symbol * modename = &s_;
@@ -263,7 +224,6 @@ static void *average_new(t_symbol *s, int argc, t_atom * argv)
     x->x_buf = x->x_stack; 
     x->x_alloc = 0;
     x->x_sz = AVERAGE_STACK;
-
     while(argc){
         if(argv -> a_type == A_FLOAT){
             t_float curfloat = atom_getfloatarg(0, argc, argv);
@@ -274,37 +234,31 @@ static void *average_new(t_symbol *s, int argc, t_atom * argv)
         };
         argc--;
         argv++;
-
     };
     /* CHECKED it looks like memory is allocated for the entire window,
        in tune with the refman's note about ``maximum averaging interval'' --
        needed for dynamic control over window size, or what? LATER rethink */
     x->x_npoints = (maxbuf > 0 ? maxbuf : 1);
     x->x_max = x->x_npoints; //designated max of average buffer
-    if (modename == gensym("bipolar"))
-	mode = AVERAGE_BIPOLAR;
-    else if (modename == gensym("absolute"))
-	mode = AVERAGE_ABSOLUTE;
-    else if (modename == gensym("rms"))
-	mode = AVERAGE_RMS;
+    if(modename == gensym("bipolar"))
+        mode = AVERAGE_BIPOLAR;
+    else if(modename == gensym("absolute"))
+        mode = AVERAGE_ABSOLUTE;
+    else if(modename == gensym("rms"))
+        mode = AVERAGE_RMS;
     else
-    {
-	mode = AVERAGE_DEFMODE;
-	/* CHECKME a warning if (s && s != &s_) */
-    }
+        mode = AVERAGE_DEFMODE; // CHECKME a warning if (s && s != &s_)
     average_setmode(x, mode);
-
     //now allocate x_buf if necessary
     average_sz(x, x->x_npoints);
     /* CHECKME if not x->x_phase = 0 */
     outlet_new((t_object *)x, &s_signal);
-    return (x);
+    return(x);
 }
 
-CYCLONE_OBJ_API void average_tilde_setup(void)
-{
+CYCLONE_OBJ_API void average_tilde_setup(void){
     average_class = class_new(gensym("average~"), (t_newmethod)average_new,
-            (t_method)average_free, sizeof(t_average), 0, A_GIMME, 0);
+        (t_method)average_free, sizeof(t_average), 0, A_GIMME, 0);
     class_addmethod(average_class, (t_method) average_dsp, gensym("dsp"), A_CANT, 0);
     class_addmethod(average_class, nullfn, gensym("signal"), 0);
     class_addmethod(average_class, (t_method)average_bipolar, gensym("bipolar"), 0);

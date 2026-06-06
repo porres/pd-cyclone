@@ -15,7 +15,6 @@
 #X obj 135 220 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 321 216 nbx 8 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X text 175 355 - input to arc-cosine function, f 60;
-#X text 175 334 - output the arc-cosine of stored value, f 60;
 #X text 175 392 - the arc-cosine of the input, f 60;
 #X obj 138 141 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 #dcdcdc #000000 #000000 0 1;
 #X text 174 433 - initially stored value (default 0), f 60;
@@ -63,8 +62,9 @@
 #X text 257 322 - actually a cosine wavetable;
 #X text 297 26 Signal trigonometric functions from Cyclone:, f 26;
 #X restore 396 276 pd all-trig-objects;
-#X connect 4 0 21 0;
+#X text 175 334 - output the arc-cosine of stored value, f 60;
+#X connect 4 0 20 0;
 #X connect 6 0 13 0;
 #X connect 12 0 6 0;
-#X connect 18 0 12 0;
-#X connect 21 0 14 0;
+#X connect 17 0 12 0;
+#X connect 20 0 14 0;
