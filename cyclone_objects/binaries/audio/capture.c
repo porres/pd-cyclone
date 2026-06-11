@@ -44,9 +44,9 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col, int ma
     if (col > 0)
 	*bp++ = ' ', cnt++;
     if (x->x_precision)
-	cnt += sprintf(bp, x->x_format, f);
+	cnt += snprintf(bp, MAXPDSTRING - 1, x->x_format, f);
     else
-	cnt += sprintf(bp, "%d", (int)f);
+	cnt += snprintf(bp, MAXPDSTRING - 1, "%d", (int)f);
     if (col + cnt > maxcol)
 	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
     else
@@ -362,7 +362,7 @@ static void *capture_new(t_symbol *s, int ac, t_atom *av)
 	else if (precision > CAPTURE_MAXPRECISION)  /* CHECKME */
 	    precision = CAPTURE_MAXPRECISION;
 	if ((x->x_precision = precision))
-	    sprintf(x->x_format, "%%.%df", precision);
+	    snprintf(x->x_format, sizeof(x->x_format), "%%.%df", precision);
 	x->x_indices = indices;
 	x->x_szindices = szindices;
 	x->x_nindices = nindices;
