@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include "m_pd.h"
 #include "g_canvas.h"
 #include "common/file.h"
@@ -336,8 +337,10 @@ struct _file{
     t_filefn       f_editorfn;
     t_embedfn      f_embedfn;
     t_binbuf            *f_binbuf;
+    char                *f_tmpbuf;
     t_clock             *f_panelclock;
     t_clock             *f_editorclock;
+    t_guiconnect        *b_guiconnect;
     struct _file  *f_savepanel;
     struct _file  *f_next;
 };
@@ -355,49 +358,25 @@ static t_file *file_getproxy(t_pd *master){
 }
 
 static void editor_guidefs(void){
-    sys_gui("proc editor_open {name geometry title sendable bg fg sel fontsize} {\n");
+    sys_gui("proc editor_open {name geometry title sendable} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
     sys_gui("  $name.text delete 1.0 end\n");
     sys_gui(" } else {\n");
     sys_gui("  toplevel $name\n");
     sys_gui("  wm title $name $title\n");
     sys_gui("  wm geometry $name $geometry\n");
-    sys_gui("  wm protocol $name WM_DELETE_WINDOW [list editor_close $name 1 $sendable]\n");
-    sys_gui("   if {[tk windowingsystem] eq \"aqua\"} {\n");
-    sys_gui("    bind $name <Command-w> \"editor_close $name 1 $sendable\"\n");
-    sys_gui("   } else {\n");
-    sys_gui("    bind $name <Control-w> \"editor_close $name 1 $sendable\"\n");
-    sys_gui("   }\n");
-
-    sys_gui("   if {$sendable} {\n");
-    sys_gui("    bind $name <<Modified>> \"editor_dodirty $name\"\n");
-    sys_gui("    if {[tk windowingsystem] eq \"aqua\"} {\n");
-    sys_gui("     bind $name <Command-s> \"editor_send $name; editor_setdirty $name 0\"\n");
-    sys_gui("    } else {\n");
-    sys_gui("     bind $name <Control-s> \"editor_send $name; editor_setdirty $name 0\"\n");
-    sys_gui("    }\n");
-    sys_gui("   }\n");
-
-    sys_gui("  text $name.text -relief raised -highlightthickness 0 -bd 2 \\\n");
-    sys_gui("   -font [get_font_for_size $fontsize] \\\n");
-    sys_gui("   -yscrollcommand \"$name.scroll set\" \\\n");
-    sys_gui("   -background $bg -foreground $fg -insertbackground $fg -selectbackground $sel \\\n");
-    sys_gui("   -exportselection 1 -undo 1\n");
+    sys_gui("  if {$sendable} {\n");
+    sys_gui("   wm protocol $name WM_DELETE_WINDOW \\\n");
+    sys_gui("    [concat editor_close $name 1]\n");
+    sys_gui("   bind $name <<Modified>> \"editor_dodirty $name\"\n");
+    sys_gui("  }\n");
+    sys_gui("  text $name.text -relief raised -bd 2 \\\n");
+    sys_gui("   -font -*-courier-medium--normal--12-* \\\n");
+    sys_gui("   -yscrollcommand \"$name.scroll set\" -background lightgrey\n");
     sys_gui("  scrollbar $name.scroll -command \"$name.text yview\"\n");
     sys_gui("  pack $name.scroll -side right -fill y\n");
     sys_gui("  pack $name.text -side left -fill both -expand 1\n");
-    sys_gui("  bind $name.text <$::modifier-Key-z> \"editor_undo $name; break\"\n");
-    sys_gui("  bind $name.text <$::modifier-Shift-Key-Z> \"editor_redo $name; break\"\n");
-    sys_gui("  bind $name.text <$::modifier-Shift-Key-z> \"editor_redo $name; break\"\n");
     sys_gui(" }\n");
-    sys_gui("}\n");
-
-    sys_gui("proc editor_undo {name} {\n");
-    sys_gui(" if {[winfo exists $name]} {catch {$name.text edit undo}}\n");
-    sys_gui("}\n");
-
-    sys_gui("proc editor_redo {name} {\n");
-    sys_gui(" if {[winfo exists $name]} {catch {$name.text edit redo}}\n");
     sys_gui("}\n");
 
     sys_gui("proc editor_dodirty {name} {\n");
@@ -433,7 +412,7 @@ static void editor_guidefs(void){
     sys_gui("  pdsend \"miXed$name clear\"\n");
     sys_gui("  for {set i 1} \\\n");
     sys_gui("   {[$name.text compare $i.end < end]} \\\n");
-    sys_gui("      {incr i 1} {\n");
+    sys_gui("  	{incr i 1} {\n");
     sys_gui("   set lin [$name.text get $i.0 $i.end]\n");
     sys_gui("   if {$lin != \"\"} {\n");
     /* LATER rethink semi/comma mapping */
@@ -446,30 +425,74 @@ static void editor_guidefs(void){
     sys_gui(" }\n");
     sys_gui("}\n");
 
-    sys_gui("proc editor_close {name ask sendable} {\n");
+    sys_gui("proc editor_close {name ask} {\n");
     sys_gui(" if {[winfo exists $name]} {\n");
-    sys_gui("  if {$sendable} {\n");
-    sys_gui("   if {[catch {$name.text edit modified} dirty]} {set dirty 1}\n");
-    sys_gui("   if {$ask && $dirty} {\n");
-    sys_gui("    set title [wm title $name]\n");
-    sys_gui("    if {[string equal -length 1 $title \"*\"]} {\n");
-    sys_gui("     set title [string range $title 1 end]\n");
-    sys_gui("    }\n");
-    sys_gui("    set answer [tk_messageBox \\-type yesnocancel \\\n");
-    sys_gui("     \\-icon question \\\n");
-    sys_gui("     \\-message [concat Save changes to \\\"$title\\\"?]]\n");
-    sys_gui("    if {$answer == \"yes\"} {editor_send $name}\n");
-    sys_gui("    if {$answer != \"cancel\"} {editor_doclose $name}\n");
-    sys_gui("   } else {editor_doclose $name}\n");
-    sys_gui("  } else {\n");
-    sys_gui("   editor_doclose $name\n");
-    sys_gui("  }\n");
+    sys_gui("  if {[catch {$name.text edit modified} dirty]} {set dirty 1}\n");
+    sys_gui("  if {$ask && $dirty} {\n");
+    sys_gui("   set title [wm title $name]\n");
+    sys_gui("   if {[string equal -length 1 $title \"*\"]} {\n");
+    sys_gui("    set title [string range $title 1 end]\n");
+    sys_gui("   }\n");
+    sys_gui("   set answer [tk_messageBox \\-type yesnocancel \\\n");
+    sys_gui("    \\-icon question \\\n");
+    sys_gui("    \\-message [concat Save changes to \\\"$title\\\"?]]\n");
+    sys_gui("   if {$answer == \"yes\"} {editor_send $name}\n");
+    sys_gui("   if {$answer != \"cancel\"} {editor_doclose $name}\n");
+    sys_gui("  } else {editor_doclose $name}\n");
     sys_gui(" }\n");
     sys_gui("}\n");
 }
 
 /* null owner defaults to class name, pass "" to suppress */
+#ifdef PDL2ORK
+static unsigned int next_pow2(unsigned int v)
+{
+    v--;
+    v |= v >> 1;
+    v |= v >> 2;
+    v |= v >> 4;
+    v |= v >> 8;
+    v |= v >> 16;
+    v++;
+    return v;
+}
+
+static void clear_tmpbuf(t_file *f)
+{
+    if (f->f_tmpbuf) {
+        free(f->f_tmpbuf);
+        f->f_tmpbuf = NULL;
+    }
+    if (f->b_guiconnect)
+    {
+        guiconnect_notarget(f->b_guiconnect, 1000);
+        f->b_guiconnect = 0;
+    }
+}
+#endif
+
+/* null owner defaults to class name, pass "" to suppress */
 void editor_open(t_file *f, char *title, char *owner){
+#ifdef PDL2ORK
+    if (f->b_guiconnect)
+    {
+        gui_vmess("gui_text_dialog_raise", "x", f);
+    }
+    else
+    {
+        char buf[40];
+        sprintf(buf, "x%.6zx", (uintptr_t)f);
+        f->b_guiconnect = guiconnect_new(&f->f_pd, gensym(buf));
+        gui_vmess("gui_text_dialog", "xsiiiii",
+            f,
+            title ? title : (owner ? owner : "Untitled"),
+            f->f_canvas->gl_editor ? f->f_canvas->gl_editor->e_xwas : 100,
+            f->f_canvas->gl_editor ? f->f_canvas->gl_editor->e_ywas : 100,
+            480,
+            550,
+            sys_hostfontsize(glist_getfont(f->f_canvas)));
+    }
+#else
     if(!owner)
         owner = (char *)(class_getname(*f->f_master));
     if(!*owner)
@@ -479,33 +502,56 @@ void editor_open(t_file *f, char *title, char *owner){
         owner = 0;
     }
     if(owner)
-        sys_vgui("editor_open .%lx %dx%d {%s: %s} %d #%06X #%06X #%06X %i\n",
-        (unsigned long)f, 600, 340, owner, title, (f->f_editorfn != 0),
-        THISGUI->i_backgroundcolor, THISGUI->i_foregroundcolor, THISGUI->i_selectcolor,
-        sys_hostfontsize(glist_getfont(f->f_canvas), glist_getzoom(f->f_canvas)) * 6 / 5);
+        sys_vgui("editor_open .%lx %dx%d {%s: %s} %d\n",
+        (unsigned long)f, 600, 340, owner, title, (f->f_editorfn != 0));
     else
-        sys_vgui("editor_open .%lx %dx%d {%s} %d #%06X #%06X #%06X %i\n",
+        sys_vgui("editor_open .%lx %dx%d {%s} %d\n",
         (unsigned long)f, 600, 340, (title ? title : "Untitled"),
-        (f->f_editorfn != 0),
-        THISGUI->i_backgroundcolor, THISGUI->i_foregroundcolor, THISGUI->i_selectcolor,
-        sys_hostfontsize(glist_getfont(f->f_canvas), glist_getzoom(f->f_canvas)) * 6 / 5);
+        (f->f_editorfn != 0));
+#endif
 }
 
 static void editor_tick(t_file *f){
+#ifdef PDL2ORK
+    gui_vmess("gui_text_dialog_close_from_pd", "xi", f, 0);
+    clear_tmpbuf(f);
+#else
     sys_vgui("editor_close .%lx 1\n", (unsigned long)f);
+#endif
 }
 
-void editor_close(t_file *f, int ask){
-    int sendable = (f->f_editorfn != 0);
-    if(ask && sendable)
-        /* hack: deferring modal dialog creation in order to allow for
-           a message box redraw to happen -- LATER investigate */
+void editor_close(t_file *f, t_floatarg ask){
+#ifdef PDL2ORK
+    if(ask && f->f_editorfn)
         clock_delay(f->f_editorclock, 0);
     else
-        sys_vgui("editor_close .%lx %d %d\n", (unsigned long)f, ask, sendable);
+    {
+        gui_vmess("gui_text_dialog_close_from_pd", "xi", f, 0);
+        clear_tmpbuf(f);
+    }
+#else
+    if(ask && f->f_editorfn)
+	/* hack: deferring modal dialog creation in order to allow for
+	   a message box redraw to happen -- LATER investigate */
+        clock_delay(f->f_editorclock, 0);
+    else
+        sys_vgui("editor_close .%lx 0\n", (unsigned long)f);
+#endif
 }
 
 void editor_append(t_file *f, char *contents){
+#ifdef PDL2ORK
+    if (contents)
+    {
+        unsigned int l0 = f->f_tmpbuf ? strlen(f->f_tmpbuf) : 0, l = l0;
+        l += strlen(contents) + 1;
+        if (l < MAXPDSTRING) l = MAXPDSTRING;
+        l = next_pow2(l);
+        f->f_tmpbuf = realloc(f->f_tmpbuf, l);
+        if (l0 == 0) f->f_tmpbuf[0] = 0;
+        strcat(f->f_tmpbuf, contents);
+    }
+#else
     if(contents){
         char *ptr;
         for(ptr = contents; *ptr; ptr++){
@@ -521,11 +567,17 @@ void editor_append(t_file *f, char *contents){
         if(*contents)
             sys_vgui("editor_append .%lx {%s}\n", (unsigned long)f, contents);
     }
+#endif
 }
 
 void editor_setdirty(t_file *f, int flag){
+#ifdef PDL2ORK
+    if(f->f_editorfn)
+        gui_vmess("gui_text_dialog_set_dirty", "xi", f, flag);
+#else
     if(f->f_editorfn)
         sys_vgui("editor_setdirty .%lx %d\n", (unsigned long)f, flag);
+#endif
 }
 
 static void editor_clear(t_file *f){
@@ -537,9 +589,54 @@ static void editor_clear(t_file *f){
     }
 }
 
+#ifdef PDL2ORK
+static void editor_senditup(t_file *x)
+{
+    int i, ntxt = 0;
+    char *txt = NULL;
+    char buf[MAXPDSTRING];
+    if (!x->b_guiconnect)
+        return;
+    if (x->f_binbuf)
+        binbuf_gettext(x->f_binbuf, &txt, &ntxt);
+    if (ntxt == 0 && x->f_tmpbuf) {
+        txt = x->f_tmpbuf;
+        ntxt = strlen(txt);
+    }
+    gui_vmess("gui_text_dialog_clear", "x", x);
+    for (i = 0; i < ntxt; )
+    {
+        char *j = strchr(txt+i, '\n');
+        if (!j) j = txt + ntxt;
+        if (j - txt - i >= MAXPDSTRING)
+        {
+            pd_error(x, "text: can't display lines greater than %d characters",
+                MAXPDSTRING);
+            break;
+        }
+        sprintf(buf, "%.*s\n", (int)(j-txt-i), txt+i);
+        gui_vmess("gui_text_dialog_append", "xs", x, buf);
+        i = (j-txt)+1;
+    }
+    gui_vmess("gui_text_dialog_set_dirty", "xi", x, 0);
+    if (txt != x->f_tmpbuf) t_freebytes(txt, ntxt);
+}
+
+static void editor_map(t_file *f)
+{
+    editor_senditup(f);
+}
+#endif
+
 static void editor_addline(t_file *f, t_symbol *s, int ac, t_atom *av){
     s = NULL;
     if(f->f_editorfn){
+#ifdef PDL2ORK
+        t_binbuf *z = binbuf_new();
+        binbuf_restore(z, ac, av);
+        binbuf_add(f->f_binbuf, binbuf_getnatom(z), binbuf_getvec(z));
+        binbuf_free(z);
+#else
         int i;
         t_atom *ap;
         for(i = 0, ap = av; i < ac; i++, ap++){
@@ -552,6 +649,7 @@ static void editor_addline(t_file *f, t_symbol *s, int ac, t_atom *av){
             }
         }
         binbuf_add(f->f_binbuf, ac, av);
+#endif
     }
 }
 
@@ -694,12 +792,10 @@ t_symbol *panel_getsavedir(t_file *f){
 static void embed_gc(t_pd *x, t_symbol *s, int expected){
     t_pd *garbage;
     int count = 0;
-    while((garbage = pd_findbyclass(s, *x))){
-        pd_unbind(garbage, s);
-        count++;
-    }
+    while((garbage = pd_findbyclass(s, *x)))
+        pd_unbind(garbage, s), count++;
     if(count != expected)
-        bug("embed_gc (%d garbage bindings, expected = %d)", count, expected);
+	bug("embed_gc (%d garbage bindings)", count);
 }
 
 static void embed_restore(t_pd *master){
@@ -831,11 +927,21 @@ void file_setup(t_class *c, int embeddable){
         file_class = class_new(gensym("_file"), 0, 0,sizeof(t_file), CLASS_PD | CLASS_NOINLET, 0);
         class_addsymbol(file_class, panel_symbol);
         class_addmethod(file_class, (t_method)panel_path,gensym("path"), A_SYMBOL, A_DEFSYM, 0);
+#ifdef PDL2ORK
+        class_addmethod(file_class, (t_method)panel_path,gensym("callback"), A_SYMBOL, A_DEFSYM, 0);
+#endif
         class_addmethod(file_class, (t_method)editor_clear, gensym("clear"), 0);
         class_addmethod(file_class, (t_method)editor_addline, gensym("addline"), A_GIMME, 0);
         class_addmethod(file_class, (t_method)editor_end, gensym("end"), 0);
+#ifdef PDL2ORK
+        class_addmethod(file_class, (t_method)editor_map, gensym("map"), 0);
+        class_addmethod(file_class, (t_method)editor_close, gensym("close"), A_DEFFLOAT, 0);
+        class_addmethod(file_class, (t_method)editor_end, gensym("notify"), 0);
+#endif
+#ifndef PDL2ORK
         /* LATER find a way of ensuring that these are not defined yet... */
         editor_guidefs();
         panel_guidefs();
+#endif
     }
 }

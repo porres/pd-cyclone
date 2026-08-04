@@ -5,7 +5,7 @@
 lib.name = cyclone
 
 # for the MINGW which has the timespec struct defined twice
-cflags = -Ishared -DHAVE_STRUCT_TIMESPEC
+cflags = -Ishared -DHAVE_STRUCT_TIMESPEC -DPDL2ORK -DGLIST_GRAB_COMPAT
 
 define forWindows
 	ldlibs += -lpthread
@@ -295,7 +295,9 @@ smagicbit := shared/common/magicbit.c
 
 # CONTROL GUI
 utf := shared/control/s_cycloneutf8.c
+ifneq ($(findstring PDL2ORK,$(cflags)$(CFLAGS)),PDL2ORK)
 	comment.class.sources := cyclone_objects/binaries/control/comment.c $(utf)
+endif
 
 scybuf := shared/signal/cybuf.c
     buffir~.class.sources := cyclone_objects/binaries/audio/buffir.c $(scybuf)

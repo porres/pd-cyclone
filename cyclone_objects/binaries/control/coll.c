@@ -30,7 +30,7 @@ before used to always bang on callback, now only bangs now due to new x->x_fileb
 #endif */
 
 
-#define COLLTHREAD 1 //default is threaded
+#define COLLTHREAD 0 //default is threaded
 #define COLLEMBED 0 //default for save in patch
 #define COLL_ALLBANG 1 //bang all when read instead of specific object
 #define COLL_MAXEXTLEN 4 //maximum file extension length
@@ -83,7 +83,6 @@ typedef struct _coll{
   t_symbol      *x_bindsym;
   int           x_is_opened;
   int           x_threaded;
-  int           x_keep;
   int           x_nosearch;
   int           x_initread; //if we're reading a file for the first time
   int           x_filebang; //if we're expecting to bang out 3rd outlet
@@ -322,22 +321,17 @@ static void collcommon_takeout(t_collcommon *cc, t_collelem *ep){
     }
 }
 
-static void collcommon_dirty(t_collcommon *cc){
-    if(cc->c_embedflag){
-        t_coll *x;
-        for(x = cc->c_refs; x; x = x->x_next){
-            if(x->x_canvas)
-                canvas_dirty(x->x_canvas, 1);
-        }
-    }
-}
-
 static void collcommon_modified(t_collcommon *cc, int relinked){
     if(cc->c_increation)
         return;
     if(relinked)
         cc->c_volatile = 1;
-    collcommon_dirty(cc);
+    if(cc->c_embedflag){
+        t_coll *x;
+        for(x = cc->c_refs; x; x = x->x_next)
+            if(x->x_canvas && glist_isvisible(x->x_canvas))
+                canvas_dirty(x->x_canvas, 1);
+    }
 }
 
 /* atomic collcommon modifiers:  clearall, remove, replace,
@@ -849,10 +843,10 @@ static void collcommon_writehook(t_pd *z, t_symbol *fn, int ac, t_atom *av){
 static void coll_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     t_coll *x = (t_coll *)z;
     t_collcommon *cc = x->x_common;
-    cc->c_embedflag = x->x_keep;
     if(cc->c_embedflag){
         t_collelem *ep;
         t_atom at[6];
+        binbuf_addv(bb, "ssii;", bindsym, gensym("flags"), 1, 0);
         SETSYMBOL(at, bindsym);
         for(ep = cc->c_first; ep; ep = ep->e_next){
             t_atom *ap = at + 1;
@@ -879,21 +873,15 @@ static void coll_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
             binbuf_add(bb, ep->e_size, ep->e_data);
             binbuf_addsemi(bb);
         };
-        binbuf_addv(bb, "ssii;", bindsym, gensym("flags"), 1, 0);
     };
     obj_saveformat((t_object *)x, bb);
 }
 
-
 static void collcommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
     s = NULL;
-    t_collcommon *cc = (t_collcommon *)z;
-    int nlines = collcommon_fromatoms(cc, ac, av);
-    if(nlines < 0){
+    int nlines = collcommon_fromatoms((t_collcommon *)z, ac, av);
+    if(nlines < 0)
         post("coll: editing error in line %d", 1 - nlines);
-        return;
-    }
-    collcommon_dirty(cc);
 }
 
 static void collcommon_free(t_collcommon *cc){
@@ -1066,7 +1054,7 @@ static t_collelem *coll_findkey(t_coll *x, t_atom *key, t_symbol *mess){
         mess = 0;
     }
     if(!ep && mess)
-        pd_error((t_pd *)x, "[coll]: no such key");
+        pd_error((t_pd *)x, "no such key");
     return(ep);
 }
 
@@ -1170,10 +1158,14 @@ static void coll_is_opened(t_coll *x, t_floatarg f, t_floatarg open){
 }
 
 static void check_open(t_coll *x, int open){
+#ifdef PDL2ORK
+    coll_is_opened(x, open ? 0 : 1, open);
+#else
     sys_vgui("if {[winfo exists .%lx]} {\n", (unsigned long)x->x_common->c_filehandle);
     sys_vgui("pdsend \"%s _is_opened 1 %d\"\n", x->x_bindsym->s_name, open);
     sys_vgui("} else {pdsend \"%s _is_opened 0 %d\"\n", x->x_bindsym->s_name, open);
     sys_gui(" }\n");
+#endif
 }
 
 static void coll_update(t_coll *x){
@@ -1195,13 +1187,49 @@ t_floatarg shift, t_floatarg ctrl, t_floatarg alt){
     check_open(x, 1);
 }
 
+static void coll_float(t_coll *x, t_float f){
+    t_collcommon *cc = x->x_common;
+    t_collelem *ep;
+    int numkey;
+    if(coll_checkint((t_pd *)x, f, &numkey, &s_float) && (ep = collcommon_numkey(cc, numkey))){
+		coll_keyoutput(x, ep);
+		if(!cc->c_selfmodified || (ep = collcommon_numkey(cc, numkey)))
+			coll_dooutput(x, ep->e_size, ep->e_data);
+    }
+}
+
+static void coll_symbol(t_coll *x, t_symbol *s){
+    t_collcommon *cc = x->x_common;
+    t_collelem *ep;
+    if((ep = collcommon_symkey(cc, s))){
+		coll_keyoutput(x, ep);
+		if(!cc->c_selfmodified || (ep = collcommon_symkey(cc, s)))
+			coll_dooutput(x, ep->e_size, ep->e_data);
+    }
+}
+
+static void coll_list(t_coll *x, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
+    if(ac >= 2 && av->a_type == A_FLOAT){
+        coll_tokey(x, av, ac-1, av+1, 1, &s_list);
+        coll_update(x);
+    }
+    else
+		coll_messarg((t_pd *)x, &s_list);
+}
+
+static void coll_anything(t_coll *x, t_symbol *s, int ac, t_atom *av){
+    ac = 0, av = NULL;
+    coll_symbol(x, s);
+}
+
 static void coll_store(t_coll *x, t_symbol *s, int ac, t_atom *av){
     if(ac >= 2){
 		coll_tokey(x, av, ac-1, av+1, 1, s);
         coll_update(x);
     }
     else
-		pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av){
@@ -1229,10 +1257,10 @@ static void coll_nstore(t_coll *x, t_symbol *s, int ac, t_atom *av){
             coll_update(x);
 		}
 		else
-            pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+            pd_error(x, "bad arguments for message '%s'", s->s_name);
     }
     else
-        pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+        pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av){
@@ -1266,7 +1294,7 @@ static void coll_insert2(t_coll *x, t_symbol *s, int ac, t_atom *av){
         }
     }
     else
-		pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av){
@@ -1302,7 +1330,7 @@ static void coll_insert(t_coll *x, t_symbol *s, int ac, t_atom *av){
         coll_update(x);
     }
     else
-		pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+		pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_remove(t_coll *x, t_symbol *s, int ac, t_atom *av){
@@ -1313,7 +1341,7 @@ static void coll_remove(t_coll *x, t_symbol *s, int ac, t_atom *av){
         coll_update(x);
     }
     else
-        pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+        pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_delete(t_coll *x, t_symbol *s, int ac, t_atom *av){
@@ -1332,7 +1360,7 @@ static void coll_delete(t_coll *x, t_symbol *s, int ac, t_atom *av){
         }
     }
     else
-        pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+        pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_assoc(t_coll *x, t_symbol *s, t_floatarg f){
@@ -1409,10 +1437,10 @@ static void coll_merge(t_coll *x, t_symbol *s, int ac, t_atom *av){
             coll_update(x);
         }
         else
-            pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+            pd_error(x, "bad arguments for message '%s'", s->s_name);
     }
     else
-        pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+        pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_sub(t_coll *x, t_symbol *s, int ac, t_atom *av){
@@ -1441,7 +1469,7 @@ static void coll_sub(t_coll *x, t_symbol *s, int ac, t_atom *av){
         coll_update(x);
     }
     else
-        pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+        pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_sort(t_coll *x, t_floatarg f1, t_floatarg f2){
@@ -1473,7 +1501,7 @@ static void coll_swap(t_coll *x, t_symbol *s, int ac, t_atom *av){
         }
     }
     else
-        pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+        pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 /* CHECKED traversal direction change is consistent with the general rule:
@@ -1544,50 +1572,6 @@ static void coll_goto(t_coll *x, t_symbol *s, int ac, t_atom *av){
         coll_start(x);
 }
 
-static void coll_float(t_coll *x, t_float f){
-    t_collcommon *cc = x->x_common;
-    t_collelem *ep;
-    int numkey;
-    if(coll_checkint((t_pd *)x, f, &numkey, &s_float) && (ep = collcommon_numkey(cc, numkey))){
-        coll_keyoutput(x, ep);
-        if(!cc->c_selfmodified || (ep = collcommon_numkey(cc, numkey)))
-            coll_dooutput(x, ep->e_size, ep->e_data);
-    }
-}
-
-static void coll_symbol(t_coll *x, t_symbol *s){
-    t_collcommon *cc = x->x_common;
-    t_collelem *ep;
-    if((ep = collcommon_symkey(cc, s))){
-        coll_keyoutput(x, ep);
-        if(!cc->c_selfmodified || (ep = collcommon_symkey(cc, s)))
-            coll_dooutput(x, ep->e_size, ep->e_data);
-    }
-}
-
-static void coll_list(t_coll *x, t_symbol *s, int ac, t_atom *av){
-    s = NULL;
-    if(!ac)
-        coll_next(x);
-    else if(ac == 1){
-        if(av->a_type == A_FLOAT)
-            coll_float(x, atom_getfloat(av));
-        else if(av->a_type == A_SYMBOL)
-            coll_symbol(x, atom_getsymbol(av));
-    }
-    else if(ac >= 2 && av->a_type == A_FLOAT){
-        coll_tokey(x, av, ac-1, av+1, 1, &s_list);
-        coll_update(x);
-    }
-    else
-        coll_messarg((t_pd *)x, &s_list);
-}
-
-static void coll_anything(t_coll *x, t_symbol *s, int ac, t_atom *av){
-    ac = 0, av = NULL;
-    coll_symbol(x, s);
-}
-
 static void coll_nth(t_coll *x, t_symbol *s, int ac, t_atom *av){
     if(ac >= 2 && av[1].a_type == A_FLOAT){
         int ndx;
@@ -1602,7 +1586,7 @@ static void coll_nth(t_coll *x, t_symbol *s, int ac, t_atom *av){
         }
     }
     else
-        pd_error(x, "[coll]: bad arguments for message '%s'", s->s_name);
+        pd_error(x, "bad arguments for message '%s'", s->s_name);
 }
 
 static void coll_length(t_coll *x){
@@ -1963,16 +1947,14 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
     int no_search = 0;
     int embed = COLLEMBED;
     int threaded = COLLTHREAD;
-    int flag = 0;
     // check arguments for filename and threaded version
     // right now, don't care about arg order (mb we should?) - DK
     while(argc){
-        if(argv->a_type == A_SYMBOL){
+        if(argv -> a_type == A_SYMBOL){
             t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
             argc--;
             argv++;
             if(strcmp(cursym -> s_name, "@embed") == 0){
-                flag = 1;
                 if(argc){
                     t_float curf = atom_getfloatarg(0, argc, argv);
                     argc--;
@@ -1981,7 +1963,6 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
                 };
             }
             else if(strcmp(cursym -> s_name, "@threaded") == 0){
-                flag = 1;
                 if(argc){
                     t_float curf = atom_getfloatarg(0, argc, argv);
                     argc--;
@@ -1989,12 +1970,10 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
                     threaded = curf != 0 ? 1 : 0;
                 };
             }
-            else if(!flag)
-                file = cursym;
             else
-                goto errstate;
+                file = cursym;
         }
-        else if(argv->a_type == A_FLOAT && !flag){
+        else if(argv -> a_type == A_FLOAT){
             t_float nosearch = atom_getfloatarg(0, argc, argv);
             no_search = nosearch != 0 ? 1 : 0;
             argc--;
@@ -2017,11 +1996,10 @@ static void *coll_new(t_symbol *s, int argc, t_atom *argv){
     x->x_clock = clock_new(x, (t_method)coll_tick);
 	coll_threaded(x, threaded);
     coll_bind(x, file);
-    x->x_keep = (int)embed;
-//    coll_flags(x, (int)embed, 0);
+    coll_flags(x, (int)embed, 0);
     return(x);
 	errstate:
-		pd_error(x, "[coll]: improper args");
+		pd_error(x, "coll: improper args");
 		return NULL;
 }
 
