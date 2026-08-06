@@ -38,7 +38,7 @@ typedef void (*t_filefn)(t_pd *, t_symbol *, int, t_atom *);
 typedef void (*t_embedfn)(t_pd *, t_binbuf *, t_symbol *);
 
 void editor_open(t_file *f, char *title, char *owner);
-void editor_close(t_file *f, t_floatarg ask);
+void editor_close(t_file *f, int ask);
 void editor_append(t_file *f, char *contents);
 void editor_setdirty(t_file *f, int flag);
 void panel_open(t_file *f, t_symbol *inidir);

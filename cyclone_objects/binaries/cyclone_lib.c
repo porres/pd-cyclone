@@ -862,11 +862,7 @@ CYCLONE_API void cyclone_setup(void)
     sprintf(plugin_dir, "%s", cyclone_class->c_externdir->s_name);
     char plugin_file[MAXPDSTRING];
     sprintf(plugin_file, "%s/browser-cyclone.tcl", plugin_dir);
-#ifdef PDL2ORK
-    gui_vmess("load_plugin_script", "s", plugin_file);
-#else
     pdgui_vmess("load_plugin_script", "s", plugin_file);
-#endif
         
 #if CYCLONE_SINGLE_LIBRARY
     setup_single_lib();

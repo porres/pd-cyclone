@@ -228,11 +228,7 @@ static void comment_draw(t_comment *x){
 //    post("comment DRAW");
     x->x_cv = glist_getcanvas(x->x_glist);
     char fgcolor[32];
-#ifdef PDL2ORK
-    snprintf(fgcolor, sizeof(fgcolor), "%s", THISGUI->i_foregroundcolor ? THISGUI->i_foregroundcolor->s_name : "black");
-#else
     snprintf(fgcolor, sizeof(fgcolor), "#%06x", THISGUI->i_foregroundcolor);
-#endif
     if(x->x_bg_flag && x->x_bbset){ // draw bg only if initialized
         int x1, y1, x2, y2;
         comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
@@ -250,11 +246,7 @@ static void comment_draw(t_comment *x){
     char buf[COMMENT_OUTBUFSIZE], *outbuf, *outp;
     outp = outbuf = buf;
     char selcolor[32];
-#ifdef PDL2ORK
-    snprintf(selcolor, sizeof(selcolor), "%s", THISGUI->i_selectcolor ? THISGUI->i_selectcolor->s_name : "blue");
-#else
     snprintf(selcolor, sizeof(selcolor), "#%06x", THISGUI->i_selectcolor);
-#endif
     sprintf(outp, "%s %s .x%lx.c txt%lx all%lx %d %d {%s} -%d %s {%.*s} %d %s %s %s\n",
         x->x_underline ? "comment_draw_ul" : "comment_draw",
         x->x_bindsym->s_name, // %s
@@ -411,15 +403,9 @@ static void comment_select(t_gobj *z, t_glist *glist, int state){
         comment_activate(z, glist, 0);
     char color[32];
     if(state)
-#ifdef PDL2ORK
-        snprintf(color, sizeof(color), "%s", THISGUI->i_selectcolor ? THISGUI->i_selectcolor->s_name : "blue");
-    else
-        snprintf(color, sizeof(color), "%s", THISGUI->i_foregroundcolor ? THISGUI->i_foregroundcolor->s_name : "black");
-#else
         snprintf(color, sizeof(color), "#%06x", THISGUI->i_selectcolor);
     else
         snprintf(color, sizeof(color), "#%06x", THISGUI->i_foregroundcolor);
-#endif
     sys_vgui(".x%lx.c itemconfigure txt%lx -fill %s\n",
         x->x_cv, (unsigned long)x, state ? color : x->x_color);
     sys_vgui(".x%lx.c itemconfigure %lx_outline -width %d -outline %s\n",
@@ -921,11 +907,7 @@ static void comment_bgcolor(t_comment *x, t_float r, t_float g, t_float b){
     unsigned char green = g < 0 ? 0 : g > 255 ? 255 : (unsigned char)g;
     unsigned char blue = b < 0 ? 0 : b > 255 ? 255 : (unsigned char)b;
     char fgcolor[32];
-#ifdef PDL2ORK
-    snprintf(fgcolor, sizeof(fgcolor), "%s", THISGUI->i_foregroundcolor ? THISGUI->i_foregroundcolor->s_name : "black");
-#else
     snprintf(fgcolor, sizeof(fgcolor), "#%06x", THISGUI->i_foregroundcolor);
-#endif
     if(!x->x_bg_flag){
         x->x_bg_flag = 1;
         sprintf(x->x_bgcolor, "#%2.2x%2.2x%2.2x", x->x_bg[0] = red, x->x_bg[1] = green, x->x_bg[2] = blue);
@@ -1019,11 +1001,7 @@ static void comment_outline(t_comment *x, t_floatarg outline){
         x->x_outline = outline;
         x->x_fontface = x->x_bold + 2 * x->x_italic + 4 * x->x_outline;
         char fgcolor[32];
-#ifdef PDL2ORK
-        snprintf(fgcolor, sizeof(fgcolor), "%s", THISGUI->i_foregroundcolor ? THISGUI->i_foregroundcolor->s_name : "black");
-#else
         snprintf(fgcolor, sizeof(fgcolor), "#%06x", THISGUI->i_foregroundcolor);
-#endif
         if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
             if(x->x_outline || x->x_edit){
                 comment_draw_outline(x);
