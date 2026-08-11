@@ -2,6 +2,9 @@
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+#ifdef PDL2ORK
+#include <stdint.h>
+#endif
 #include "m_pd.h"
 #include "g_canvas.h"
 #include <common/api.h>
@@ -59,8 +62,24 @@ static t_mouse_proxy * mouse_proxy_new(t_active *x, t_symbol*s){
     return(p);
 }
 
+#ifdef PDL2ORK
+static void active_pdl2ork_dofocus(t_active *x, t_symbol *s, int ac, t_atom *av)
+{
+    s = NULL;
+    if (ac >= 2 && av[0].a_type == A_SYMBOL && av[1].a_type == A_FLOAT) {
+        t_symbol *cnv = av[0].a_w.w_symbol;
+        t_floatarg f = av[1].a_w.w_float;
+        active_dofocus(x, cnv, f);
+    }
+}
+#endif
+
 static void active_free(t_active *x){
+#ifdef PDL2ORK
+    pd_unbind(&x->x_obj.ob_pd, gensym("_focus"));
+#else
     hammergui_unbindfocus((t_pd *)x);
+#endif
     x->x_proxy->p_parent = NULL;
     clock_delay(x->x_proxy->p_clock, 0);
 }
@@ -73,11 +92,19 @@ static void *active_new(void){
     snprintf(buf, MAXPDSTRING-1, ".x%lx", (unsigned long)cnv);
     buf[MAXPDSTRING-1] = 0;
     x->x_proxy = mouse_proxy_new(x, gensym(buf));
+#ifdef PDL2ORK
+    snprintf(buf, MAXPDSTRING-1, ".x%zx.c", (uintptr_t)cnv);
+#else
     snprintf(buf, MAXPDSTRING-1, ".x%lx.c", (unsigned long)cnv);
+#endif
     buf[MAXPDSTRING-1] = 0;
     x->x_cname = gensym(buf);
     outlet_new((t_object *)x, &s_float);
+#ifdef PDL2ORK
+    pd_bind(&x->x_obj.ob_pd, gensym("_focus"));
+#else
     hammergui_bindfocus((t_pd *)x);
+#endif
     return (x);
 }
 
@@ -85,8 +112,10 @@ CYCLONE_OBJ_API void active_setup(void){
     active_class = class_new(gensym("active"), (t_newmethod)active_new,
         (t_method)active_free, sizeof(t_active), CLASS_NOINLET, 0);
     class_addmethod(active_class, (t_method)active_dofocus, gensym("_focus"), A_SYMBOL, A_FLOAT, 0);
+#ifdef PDL2ORK
+    class_addlist(active_class, active_pdl2ork_dofocus);
+#endif
     mouse_proxy_class = class_new(0, 0, 0, sizeof(t_mouse_proxy),
         CLASS_NOINLET | CLASS_PD, 0);
     class_addanything(mouse_proxy_class, mouse_proxy_any);
-    class_addmethod(active_class, (t_method)active_dofocus, gensym("_focus"), A_SYMBOL, A_FLOAT, 0);
 }

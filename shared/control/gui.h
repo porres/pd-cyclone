@@ -14,7 +14,11 @@ typedef struct _hammergui
     t_symbol  *g_psfocus;
     t_symbol  *g_psvised;
     int        g_isup;
-  
+#ifdef PDL2ORK
+    t_clock   *g_pollclock;
+    float      g_mousex;
+    float      g_mousey;
+#endif
 } t_hammergui;
 
 void hammergui_getscreen(void);

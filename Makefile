@@ -295,7 +295,9 @@ smagicbit := shared/common/magicbit.c
 
 # CONTROL GUI
 utf := shared/control/s_cycloneutf8.c
+ifneq ($(findstring PDL2ORK,$(cflags)$(CFLAGS)),PDL2ORK)
 	comment.class.sources := cyclone_objects/binaries/control/comment.c $(utf)
+endif
 
 scybuf := shared/signal/cybuf.c
     buffir~.class.sources := cyclone_objects/binaries/audio/buffir.c $(scybuf)
