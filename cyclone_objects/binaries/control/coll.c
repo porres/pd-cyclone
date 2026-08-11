@@ -893,7 +893,18 @@ static void collcommon_editorhook(t_pd *z, t_symbol *s, int ac, t_atom *av){
         post("coll: editing error in line %d", 1 - nlines);
         return;
     }
+#ifdef PDL2ORK
+    t_coll *x;
+    for(x = cc->c_refs; x; x = x->x_next)
+        if(x->x_canvas && glist_isvisible(x->x_canvas))
+            canvas_dirty(x->x_canvas, 1);
+    t_canvas *cv = canvas_getcurrent();
+    if(cv)
+        canvas_dirty(cv, 1);
+    collcommon_modified(cc, 1);
+#else
     collcommon_dirty(cc);
+#endif
 }
 
 static void collcommon_free(t_collcommon *cc){
@@ -1105,9 +1116,11 @@ static void coll_do_update(t_coll *x){
         natoms = binbuf_getnatom(bb);
         ap = binbuf_getvec(bb);
         newline = 1;
+#ifndef PDL2ORK
         sys_vgui(" if {[winfo exists .%lx]} {\n", (unsigned long)cc->c_filehandle);
         sys_vgui("  .%lx.text delete 1.0 end\n", (unsigned long)cc->c_filehandle);
         sys_gui(" }\n");
+#endif
         while(natoms--){
             char *ptr = buf;
             if(ap->a_type != A_SEMI && ap->a_type != A_COMMA && !newline)
@@ -1129,13 +1142,16 @@ static void coll_do_update(t_coll *x){
 
 static void coll_do_open(t_coll *x){
     t_collcommon *cc = x->x_common;
+#ifndef PDL2ORK
     if(x->x_is_opened){
         unsigned long wname = (unsigned long)cc->c_filehandle;
         sys_vgui("wm deiconify .%lx\n", wname);
         sys_vgui("raise .%lx\n", wname);
         sys_vgui("focus .%lx.text\n", wname);
     }
-    else{
+    else
+#endif
+    {
         char buf[MAXPDSTRING];
         char *name = (char *)(x->x_name ? x->x_name->s_name : "Untitled");
         editor_open(cc->c_filehandle, name, "coll");
@@ -1170,10 +1186,14 @@ static void coll_is_opened(t_coll *x, t_floatarg f, t_floatarg open){
 }
 
 static void check_open(t_coll *x, int open){
+#ifdef PDL2ORK
+    open ? coll_do_open(x) : coll_do_update(x);
+#else
     sys_vgui("if {[winfo exists .%lx]} {\n", (unsigned long)x->x_common->c_filehandle);
     sys_vgui("pdsend \"%s _is_opened 1 %d\"\n", x->x_bindsym->s_name, open);
     sys_vgui("} else {pdsend \"%s _is_opened 0 %d\"\n", x->x_bindsym->s_name, open);
     sys_gui(" }\n");
+#endif
 }
 
 static void coll_update(t_coll *x){

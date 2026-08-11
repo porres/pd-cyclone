@@ -24,6 +24,10 @@
 #include "g_canvas.h"
 #include "control/gui.h"
 
+#ifdef PDL2ORK
+static void hammergui_poll_tick(t_hammergui *sink);
+#endif
+
 #ifdef KRZYSZCZ
 //#define HAMMERGUI_DEBUG
 #endif
@@ -476,13 +480,41 @@ void hammergui_getscreen(void)
 */
 
 void hammergui_getscreenfocused(void){
+#ifdef PDL2ORK
+    hammergui_getscreen();
+#else
     if(hammergui_validate(0))
         sys_gui("hammergui_getscreenfocused\n");
+#endif
 }
 
 void hammergui_getscreen(void){
+#ifdef PDL2ORK
+    if (hammergui_validate(0) && hammergui_sink->g_psmouse && hammergui_sink->g_psmouse->s_thing)
+    {
+        float x = hammergui_sink->g_mousex;
+        float y = hammergui_sink->g_mousey;
+        if (x == 0.f && y == 0.f) {
+            int ix = 20, iy = 20;
+            t_glist *gl = canvas_getcurrent();
+            if (gl) {
+                glist_getnextxy(gl, &ix, &iy);
+                if (ix == 20 && iy == 20 && glist_getcanvas(gl)) {
+                    glist_getnextxy(glist_getcanvas(gl), &ix, &iy);
+                }
+            }
+            x = (float)ix;
+            y = (float)iy;
+        }
+        t_atom at[2];
+        SETFLOAT(&at[0], x);
+        SETFLOAT(&at[1], y);
+        pd_typedmess(hammergui_sink->g_psmouse->s_thing, gensym("_getscreen"), 2, at);
+    }
+#else
     if(hammergui_validate(0))
         sys_gui("hammergui_getscreen\n");
+#endif
 }
 
 void hammergui_willpoll(void){
@@ -496,10 +528,16 @@ void hammergui_startpolling(t_pd *master, int pollmode){
             (hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink);
         pd_bind(master, hammergui_sink->g_pspoll);
         if(doinit){
+#ifdef PDL2ORK
+            if (!hammergui_sink->g_pollclock)
+                hammergui_sink->g_pollclock = clock_new(hammergui_sink, (t_method)hammergui_poll_tick);
+            clock_delay(hammergui_sink->g_pollclock, 20);
+#else
             // visibility hack for msw, LATER rethink
             sys_gui("global hammergui_ispolling\n");
             sys_vgui("set hammergui_ispolling %d\n", pollmode);
             sys_gui("hammergui_poll\n");
+#endif
         }
     }
 }
@@ -508,10 +546,15 @@ void hammergui_stoppolling(t_pd *master){
     if(hammergui_validate(0) && hammergui_pollvalidate(0)){
         pd_unbind(master, hammergui_sink->g_pspoll);
         if(hammergui_sink->g_pspoll->s_thing == (t_pd *)hammergui_sink){
+#ifdef PDL2ORK
+            if (hammergui_sink->g_pollclock)
+                clock_unset(hammergui_sink->g_pollclock);
+#else
             sys_gui("global hammergui_ispolling\n");
             sys_gui("set hammergui_ispolling 0\n");
             sys_vgui("after cancel [hammergui_poll]\n");
             // visibility hack for msw, LATER rethink
+#endif
         }
     }
 }
@@ -556,3 +599,30 @@ void hammergui_unbindvised(t_pd *master){
     else
         bug("hammergui_unbindvised");
 }
+
+#ifdef PDL2ORK
+static void hammergui_poll_tick(t_hammergui *sink)
+{
+    if (sink->g_pspoll->s_thing) {
+        t_atom at[2];
+        SETFLOAT(&at[0], sink->g_mousex);
+        SETFLOAT(&at[1], sink->g_mousey);
+        pd_typedmess(sink->g_pspoll->s_thing, gensym("_poll"), 2, at);
+        if (sink->g_pollclock)
+            clock_delay(sink->g_pollclock, 20);
+    }
+}
+
+static void hammergui_pdl2ork_list(t_pd *z, t_symbol *s, int ac, t_atom *av)
+{
+    t_hammergui *sink = (t_hammergui *)z;
+    if (s == gensym("_mouse") && ac >= 2 && av[0].a_type == A_FLOAT && av[1].a_type == A_FLOAT) {
+        sink->g_mousex = av[0].a_w.w_float;
+        sink->g_mousey = av[1].a_w.w_float;
+        if (sink->g_psmouse->s_thing)
+            pd_typedmess(sink->g_psmouse->s_thing, s, ac, av);
+    }
+    else if (sink->g_psmouse->s_thing)
+        pd_typedmess(sink->g_psmouse->s_thing, s, ac, av);
+}
+#endif
