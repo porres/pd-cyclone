@@ -370,6 +370,7 @@ static void editor_guidefs(void){
     sys_gui(" } else {\n");
     sys_gui("  toplevel $name\n");
     sys_gui("  wm title $name $title\n");
+	sys_gui("  ::pd_menus::menubar_for_dialog $name\n");
     sys_gui("  wm geometry $name $geometry\n");
     sys_gui("  wm protocol $name WM_DELETE_WINDOW [list editor_close $name 1 $sendable]\n");
     sys_gui("   if {[tk windowingsystem] eq \"aqua\"} {\n");
