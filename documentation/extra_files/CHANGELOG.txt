@@ -4,6 +4,26 @@
 | Then it got eventually basically just under Porres until around 0.9 maybe?
 ---------------------------------------------------------------------------
 
+
+--------------------------------------------------
+cyclone 0.9-5 (needs at least Pd Vanilla 0.56-5):
+--------------------------------------------------
+
+- Removed the [number~] object, which was a bad and incomplete clone as an abstraction, and already considered deprecated.
+- Improved how to save the preferences menu to enable/disable the browser plugin! Now it automatically saves the setting within Pd's gui preferences mechanism (instead of a file) so it persists even when updating Pd or Cyclone from now on. The menu entry is also simply a checkbox now.
+- Text editing window improvements (for [coll], etc): - Fixed a crashing bug, use Pd's font settings, reflect zoom, use zero highlightthickness and add undo/redo. 
+- [scale] fixed bang for previous list input.
+- [bucket] fixed output for max5mode (it was outputing the last state before the new one, now only the new one comes out)
+- [buffer~], fixed arg loading when not having a filename.
+- [seq] fixed improper timing issues when driven by external clock.
+- fixed setting seed for [drunk] and documented 'seed 0'.
+- [comment]/[scope~] now uses Pd's color for select color, outline and inlets
+- [atan2~], cartopol~] and [poltocar~] are now borrowed/replaced from ELSE, so they're not actual clones and have MC support, but still backwards compatible. This has been done already with [pink~], [tanh~] and maybe some other object I forgot now.
+- Also replace [tanh] with the new one from ELSE which has list support.
+- better handling of 0/1-length lists (which must be treated as bang/symbol/float). Affects the following objects: seq, atodb, buddy, count, cycle, dbtoa, funnel, fromsymbol, iter, join, maximum, minimum, mean, mtr, pv, scale, matrix~, prob, record~, sprintf, substitute, spray, switch, thresh, tosymbol and zl.
+- There's some new code that handles Pd-L20rk compatibility (thanks to Ivica Ico Bukvic & Nilambar Halder Tonmoy)
+
+
 --------------------------------------------------
 cyclone 0.9-4 (needs at least Pd Vanilla 0.56-2):
 --------------------------------------------------

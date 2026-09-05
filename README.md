@@ -20,9 +20,9 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.9-4 (this release needs at least Pd Vanilla 0.56-2)
+Current Release: Cyclone 0.9-5 (this release needs at least Pd Vanilla 0.56-5)
 
-Released February 21st 2026
+Released September 5th 2026
 
 Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases or directly via Pd's external manager (Help => Find Externals). Please report bugs at https://github.com/porres/pd-cyclone/issues.
 
@@ -74,7 +74,7 @@ Since "Cyclone 0.1-alpha57", the Cyclone package has relied on the new build sys
 
 PdLibBuilder tries to find the Pd source directory at several common locations, but when this fails, you have to specify the path yourself using the pdincludepath variable. Example:
 
-<pre>make pdincludepath=~/pd-0.54-0/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.54-0/bin/)</pre>
+<pre>make pdincludepath=~/pd-0.56-5/src/  (for Windows/MinGW add 'pdbinpath=~/pd-0.56-5/bin/)</pre>
 
 * Make Install
 

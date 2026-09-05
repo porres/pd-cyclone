@@ -10,12 +10,9 @@ proc menu_send_cyclone_obj {w x y item} {
         pdsend "$w obj $x $y $item"
     } else {
         pdsend "$w obj $x $y cyclone/$item"
-        set abslist {buffer~ number~}
-        foreach abstraction $abslist {
-            if {$item eq $abstraction} {  
-                pdsend "pd-$item.pd loadbang"
-                break
-            }
+        set abstraction buffer~
+        if {$item eq $abstraction} {  
+            pdsend "pd-$item.pd loadbang"
         }
     } 
 }

@@ -630,11 +630,11 @@ static int printed;
 
 static int min_major = 0;
 static int min_minor = 56;
-static int min_bugfix = 2;
+static int min_bugfix = 5;
 
 static int cyclone_major = 0;
 static int cyclone_minor = 9;
-static int cyclone_bugfix = 4;
+static int cyclone_bugfix = 5;
 
 void print_cyclone(t_cyclone *x){
     int major = 0, minor = 0, bugfix = 0;
@@ -643,7 +643,7 @@ void print_cyclone(t_cyclone *x){
     post("--------------------------------------------------------------------");
     post(":: Cyclone %d.%d-%d; Released February 21st 2026", cyclone_major, cyclone_minor, cyclone_bugfix);
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
-    post(":: Copyright © 2003-2025 - Krzysztof Czaja, Hans-Christoph Steiner,");
+    post(":: Copyright © 2003-2026 - Krzysztof Czaja, Hans-Christoph Steiner,");
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber\n\:: and others.");
     post(":: -----------------------------------------------------------------");
     if((major > min_major)
