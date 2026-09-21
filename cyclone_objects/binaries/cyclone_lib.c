@@ -128,6 +128,7 @@ static void *equals_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
+    pd_error(x, "[cyclone/==~] is deprecated, consider using vanilla's [==~] instead");
     return (x);
 }
 
@@ -173,6 +174,7 @@ static void *notequals_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
+    pd_error(x, "[cyclone/!=~] is deprecated, consider using vanilla's [!=~] instead");
     return (x);
 }
 
@@ -220,6 +222,7 @@ static void *lessthan_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
+    pd_error(x, "[cyclone/<~] is deprecated, consider using vanilla's [<~] instead");
     return (x);
 }
 
@@ -266,6 +269,7 @@ static void *greaterthan_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
+    pd_error(x, "[cyclone/>~] is deprecated, consider using vanilla's [>~] instead");
     return (x);
 }
 
@@ -313,6 +317,7 @@ static void *lessthaneq_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
+    pd_error(x, "[cyclone/<=~] is deprecated, consider using vanilla's [<=~] instead");
     return (x);
 }
 
@@ -359,6 +364,7 @@ static void *greaterthaneq_new(t_floatarg f)
     x->x_inlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     pd_float((t_pd *)x->x_inlet, f);
     outlet_new((t_object *)x, &s_signal);
+    pd_error(x, "[cyclone/>=~] is deprecated, consider using vanilla's [>=~] instead");
     return (x);
 }
 
@@ -629,19 +635,19 @@ t_class *cyclone_class;
 static int printed;
 
 static int min_major = 0;
-static int min_minor = 56;
-static int min_bugfix = 5;
+static int min_minor = 57;
+static int min_bugfix = 0;
 
 static int cyclone_major = 0;
 static int cyclone_minor = 9;
-static int cyclone_bugfix = 5;
+static int cyclone_bugfix = 6;
 
 void print_cyclone(t_cyclone *x){
     int major = 0, minor = 0, bugfix = 0;
     sys_getversion(&major, &minor, &bugfix);
     post("");
     post("--------------------------------------------------------------------");
-    post(":: Cyclone %d.%d-%d; Released February 21st 2026", cyclone_major, cyclone_minor, cyclone_bugfix);
+    post(":: Cyclone %d.%d-%d; Released October 1st 2026", cyclone_major, cyclone_minor, cyclone_bugfix);
     post(":: License: BSD-3-Clause (aka Revised BSD License)");
     post(":: Copyright © 2003-2026 - Krzysztof Czaja, Hans-Christoph Steiner,");
     post(":: Fred Jan Kraan, Alexandre Porres, Derek Kwan, Matt Barber\n\:: and others.");
@@ -659,8 +665,7 @@ void print_cyclone(t_cyclone *x){
             min_major, min_minor, min_bugfix,
             major, minor, bugfix);
     post(":: Loading the cyclone library loaded non alphanumeric objects,");
-    post(":: which are: [!-], [!-~], [!/], [!/~], [!=~], [%%~], [+=~],");
-    post(":: [<=~], [<~], [==~], [>=~] and [>~]");
+    post(":: which are: [!-], [!-~], [!/], [!/~], [%%~] and [+=~],");
     post(":: NOTE: Loading this binary did not load the path");
     post(":: you need to add 'cyclone' to the \"preferences=>path\"");
     post(":: or use [declare -path cyclone] (this guarantees search priority)");
@@ -757,61 +762,48 @@ CYCLONE_API void cyclone_setup(void)
 
 /* -- [==~] -- */
     
-    equals_class = class_new(gensym("==~"),
-			    (t_newmethod)equals_new, (t_method)equals_free,
-                sizeof(t_equals), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)equals_new,
-                     gensym("cyclone/==~"), A_DEFFLOAT, 0);
+    equals_class = class_new(gensym("cyclone/==~"), (t_newmethod)equals_new, (t_method)equals_free,
+        sizeof(t_equals), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(equals_class, nullfn, gensym("signal"), 0);
     class_addmethod(equals_class, (t_method)equals_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(equals_class, gensym("equals~"));
 
 /* -- [!=~] -- */
     
-    notequals_class = class_new(gensym("!=~"), (t_newmethod)notequals_new,
+    notequals_class = class_new(gensym("cyclone/!=~"), (t_newmethod)notequals_new,
         (t_method)notequals_free, sizeof(t_notequals), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)notequals_new,
-                     gensym("cyclone/!=~"), A_DEFFLOAT, 0);
     class_addmethod(notequals_class, nullfn, gensym("signal"), 0);
     class_addmethod(notequals_class, (t_method)notequals_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(notequals_class, gensym("notequals~"));
     
 /* -- [<~] -- */
     
-    lessthan_class = class_new(gensym("<~"), (t_newmethod)lessthan_new,
+    lessthan_class = class_new(gensym("cyclone/<~"), (t_newmethod)lessthan_new,
         (t_method)lessthan_free, sizeof(t_lessthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)lessthan_new,
-                     gensym("cyclone/<~"), A_DEFFLOAT, 0);
     class_addmethod(lessthan_class, nullfn, gensym("signal"), 0);
     class_addmethod(lessthan_class, (t_method)lessthan_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(lessthan_class, gensym("lessthan~"));
 
 /* -- [>~] -- */
     
-    greaterthan_class = class_new(gensym(">~"), (t_newmethod)greaterthan_new,
+    greaterthan_class = class_new(gensym("cyclone/>~"), (t_newmethod)greaterthan_new,
         (t_method)greaterthan_free, sizeof(t_greaterthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)greaterthan_new,
-                     gensym("cyclone/>~"), A_DEFFLOAT, 0);
     class_addmethod(greaterthan_class, nullfn, gensym("signal"), 0);
     class_addmethod(greaterthan_class, (t_method)greaterthan_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(greaterthan_class, gensym("greaterthan~"));
 
 /* -- [<=~] -- */
     
-    lessthaneq_class = class_new(gensym("<=~"), (t_newmethod)lessthaneq_new,
+    lessthaneq_class = class_new(gensym("cyclone/<=~"), (t_newmethod)lessthaneq_new,
             (t_method)lessthaneq_free, sizeof(t_lessthaneq), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)lessthaneq_new,
-                     gensym("cyclone/<=~"), A_DEFFLOAT, 0);
     class_addmethod(lessthaneq_class, nullfn, gensym("signal"), 0);
     class_addmethod(lessthaneq_class, (t_method)lessthaneq_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(lessthaneq_class, gensym("lessthaneq~"));
 
 /* -- [>=~] -- */
     
-    greaterthaneq_class = class_new(gensym(">=~"), (t_newmethod)greaterthaneq_new,
+    greaterthaneq_class = class_new(gensym("cyclone/>=~"), (t_newmethod)greaterthaneq_new,
         (t_method)greaterthaneq_free, sizeof(t_greaterthaneq), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    class_addcreator((t_newmethod)greaterthaneq_new,
-                     gensym("cyclone/>=~"), A_DEFFLOAT, 0);
     class_addmethod(greaterthaneq_class, nullfn, gensym("signal"), 0);
     class_addmethod(greaterthaneq_class, (t_method)greaterthaneq_dsp, gensym("dsp"), A_CANT, 0);
     class_sethelpsymbol(greaterthaneq_class, gensym("greaterthaneq~"));

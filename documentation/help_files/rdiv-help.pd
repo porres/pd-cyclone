@@ -1,4 +1,4 @@
-#N canvas 447 36 565 561 10;
+#N canvas 447 38 565 561 10;
 #X obj 13 428 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 13 475 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
 #X obj 99 440 cnv 17 3 17 empty empty 0 5 9 0 16 #dcdcdc #9c9c9c 0;
@@ -32,15 +32,19 @@
 #X text 199 490 sets an initial value for the dividend (default 0);
 #X text 187 374 - performs the division with the numbers currently stored;
 #X text 82 95 [rdiv] or [!/] divides a number by the incoming value on the left inlet. Functions like the [/] object \, but the inlets' functions are reversed.;
-#X obj 461 231 cyclone-help;
-#X text 456 210 Please check:;
+#X obj 461 211 cyclone-help;
+#X text 456 190 Please check:;
 #X obj 227 191 cyclone/!/;
 #X obj 3 2 ./header !/;
 #X text 22 61 Reversed inlets division;
-#X obj 292 291 expr $f2 / $f1;
-#X obj 411 279 swap;
-#X obj 411 300 /;
-#X text 90 292 These are Vanilla alternatives:;
+#X obj 126 296 expr $f2 / $f1;
+#X obj 237 284 swap;
+#X obj 237 305 /;
+#X text 33 278 These are Vanilla alternatives:, f 17;
+#X obj 483 306 open-else;
+#X text 482 264 click;
+#X text 296 278 Plugdata users or those with ELSE can also use [else/op] as another alternative., f 28;
+#X msg 483 284 op;
 #X connect 8 0 35 1;
 #X connect 9 0 35 0;
 #X connect 10 0 21 0;
@@ -55,3 +59,4 @@
 #X connect 35 0 18 0;
 #X connect 39 0 40 0;
 #X connect 39 1 40 1;
+#X connect 45 0 42 0;

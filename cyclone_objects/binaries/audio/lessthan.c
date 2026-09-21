@@ -74,4 +74,5 @@ CYCLONE_OBJ_API void lessthan_tilde_setup(void)
                                   sizeof(t_lessthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(lessthan_class, nullfn, gensym("signal"), 0);
     class_addmethod(lessthan_class, (t_method)lessthan_dsp, gensym("dsp"), A_CANT, 0);
+    pd_error(lessthan_class, "[cyclone/lessthan~] is deprecated, consider using vanilla's [<~] instead");
 }

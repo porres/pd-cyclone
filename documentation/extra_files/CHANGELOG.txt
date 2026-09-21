@@ -4,6 +4,11 @@
 | Then it got eventually basically just under Porres until around 0.9 maybe?
 ---------------------------------------------------------------------------
 
+--------------------------------------------------
+cyclone 0.9-6 (needs at least Pd Vanilla 0.57-0):
+--------------------------------------------------
+
+- Deprecated and removed the [>~], [>=~], [<~], [<=~], [==~] and [!=~] objects as they were added to Vanilla.
 
 --------------------------------------------------
 cyclone 0.9-5 (needs at least Pd Vanilla 0.56-5):

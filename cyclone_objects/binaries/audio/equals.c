@@ -56,4 +56,5 @@ CYCLONE_OBJ_API void equals_tilde_setup(void)
             sizeof(t_equals), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(equals_class, nullfn, gensym("signal"), 0);
     class_addmethod(equals_class, (t_method)equals_dsp, gensym("dsp"), A_CANT, 0);
+    pd_error(equals_class, "[cyclone/equals~] is deprecated, consider using vanilla's [==~] instead");
 }

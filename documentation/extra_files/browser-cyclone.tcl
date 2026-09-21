@@ -45,7 +45,7 @@ proc category_cyclone_menu::load_menutree {} {
                 {operators
                     {bitwise
                         {bitand~ bitnot~ bitor~ bitsafe~ bitshift~ bitxor~}}
-                    {equals~ greaterthan~ greaterthaneq~ lessthan~ lessthaneq~ modulo~ notequals~ plusequals~ rdiv~ rminus~}}
+                    {modulo~ plusequals~ rdiv~ rminus~}}
                 {atodb~ average~ avg~ cartopol~ dbtoa~ delta~ mstosamps~ poltocar~ pong~ round~ sampstoms~ scale~ trunc~}}
             {fx
                 {degrade~ delay~ downsamp~ overdrive~}}
@@ -63,7 +63,7 @@ proc category_cyclone_menu::load_menutree {} {
         {lib
             {cyclone}}
         {deprecated
-            {append clip~ comment forward maximum~ minimum~ number~ pow~ xbendin xbendin2 xbendout xbendout2}}
+            {append clip~ comment forward maximum~ minimum~ pow~ xbendin xbendin2 xbendout xbendout2}}
     }
 #   ::pdwindow::post "===== RAW MENUTREE =====\n"
 #    set index 0

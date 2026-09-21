@@ -74,4 +74,5 @@ CYCLONE_OBJ_API void greaterthan_tilde_setup(void)
                              sizeof(t_greaterthan), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(greaterthan_class, nullfn, gensym("signal"), 0);
     class_addmethod(greaterthan_class, (t_method)greaterthan_dsp, gensym("dsp"), A_CANT, 0);
+    pd_error(greaterthan_class, "[cyclone/greaterthan~] is deprecated, consider using vanilla's [>~] instead");
 }

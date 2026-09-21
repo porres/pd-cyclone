@@ -74,4 +74,5 @@ CYCLONE_OBJ_API void notequals_tilde_setup(void)
                              sizeof(t_notequals), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(notequals_class, nullfn, gensym("signal"), 0);
     class_addmethod(notequals_class, (t_method)notequals_dsp, gensym("dsp"), A_CANT, 0);
+    pd_error(notequals_class, "[cyclone/notequals~] is deprecated, consider using vanilla's [!=~] instead");
 }

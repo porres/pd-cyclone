@@ -74,4 +74,5 @@ CYCLONE_OBJ_API void greaterthaneq_tilde_setup(void)
                                   sizeof(t_greaterthaneq), CLASS_DEFAULT, A_DEFFLOAT, 0);
     class_addmethod(greaterthaneq_class, nullfn, gensym("signal"), 0);
     class_addmethod(greaterthaneq_class, (t_method)greaterthaneq_dsp, gensym("dsp"), A_CANT, 0);
+    pd_error(greaterthaneq_class, "[cyclone/greaterthaneq~] is deprecated, consider using vanilla's [>~] instead");
 }

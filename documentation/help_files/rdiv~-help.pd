@@ -21,8 +21,8 @@
 #X text 468 180 similar to:;
 #X obj 451 201 expr~ 10 / $v1;
 #X obj 499 69 cyclone/dsponoff~;
-#X obj 457 274 cyclone-help;
-#X text 452 253 Please check:;
+#X obj 457 257 cyclone-help;
+#X text 452 236 Please check:;
 #X obj 3 3 ./header !/~;
 #X text 22 61 Reversed inlets division for signals;
 #X obj 97 250 cyclone/snapshot~ 1;
@@ -37,8 +37,12 @@
 #X obj 251 250 cyclone/snapshot~ 1;
 #X obj 251 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
 #X obj 97 281 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #dcdcdc #000000 #000000 0 256;
-#X obj 308 323 expr~ $v2 / $v1;
-#X text 108 324 This is a Vanilla alternative:;
+#X obj 136 331 expr~ $v2 / $v1;
+#X text 48 314 This is a Vanilla alternative:, f 17;
+#X obj 463 336 open-else;
+#X text 462 294 click;
+#X msg 463 314 op~;
+#X text 276 308 Plugdata users or those with ELSE can also use [else/op~] as another alternative., f 28;
 #X connect 17 0 18 1;
 #X connect 18 0 35 0;
 #X connect 26 0 37 0;
@@ -51,3 +55,4 @@
 #X connect 33 0 34 0;
 #X connect 34 0 18 0;
 #X connect 35 0 36 0;
+#X connect 42 0 40 0;

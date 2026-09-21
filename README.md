@@ -20,7 +20,7 @@ This work is free. You can redistribute it and/or modify it under the terms of t
 
 -------
 
-Current Release: Cyclone 0.9-5 (this release needs at least Pd Vanilla 0.56-5)
+Current Release: Cyclone 0.9-6 (this release needs at least Pd Vanilla 0.57-0)
 
 Released September 5th 2026
 
@@ -29,7 +29,7 @@ Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 -------
 ### About Cyclone:
 
-Outdated versions of cyclone (0.1) are available in the long abandoned Pd-extended distribution (which no one should be using now in the 2020's) as well as in Pd-l2ork and Purr Data (both originally based on Pd-Extended but ported to nw.js). If you want an up to date version of Cyclone, use Pd Vanilla or PlugData.
+At the time of this release, outdated versions of cyclone (0.1) are available in the long abandoned Pd-extended distribution (which no one should be using now in the 2020's) as well as in Pd-l2ork and Purr Data (both originally based on Pd-Extended but ported to nw.js). If you want an up to date version of Cyclone, use Pd Vanilla or PlugData.
 
 Do you know about PlugData? Cyclone is also part of PlugData by Timothy Schoen, which is a fork of Pd that loads as a standalone or VST with a revamped GUI. ​See: <https://github.com/timothyschoen/PlugData>
 
