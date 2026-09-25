@@ -88,7 +88,6 @@ typedef struct _comment{
     int             x_text_flag;
     int             x_text_n;
     int             x_text_size;
-    int             x_zoom;
     int             x_fontface;
     int             x_bold;
     int             x_italic;
@@ -152,15 +151,14 @@ static void comment_draw_outline(t_comment *x){
             snprintf(color, sizeof(color), "#%06x", THISGUI->i_foregroundcolor);
         int x1, y1, x2, y2;
         comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags [list %lx_outline all%lx] -width %d -outline %s\n",
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -tags [list %lx_outline all%lx] -width 1 -outline %s\n",
             (unsigned long)x->x_cv,
             x1,
             y1,
-            x2 + 2*x->x_zoom,
-            y2 + 2*x->x_zoom,
+            x2 + 2,
+            y2 + 2,
             (unsigned long)x, // %lx_outline
             (unsigned long)x, // all%lx
-            x->x_zoom,
             color);
     }
 }
@@ -172,7 +170,7 @@ static void comment_draw_handle(t_comment *x){
         int x1, y1, x2, y2;
         comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         if(x->x_resized)
-            x2 = x1 + x->x_max_pixwidth * x->x_zoom;
+            x2 = x1 + x->x_max_pixwidth;
         char color[32];
         snprintf(color, sizeof(color), "#%06x", THISGUI->i_selectcolor);
         sys_vgui("canvas %s -width %d -height %d -bg %s -cursor sb_h_double_arrow\n",
@@ -182,10 +180,10 @@ static void comment_draw_handle(t_comment *x){
         sys_vgui("bind %s <Motion> {pdsend [concat %s _motion %%x %%y \\;]}\n", ch->h_pathname, ch->h_bindsym->s_name);
         sys_vgui(".x%lx.c create window %d %d -anchor nw -width %d -height %d -window %s -tags [list handle%lx all%lx]\n",
             x->x_cv,
-            x2 + 2*x->x_zoom,
+            x2 + 2,
             y1,
-            COMMENT_HANDLE_WIDTH + 2*x->x_zoom,
-            x->x_height + 1 + 2*x->x_zoom,
+            COMMENT_HANDLE_WIDTH + 2,
+            x->x_height + 1 + 2,
             ch->h_pathname,
             (unsigned long)x,
             (unsigned long)x);
@@ -200,8 +198,8 @@ static void comment_draw_inlet(t_comment *x){
             char color[32];
             snprintf(color, sizeof(color), "#%06x", THISGUI->i_foregroundcolor);
             sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -fill %s -tags [list %lx_in all%lx]\n",
-                     cv, xpos, ypos, xpos+(IOWIDTH*x->x_zoom),
-                     ypos+(IHEIGHT*x->x_zoom)-x->x_zoom, color, color,
+                     cv, xpos, ypos, xpos+(IOWIDTH),
+                     ypos+(IHEIGHT)-1, color, color,
                      (unsigned long)x, (unsigned long)x);
         }
     }
@@ -211,7 +209,7 @@ static void comment_adjust_justification(t_comment *x){
     if(gobj_shouldvis((t_gobj *)x, x->x_glist) && glist_isvisible(x->x_glist)){
         int move = 0;
         if(x->x_textjust && x->x_resized){
-            move = x->x_max_pixwidth - (x->x_text_width / x->x_zoom);
+            move = x->x_max_pixwidth - (x->x_text_width);
             if(x->x_textjust == 1) // center
                 move/=2;
         }
@@ -219,7 +217,7 @@ static void comment_adjust_justification(t_comment *x){
             int x1, y1, x2, y2;
             comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
             // getrect
-            sys_vgui(".x%lx.c moveto txt%lx  %d %d\n", x->x_cv, (unsigned long)x, x1+move*x->x_zoom, y1);
+            sys_vgui(".x%lx.c moveto txt%lx  %d %d\n", x->x_cv, (unsigned long)x, x1+move, y1);
         }
     }
 }
@@ -240,8 +238,8 @@ static void comment_draw(t_comment *x){
             (unsigned long)x->x_cv,
             text_xpix((t_text *)x, x->x_glist),
             text_ypix((t_text *)x, x->x_glist),
-            x2 + 2*x->x_zoom,
-            y2 + 2*x->x_zoom,
+            x2 + 2,
+            y2 + 2,
             (unsigned long)x,
             (unsigned long)x,
             x->x_outline ? fgcolor : x->x_bgcolor,
@@ -261,14 +259,14 @@ static void comment_draw(t_comment *x){
         (unsigned long)x->x_cv, // .x%lx.c
         (unsigned long)x, // txt%lx
         (unsigned long)x, // all%lx
-        text_xpix((t_text *)x, x->x_glist) + x->x_zoom, // %d
-        text_ypix((t_text *)x, x->x_glist) + x->x_zoom, // %d
+        text_xpix((t_text *)x, x->x_glist) + 1, // %d
+        text_ypix((t_text *)x, x->x_glist) + 1, // %d
         x->x_fontname->s_name, // {%s}
-        x->x_fontsize * x->x_zoom, // -%d
+        x->x_fontsize , // -%d
         x->x_select ? selcolor : x->x_color, // %s
         x->x_bufsize, // %.
         x->x_buf, // *s
-        x->x_max_pixwidth * x->x_zoom, // %d
+        x->x_max_pixwidth , // %d
         x->x_bold ? "bold" : "normal",
         x->x_italic ? "italic" : "roman", //
         x->x_textjust == 0 ? "left" : x->x_textjust == 1 ? "center" : "right");
@@ -292,7 +290,7 @@ static void comment_update(t_comment *x){
         (unsigned long)x,
         x->x_bufsize,
         x->x_buf,
-        x->x_max_pixwidth * x->x_zoom);
+        x->x_max_pixwidth );
     outp += strlen(outp);
     if(x->x_active){
         if(x->x_selend > x->x_selstart){ // <= TEXT SELECTION!!!!
@@ -348,7 +346,7 @@ static void comment_getrect(t_gobj *z, t_glist *glist, int *xp1, int *yp1, int *
     x1 = text_xpix((t_text *)x, glist);
     y1 = text_ypix((t_text *)x, glist);
     if(x->x_resized)
-        x->x_width = x->x_max_pixwidth * x->x_zoom;
+        x->x_width = x->x_max_pixwidth;
     int min_size = COMMENT_MINSIZE;
     if(x->x_width < min_size)
         x->x_width = min_size;
@@ -372,8 +370,8 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
         t->te_ypix += dy, x->x_y1 += dy, x->x_y2 += dy;
         sys_vgui(".x%lx.c move all%lx %d %d\n",
             x->x_cv, (unsigned long)x,
-            dx*x->x_zoom,
-            dy*x->x_zoom);
+            dx,
+            dy);
         canvas_fixlinesfor(x->x_cv, t);
     }
 }
@@ -422,8 +420,8 @@ static void comment_select(t_gobj *z, t_glist *glist, int state){
 #endif
     sys_vgui(".x%lx.c itemconfigure txt%lx -fill %s\n",
         x->x_cv, (unsigned long)x, state ? color : x->x_color);
-    sys_vgui(".x%lx.c itemconfigure %lx_outline -width %d -outline %s\n",
-             x->x_cv, (unsigned long)x, x->x_zoom, color);
+    sys_vgui(".x%lx.c itemconfigure %lx_outline -width 1 -outline %s\n",
+             x->x_cv, (unsigned long)x, color);
 // A regular rtext should set 'canvas_editing' variable to its canvas, we don't do it coz
 // we get keys via global binding to "#key" (and coz 'canvas_editing' isn't exported).
 }
@@ -456,8 +454,8 @@ t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
         x->x_y1 = y1;
         x->x_y2 = y2;
         if(x->x_resized){
-            x->x_width = x->x_max_pixwidth * x->x_zoom;
-            x->x_x2 = x1 + x->x_max_pixwidth * x->x_zoom;
+            x->x_width = x->x_max_pixwidth;
+            x->x_x2 = x1 + x->x_max_pixwidth;
         }
         else
             x->x_width = x2-x1, x->x_x2 = x2;
@@ -519,7 +517,7 @@ static void handle__click_callback(t_handle *ch, t_floatarg f){
             x->x_x2 = x->x_newx2;
             t_atom undo[1];
             SETFLOAT(undo+0, x->x_max_pixwidth);
-            int pixwidth = (x->x_newx2 - x->x_x1) / x->x_zoom;
+            int pixwidth = (x->x_newx2 - x->x_x1);
             t_atom redo[1];
             SETFLOAT(redo+0, pixwidth);
             pd_undo_set_objectstate(x->x_glist, (t_pd*)x, gensym("width"), 1, undo, 1, redo);
@@ -549,7 +547,7 @@ static void handle__motion_callback(t_handle *ch, t_floatarg f1, t_floatarg f2){
         int newx = x2 + dx;
         if(newx > x1 + COMMENT_MINSIZE){ // update outline
             sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv,
-                (unsigned long)x, x->x_x1, x->x_y1, (x->x_newx2 = newx) + 2*x->x_zoom, x->x_y2 + 2*x->x_zoom);
+                (unsigned long)x, x->x_x1, x->x_y1, (x->x_newx2 = newx) + 2, x->x_y2 + 2);
         }
     }
 }
@@ -954,7 +952,7 @@ static void comment_fontname(t_comment *x, t_symbol *name){
 static void comment_fontsize(t_comment *x, t_floatarg f){
     int size = (int)f < 5 ? 5 : (int)f;
     if(x->x_fontsize != size){
-        x->x_fontsize = size; // * x->x_zoom;
+        x->x_fontsize = size;
         x->x_bbset = 0;
         comment_redraw(x);
     }
@@ -1068,11 +1066,6 @@ static void comment_just(t_comment *x, t_float f){
         x->x_bbset = 0;
         comment_redraw(x); // itemconfigure?
     }
-}
-
-static void comment_zoom(t_comment *x, t_floatarg zoom){
-    x->x_zoom = (int)zoom;
-    comment_redraw(x);
 }
 
 //------------------- Properties --------------------------------------------------------
@@ -1274,7 +1267,6 @@ static void *comment_new(t_symbol *s, int ac, t_atom *av){
     t->te_type = T_TEXT;
     x->x_glist = canvas_getcurrent();
     x->x_cv = canvas_getcurrent();
-    x->x_zoom = x->x_glist->gl_zoom;
     x->x_fontname = gensym(sys_font);
     x->x_edit = x->x_glist->gl_edit;
     x->x_buf = 0;
@@ -1540,7 +1532,6 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(comment_class, (t_method)comment_textcolor, gensym("textcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_bgcolor, gensym("bgcolor"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment_bg_flag, gensym("bg"), A_FLOAT, 0);
-    class_addmethod(comment_class, (t_method)comment_zoom, gensym("zoom"), A_CANT, 0);
     class_addmethod(comment_class, (t_method)comment_ok, gensym("ok"), A_GIMME, 0);
     class_addmethod(comment_class, (t_method)comment__bbox_callback, gensym("_bbox"), A_SYMBOL, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(comment_class, (t_method)comment__click_callback, gensym("_click"), A_GIMME, 0);
