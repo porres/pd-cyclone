@@ -167,8 +167,9 @@ static void scope_draw_handle(t_scope *x, int state){
             x);
         sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 \\;]}\n", sh->h_pathname, sh->h_bindsym->s_name);
         sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 \\;]}\n", sh->h_pathname, sh->h_bindsym->s_name);
-        sys_vgui("bind %s <Motion> {pdsend [concat %s _motion %%x %%y \\;]}\n", sh->h_pathname, sh->h_bindsym->s_name);
-        sys_vgui("focus %s\n", sh->h_pathname); // because of a damn weird bug where it drew all over the canvas
+        // convert motion coordinates to canvas system, so that the zoom is taken into account
+        sys_vgui("bind %s <Motion> {pdsend [concat %s _motion [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
+            sh->h_pathname, sh->h_bindsym->s_name, x->x_cv, x->x_cv);
     }
 #endif
 }
