@@ -56,11 +56,6 @@ typedef struct _comment{
     int             x_height;
     int             x_bbset;
     int             x_bbpending;
-    int             x_x1;
-    int             x_y1;
-    int             x_x2;
-    int             x_y2;
-    int             x_newx2;
     int             x_dragon;
     int             x_select;
     int             x_fontsize;
@@ -175,9 +170,12 @@ static void comment_draw_handle(t_comment *x){
         snprintf(color, sizeof(color), "#%06x", THISGUI->i_selectcolor);
         sys_vgui("canvas %s -width %d -height %d -bg %s -cursor sb_h_double_arrow\n",
             ch->h_pathname, COMMENT_HANDLE_WIDTH, x->x_height, color);
-        sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 \\;]}\n", ch->h_pathname, ch->h_bindsym->s_name);
-        sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 \\;]}\n", ch->h_pathname, ch->h_bindsym->s_name);
-        sys_vgui("bind %s <Motion> {pdsend [concat %s _motion %%x %%y \\;]}\n", ch->h_pathname, ch->h_bindsym->s_name);
+        sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
+            ch->h_pathname, ch->h_bindsym->s_name, x->x_cv, x->x_cv);
+        sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
+            ch->h_pathname, ch->h_bindsym->s_name, x->x_cv, x->x_cv);
+        sys_vgui("bind %s <Motion> {pdsend [concat %s _motion [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
+            ch->h_pathname, ch->h_bindsym->s_name, x->x_cv, x->x_cv);
         sys_vgui(".x%lx.c create window %d %d -anchor nw -width %d -height %d -window %s -tags [list handle%lx all%lx]\n",
             x->x_cv,
             x2 + 2,
@@ -366,8 +364,8 @@ static void comment_displace(t_gobj *z, t_glist *glist, int dx, int dy){
     t_comment *x = (t_comment *)z;
     if(!x->x_active && !x->x_dragon){  // ???
         t_text *t = (t_text *)z;
-        t->te_xpix += dx, x->x_x1 += dx, x->x_x2 += dx;
-        t->te_ypix += dy, x->x_y1 += dy, x->x_y2 += dy;
+        t->te_xpix += dx;
+        t->te_ypix += dy;
         sys_vgui(".x%lx.c move all%lx %d %d\n",
             x->x_cv, (unsigned long)x,
             dx,
@@ -451,15 +449,11 @@ t_floatarg x1, t_floatarg y1, t_floatarg x2, t_floatarg y2){
     if(!x->x_bbset || (x->x_height != (y2-y1)) || x->x_text_width != (x2-x1)){ // redraw
         x->x_text_width = x2-x1;
         x->x_height = y2-y1;
-        x->x_y1 = y1;
-        x->x_y2 = y2;
         if(x->x_resized){
             x->x_width = x->x_max_pixwidth;
-            x->x_x2 = x1 + x->x_max_pixwidth;
         }
         else
-            x->x_width = x2-x1, x->x_x2 = x2;
-        x->x_x1 = x1;
+            x->x_width = x2-x1;
         x->x_bbset = 1;
         comment_redraw(x);
     }
@@ -496,33 +490,28 @@ static void comment__click_callback(t_comment *x, t_symbol *s, int ac, t_atom *a
 // set selection, LATER shift-click and drag
             }
         }
-        else if(xx > x->x_x2 - COMMENT_HANDLE_WIDTH){ // start resizing
-            outp += strlen(outp);
-            sprintf(outp, ".x%lx.c bind txt%lx <Motion> {pdsend {%s _motion %s %%x %%y}}\n",
-                cv, (unsigned long)x, x->x_bindsym->s_name, x->x_bindsym->s_name);
-            outp += strlen(outp);
-            sys_gui(buf);
-            x->x_newx2 = x->x_x2;
-            x->x_dragon = 1;
-        }
     }
 }
 
-static void handle__click_callback(t_handle *ch, t_floatarg f){
+static int xclick, yclick, xmotion, ymotion;
+
+static void handle__click_callback(t_handle *ch, t_floatarg f, t_floatarg xarg, t_floatarg yarg){
     int click = (int)f;
     t_comment *x = ch->h_master;
     if(ch->h_clicked && click == 0){ // Released the handle
-        if(x->x_x2 != x->x_newx2){
+        if(xmotion != xclick){
+            int x1, y1, x2, y2;
+            comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
             x->x_resized = 1;
-            x->x_x2 = x->x_newx2;
+            x2 += xmotion - xclick;
             t_atom undo[1];
             SETFLOAT(undo+0, x->x_max_pixwidth);
-            int pixwidth = (x->x_newx2 - x->x_x1);
+            int pixwidth = (x2 - x1);
+            if(pixwidth < 8)
+                pixwidth = 8; // min width
             t_atom redo[1];
             SETFLOAT(redo+0, pixwidth);
             pd_undo_set_objectstate(x->x_glist, (t_pd*)x, gensym("width"), 1, undo, 1, redo);
-            if(pixwidth < 8)
-                pixwidth = 8; // min width
             x->x_changed = 1;
             x->x_max_pixwidth = pixwidth;
             x->x_resized = 1;
@@ -530,25 +519,28 @@ static void handle__click_callback(t_handle *ch, t_floatarg f){
             comment_redraw(x); // needed to call bbox callback
         }
     }
-    if(click)
+    if(click) {
         x->x_bbset = 0; // arm bbox callback redraw
+        xmotion = xclick = xarg;
+        ymotion = yclick = yarg;
+    }
     ch->h_clicked = click;
 }
 
-static void handle__motion_callback(t_handle *ch, t_floatarg f1, t_floatarg f2){
+static void handle__motion_callback(t_handle *ch, t_floatarg xarg, t_floatarg yarg){
     if(ch->h_clicked){ // dragging handle
         t_comment *x = ch->h_master;
-        int dx = (int)f1;
-        f2 = 0; // avoid warning
+        xmotion = xarg;
+        ymotion = yarg;
         int x1, y1, x2, y2;
         comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
-        x->x_x1 = x1, x->x_x2 = x2;
-        x->x_y1 = y1, x->x_y2 = y2;
-        int newx = x2 + dx;
-        if(newx > x1 + COMMENT_MINSIZE){ // update outline
-            sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv,
-                (unsigned long)x, x->x_x1, x->x_y1, (x->x_newx2 = newx) + 2, x->x_y2 + 2);
+        int newx2 = x2 + xmotion - xclick;
+        if(newx2 < x1 + COMMENT_MINSIZE) {
+            newx2 = x1 + COMMENT_MINSIZE;
         }
+        // update outline
+        sys_vgui(".x%lx.c coords %lx_outline %d %d %d %d\n", (unsigned long)x->x_cv,
+            (unsigned long)x, x1, y1, newx2 + 2, y2 + 2);
     }
 }
 
@@ -1551,7 +1543,7 @@ CYCLONE_OBJ_API void comment_setup(void){
     class_addmethod(commentsink_class, (t_method)commentsink__bbox_callback, gensym("_bbox"), A_SYMBOL, 0); // <= ?????
     
     handle_class = class_new(gensym("_handle"), 0, 0, sizeof(t_handle), CLASS_PD, 0);
-    class_addmethod(handle_class, (t_method)handle__click_callback, gensym("_click"), A_FLOAT, 0);
+    class_addmethod(handle_class, (t_method)handle__click_callback, gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(handle_class, (t_method)handle__motion_callback, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     
     post("warning: [cyclone/comment] has been deprecated");

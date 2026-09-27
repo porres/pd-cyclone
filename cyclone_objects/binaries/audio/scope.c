@@ -82,7 +82,7 @@ typedef struct _handle{
     t_scope        *h_master;
     t_symbol       *h_bindsym;
     char            h_pathname[64], h_outlinetag[64];
-    int             h_dragon, h_dragx, h_dragy;
+    int             h_dragon;
     int             h_constrain;
     int             h_adjust_x, h_adjust_y;
 }t_handle;
@@ -165,10 +165,13 @@ static void scope_draw_handle(t_scope *x, int state){
             HANDLE_SIZE,
             sh->h_pathname,
             x);
-        sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 \\;]}\n", sh->h_pathname, sh->h_bindsym->s_name);
-        sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 \\;]}\n", sh->h_pathname, sh->h_bindsym->s_name);
-        sys_vgui("bind %s <Motion> {pdsend [concat %s _motion %%x %%y \\;]}\n", sh->h_pathname, sh->h_bindsym->s_name);
-        sys_vgui("focus %s\n", sh->h_pathname); // because of a damn weird bug where it drew all over the canvas
+        sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
+            sh->h_pathname, sh->h_bindsym->s_name, x->x_cv, x->x_cv);
+        sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
+            sh->h_pathname, sh->h_bindsym->s_name, x->x_cv, x->x_cv);
+        // convert motion coordinates to canvas system, so that the zoom is taken into account
+        sys_vgui("bind %s <Motion> {pdsend [concat %s _motion [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
+            sh->h_pathname, sh->h_bindsym->s_name, x->x_cv, x->x_cv);
     }
 #endif
 }
@@ -934,7 +937,9 @@ static void edit_proxy_any(t_edit_proxy *p, t_symbol *s, int ac, t_atom *av){
 }
 
 // --------------------- handle ---------------------------------------------------
-static void handle__click_callback(t_handle *sh, t_floatarg f){
+static int xclick, yclick, xmotion, ymotion;
+
+static void handle__click_callback(t_handle *sh, t_floatarg f, t_floatarg xarg, t_floatarg yarg){
     int click = (int)f;
     t_scope *x = sh->h_master;
     if(sh->h_dragon && click == 0){
@@ -943,10 +948,8 @@ static void handle__click_callback(t_handle *sh, t_floatarg f){
         SETFLOAT(undo+0, x->x_width);
         SETFLOAT(undo+1, x->x_height);
         t_atom redo[2];
-        int width = (x->x_width+sh->h_dragx);
-        int height = (x->x_height+sh->h_dragy);
-        SETFLOAT(redo+0, width);
-        SETFLOAT(redo+1, height);
+        SETFLOAT(redo+0, x->x_width + xmotion - xclick);
+        SETFLOAT(redo+1, x->x_height + ymotion - yclick);
         pd_undo_set_objectstate(x->x_glist, (t_pd*)x, gensym("dim"), 2, undo, 2, redo);
         scope_dim(x, NULL, 2, redo);
         scope_draw_handle(x, 1);
@@ -961,15 +964,18 @@ static void handle__click_callback(t_handle *sh, t_floatarg f){
         sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -width %d -tags %s\n",
             x->x_cv, x1, y1, x2, y2, sel,
             SCOPE_SELBDWIDTH, sh->h_outlinetag);
-        sh->h_dragx = sh->h_dragy = 0;
+        xclick = xmotion = xarg;
+        yclick = ymotion = yarg;
     }
     sh->h_dragon = click;
 }
 
-static void handle__motion_callback(t_handle *sh, t_floatarg f1, t_floatarg f2){
+static void handle__motion_callback(t_handle *sh, t_floatarg xarg, t_floatarg yarg){
     if(sh->h_dragon){
         t_scope *x = sh->h_master;
-        int dx = (int)f1 - HANDLE_SIZE, dy = (int)f2 - HANDLE_SIZE;
+        xmotion = xarg;
+        ymotion = yarg;
+        int dx = xmotion - xclick, dy = ymotion - yclick;
         int x1, y1, x2, y2;
         scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         int newx = x2 + dx, newy = y2 + dy;
@@ -978,7 +984,6 @@ static void handle__motion_callback(t_handle *sh, t_floatarg f1, t_floatarg f2){
         if(newy < y1 + SCOPE_MINSIZE)
             newy = y1 + SCOPE_MINSIZE;
         sys_vgui(".x%lx.c coords %s %d %d %d %d\n", x->x_cv, sh->h_outlinetag, x1, y1, newx, newy);
-        sh->h_dragx = dx, sh->h_dragy = dy;
     }
 }
 
@@ -1692,7 +1697,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     edit_proxy_class = class_new(0, 0, 0, sizeof(t_edit_proxy), CLASS_NOINLET | CLASS_PD, 0);
     class_addanything(edit_proxy_class, edit_proxy_any);
     handle_class = class_new(gensym("_handle"), 0, 0, sizeof(t_handle), CLASS_PD, 0);
-    class_addmethod(handle_class, (t_method)handle__click_callback, gensym("_click"), A_FLOAT, 0);
+    class_addmethod(handle_class, (t_method)handle__click_callback, gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(handle_class, (t_method)handle__motion_callback, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     class_setsavefn(scope_class, scope_save);
     class_setpropertiesfn(scope_class, scope_properties);
@@ -1740,7 +1745,7 @@ CYCLONE_OBJ_API void Scope_tilde_setup(void){
     edit_proxy_class = class_new(0, 0, 0, sizeof(t_edit_proxy), CLASS_NOINLET | CLASS_PD, 0);
     class_addanything(edit_proxy_class, edit_proxy_any);
     handle_class = class_new(gensym("_handle"), 0, 0, sizeof(t_handle), CLASS_PD, 0);
-    class_addmethod(handle_class, (t_method)handle__click_callback, gensym("_click"), A_FLOAT, 0);
+    class_addmethod(handle_class, (t_method)handle__click_callback, gensym("_click"), A_FLOAT, A_FLOAT, A_FLOAT, 0);
     class_addmethod(handle_class, (t_method)handle__motion_callback, gensym("_motion"), A_FLOAT, A_FLOAT, 0);
     class_setsavefn(scope_class, scope_save);
     class_setpropertiesfn(scope_class, scope_properties);

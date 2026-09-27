@@ -5,7 +5,7 @@
 lib.name = cyclone
 
 # for the MINGW which has the timespec struct defined twice
-cflags = -Ishared -DHAVE_STRUCT_TIMESPEC
+cflags = -Ishared -DHAVE_STRUCT_TIMESPEC -Wno-deprecated-declarations
 
 define forWindows
 	ldlibs += -lpthread
