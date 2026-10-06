@@ -64,10 +64,15 @@ static t_class *mtrack_class;
 static t_class *mtr_class;
 
 static void mtrack_play(t_mtrack *tp);
+static double mtrack_getduration(t_mtrack *tp);
 
 static void mtrack_donext(t_mtrack *tp){
  if(tp->tr_ixnext < 0)
      goto endoftrack;
+ if(tp->tr_ixnext == 0 && !tp->tr_atdelta){  // start of track (play or step): reset selection clock
+     tp->tr_trackdur = mtrack_getduration(tp);
+     tp->tr_playtime = 0.;
+ }
  while(1){
      int natoms = binbuf_getnatom(tp->tr_binbuf);
      int ixmess = tp->tr_ixnext;
@@ -85,6 +90,26 @@ static void mtrack_donext(t_mtrack *tp){
          float delta = atmess->a_w.w_float;
          if(delta < 0.)
              delta = 0.;
+         double newtime = tp->tr_playtime + delta;  // absolute time of this event (ms)
+         t_atom *at0 = binbuf_getvec(tp->tr_binbuf);  // selection spans first event .. last event
+         double lead = (at0->a_type == A_FLOAT && at0->a_w.w_float > 0.) ? at0->a_w.w_float : 0.;
+         double span = tp->tr_trackdur - lead;
+         double selstart = tp->tr_sel_start > 0. ? lead + tp->tr_sel_start * span : 0.;
+         double selend = lead + tp->tr_sel_end * span;
+         int first = (tp->tr_playtime < selstart);  // first event inside the selection
+         if(tp->tr_sel_end < 1. && newtime > selend)
+             goto endoftrack;  // past selection end
+         if(newtime < selstart){  // before selection start: skip delta + message silently
+             int ixskip = ixmess + 1;
+             while(ixskip < natoms && (binbuf_getvec(tp->tr_binbuf) + ixskip)->a_type != A_SEMI)
+                 ixskip++;
+             tp->tr_playtime = newtime;
+             tp->tr_ixnext = ixskip;
+             continue;
+         }
+         if(first)
+             delta = newtime - selstart;  // first event waits only until its own time
+         tp->tr_playtime = newtime;
          tp->tr_atdelta = atmess;
          tp->tr_ixnext = ixmess + 1;
          float speed = tp->tr_owner->x_speed * tp->tr_tempo;
@@ -92,7 +117,7 @@ static void mtrack_donext(t_mtrack *tp){
              clock_delay(tp->tr_clock, tp->tr_clockdelay = delta*speed);
              tp->tr_prevtime = clock_getlogicaltime();
          }
-         else if(ixmess < 2)  // LATER rethink
+         else if(ixmess < 2 || first)  // LATER rethink
              continue;  // CHECKED first delta skipped
          else{  // CHECKED this is not blocked with the muted flag
              t_atom at[2];
@@ -370,15 +395,15 @@ static void mtrack_doadd(t_mtrack *tp, int ac, t_atom *av)
 {
     if (tp->tr_prevtime > 0.)
     {
-	t_binbuf *bb = tp->tr_binbuf;
-	t_atom at;
-    	float elapsed = clock_gettimesince(tp->tr_prevtime);
-	SETFLOAT(&at, elapsed);
-	binbuf_add(bb, 1, &at);
-	binbuf_add(bb, ac, av);
-	SETSEMI(&at);
-	binbuf_add(bb, 1, &at);
-	tp->tr_prevtime = clock_getlogicaltime();
+    t_binbuf *bb = tp->tr_binbuf;
+    t_atom at;
+        float elapsed = clock_gettimesince(tp->tr_prevtime);
+    SETFLOAT(&at, elapsed);
+    binbuf_add(bb, 1, &at);
+    binbuf_add(bb, ac, av);
+    SETSEMI(&at);
+    binbuf_add(bb, 1, &at);
+    tp->tr_prevtime = clock_getlogicaltime();
     }
 }
 
@@ -516,7 +541,7 @@ static void mtrack_delay(t_mtrack *tp, t_floatarg f)
 {
     t_atom *ap = mtrack_getdelay(tp);
     if (ap)
-	ap->a_w.w_float = f;
+    ap->a_w.w_float = f;
 }
 
 static void mtrack_first(t_mtrack *tp, t_floatarg f)
@@ -544,18 +569,18 @@ static void mtrack_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
 static void mtrack_read(t_mtrack *tp, t_symbol *s)
 {
     if (s && s != &s_)
-	mtr_doread(tp->tr_owner, tp, s);
+    mtr_doread(tp->tr_owner, tp, s);
     else  /* CHECKED no default */
-	panel_open(tp->tr_filehandle, 0);
+    panel_open(tp->tr_filehandle, 0);
 }
 
 static void mtrack_write(t_mtrack *tp, t_symbol *s)
 {
     if (s && s != &s_)
-	mtr_dowrite(tp->tr_owner, tp, s);
+    mtr_dowrite(tp->tr_owner, tp, s);
     else  /* CHECKED no default */
-	panel_save(tp->tr_filehandle,
-			 canvas_getdir(tp->tr_owner->x_cnv), 0);
+    panel_save(tp->tr_filehandle,
+             canvas_getdir(tp->tr_owner->x_cnv), 0);
 }
 
 static void mtr_embed(t_mtr *x, t_floatarg f){
@@ -577,11 +602,11 @@ static void mtrack_trackspeed(t_mtrack *tp, t_floatarg f){
         f = 1e20;
     float newtempo = 1. / f;
     if(tp->tr_prevtime > 0.){
-    	tp->tr_clockdelay -= clock_gettimesince(tp->tr_prevtime);
+        tp->tr_clockdelay -= clock_gettimesince(tp->tr_prevtime);
         tp->tr_clockdelay *= newtempo / tp->tr_tempo;
         if(tp->tr_clockdelay < 0.)
             tp->tr_clockdelay = 0.;
-    	clock_delay(tp->tr_clock, tp->tr_clockdelay);
+        clock_delay(tp->tr_clock, tp->tr_clockdelay);
         tp->tr_prevtime = clock_getlogicaltime();
     }
     tp->tr_tempo = newtempo;
@@ -594,6 +619,10 @@ static void mtrack_loop(t_mtrack *tp, t_floatarg f){
 static void mtrack_selection(t_mtrack *tp, t_floatarg f1, t_floatarg f2){
     float start = f1 < 0 ? 0 : f1 > 1 ? 1 : f1;
     float end = f2 < 0 ? 0 : f2 > 1 ? 1 : f2;
+    if(end == 0){  // e = 0 means whole
+        start = 0;
+        end = 1;
+    }
     if(start >= end)
         return;
     tp->tr_sel_start = start;
@@ -606,7 +635,7 @@ static void mtr_calltracks(t_mtr *x, t_mtrackfn fn, t_symbol *s, int ac, t_atom 
     t_mtrack **tpp = x->x_tracks;
     if(ac){
         /* FIXME: CHECKED tracks called in the order of being mentioned
-	   (without duplicates) */
+       (without duplicates) */
         while(ntracks--)
             (*tpp++)->tr_listed = 0;
         while(ac--){ // CHECKED silently ignoring out-of-bounds and non-ints
@@ -695,31 +724,31 @@ static void mtr_first(t_mtr *x, t_floatarg f)
     t_mtrack **tpp = x->x_tracks;
     float delta = SHARED_FLT_MAX;
     if (f < 0.)
-	f = 0.;
+    f = 0.;
     while (ntracks--)
     {
-	t_atom *ap = mtrack_getdelay(*tpp);
-	if (ap)
-	{
-	    if (delta > ap->a_w.w_float)
-		delta = ap->a_w.w_float;
-	    (*tpp)->tr_listed = 1;
-	}
-	else (*tpp)->tr_listed = 0;
-	tpp++;
+    t_atom *ap = mtrack_getdelay(*tpp);
+    if (ap)
+    {
+        if (delta > ap->a_w.w_float)
+        delta = ap->a_w.w_float;
+        (*tpp)->tr_listed = 1;
+    }
+    else (*tpp)->tr_listed = 0;
+    tpp++;
     }
     ntracks = x->x_ntracks;
     tpp = x->x_tracks;
     delta -= f;
     while (ntracks--)
     {
-	if ((*tpp)->tr_listed)
-	{
-	    t_atom *ap = mtrack_getdelay(*tpp);
-	    if (ap)
-		ap->a_w.w_float -= delta;
-	}
-	tpp++;
+    if ((*tpp)->tr_listed)
+    {
+        t_atom *ap = mtrack_getdelay(*tpp);
+        if (ap)
+        ap->a_w.w_float -= delta;
+    }
+    tpp++;
     }
 }
 
@@ -742,62 +771,62 @@ static void mtr_doread(t_mtr *x, t_mtrack *target, t_symbol *fname){
         char linebuf[MTR_FILEBUFSIZE];
         t_binbuf *bb = binbuf_new();
         while (fgets(linebuf, MTR_FILEBUFSIZE, fp))
-	{
-	    char *line = linebuf;
-	    int linelen;
-	    while (*line && (*line == ' ' || *line == '\t')) line++;
-	    if((linelen = strlen(line)))
-	    {
-		if (tp)
-		{
-		    if (!strncmp(line, "end;", 4))
-		    {
-			post("ok");
-			tp = 0;
-		    }
-		    else
-		    {
-			int ac;
-			binbuf_text(bb, line, linelen);
-			if ((ac = binbuf_getnatom(bb))){
-			    t_atom *ap = binbuf_getvec(bb);
-			    if (!binbuf_getnatom(tp->tr_binbuf))
-			    {
-				if (ap->a_type != A_FLOAT)
-				{
-				    t_atom at;
-				    SETFLOAT(&at, 0.);
-				    binbuf_add(tp->tr_binbuf, 1, &at);
-				}
-				else if (ap->a_w.w_float < 0.)
-				    ap->a_w.w_float = 0.;
-			    }
-			    binbuf_add(tp->tr_binbuf, ac, ap);
-			}
-		    }
-		}
-		else if (!strncmp(line, "track ", 6))
-		{
-		    int id = strtol(line + 6, 0, 10);
-		    startpost("Track %d... ", id);
-		    if (id < 1 || id > x->x_ntracks)
-			post("no such track");  /* LATER rethink */
-		    else if (target)
-		    {
-			if (id == target->tr_id)
-			    tp = target;
-			post("skipped");  /* LATER rethink */
-		    }
-		    else tp = x->x_tracks[id - 1];
-		    if (tp)
-		    {
-			binbuf_clear(tp->tr_binbuf);
-		    }
-		}
-	    }
-	}
-	fclose(fp);
-	binbuf_free(bb);
+    {
+        char *line = linebuf;
+        int linelen;
+        while (*line && (*line == ' ' || *line == '\t')) line++;
+        if((linelen = strlen(line)))
+        {
+        if (tp)
+        {
+            if (!strncmp(line, "end;", 4))
+            {
+            post("ok");
+            tp = 0;
+            }
+            else
+            {
+            int ac;
+            binbuf_text(bb, line, linelen);
+            if ((ac = binbuf_getnatom(bb))){
+                t_atom *ap = binbuf_getvec(bb);
+                if (!binbuf_getnatom(tp->tr_binbuf))
+                {
+                if (ap->a_type != A_FLOAT)
+                {
+                    t_atom at;
+                    SETFLOAT(&at, 0.);
+                    binbuf_add(tp->tr_binbuf, 1, &at);
+                }
+                else if (ap->a_w.w_float < 0.)
+                    ap->a_w.w_float = 0.;
+                }
+                binbuf_add(tp->tr_binbuf, ac, ap);
+            }
+            }
+        }
+        else if (!strncmp(line, "track ", 6))
+        {
+            int id = strtol(line + 6, 0, 10);
+            startpost("Track %d... ", id);
+            if (id < 1 || id > x->x_ntracks)
+            post("no such track");  /* LATER rethink */
+            else if (target)
+            {
+            if (id == target->tr_id)
+                tp = target;
+            post("skipped");  /* LATER rethink */
+            }
+            else tp = x->x_tracks[id - 1];
+            if (tp)
+            {
+            binbuf_clear(tp->tr_binbuf);
+            }
+        }
+        }
+    }
+    fclose(fp);
+    binbuf_free(bb);
     }
     else{
         /* CHECKED no complaint, open dialog not presented... */
@@ -817,8 +846,8 @@ static int mtr_writetrack(t_mtr *x, t_mtrack *tp, FILE *fp){
         for(; natoms--; ap++){
             int length;
             /* from binbuf_write():
-	       ``estimate how many characters will be needed.  Printing out
-	       symbols may need extra characters for inserting backslashes.'' */
+           ``estimate how many characters will be needed.  Printing out
+           symbols may need extra characters for inserting backslashes.'' */
             if(ap->a_type == A_SYMBOL || ap->a_type == A_DOLLSYM)
                 length = 80 + strlen(ap->a_w.w_symbol->s_name);
             else
@@ -867,10 +896,10 @@ static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname){
     char path[MAXPDSTRING];
     FILE *fp;
     if (x->x_cnv)
-	canvas_makefilename(x->x_cnv, fname->s_name, path, MAXPDSTRING);
+    canvas_makefilename(x->x_cnv, fname->s_name, path, MAXPDSTRING);
     else{
-    	strncpy(path, fname->s_name, MAXPDSTRING);
-    	path[MAXPDSTRING-1] = 0;
+        strncpy(path, fname->s_name, MAXPDSTRING);
+        path[MAXPDSTRING-1] = 0;
     }
     // CHECKED no global message
     if((fp = sys_fopen(path, "w"))){ // CHECKED single-track writing does not seem to work (a bug?)
@@ -883,11 +912,11 @@ static void mtr_dowrite(t_mtr *x, t_mtrack *source, t_symbol *fname){
                 if((failed = mtr_writetrack(x, *tpp, fp)))
                     break;
         }
-//	if (failed) sys_unixerror(path);  // LATER rethink
+//    if (failed) sys_unixerror(path);  // LATER rethink
         fclose(fp);
     }
     else{
-//	sys_unixerror(path);  // LATER rethink
+//    sys_unixerror(path);  // LATER rethink
         failed = 1;
     }
     if(failed)
@@ -909,32 +938,32 @@ static void mtr_writehook(t_pd *z, t_symbol *fname, int ac, t_atom *av){
 static void mtr_embedhook(t_pd *z, t_binbuf *bb, t_symbol *bindsym){
     t_mtr *x = (t_mtr *)z;
     if(x->x_embed){
-    	int ntracks = x->x_ntracks;
-   		t_mtrack **tpp = x->x_tracks;
+        int ntracks = x->x_ntracks;
+           t_mtrack **tpp = x->x_tracks;
         binbuf_addv(bb, "ssi;", bindsym, gensym("embed"), 1);
         while(ntracks--){
-        	t_mtrack *tp = *tpp++;
-        	binbuf_addv(bb, "ssi", bindsym, gensym("_track"), tp->tr_id);
-        	binbuf_addbinbuf(bb, tp->tr_binbuf);
-        	binbuf_addsemi(bb);
-        }  
+            t_mtrack *tp = *tpp++;
+            binbuf_addv(bb, "ssi", bindsym, gensym("_track"), tp->tr_id);
+            binbuf_addbinbuf(bb, tp->tr_binbuf);
+            binbuf_addsemi(bb);
+        }
     }
     obj_saveformat((t_object *)x, bb);
 }
 
 static void mtr_embtrack(t_mtr *x, t_symbol *s, int ac, t_atom *av){
-	int id;
-	t_mtrack *tp;
-	if(ac && av->a_type == A_FLOAT){
-		id = (int)av->a_w.w_float;
-		ac--, av++;
-	}
-	tp = x->x_tracks[id - 1];
-	if(tp && tp->tr_id == id){
-		binbuf_clear(tp->tr_binbuf);
-		binbuf_restore(tp->tr_binbuf, ac, av);
-	}
-	
+    int id;
+    t_mtrack *tp;
+    if(ac && av->a_type == A_FLOAT){
+        id = (int)av->a_w.w_float;
+        ac--, av++;
+    }
+    tp = x->x_tracks[id - 1];
+    if(tp && tp->tr_id == id){
+        binbuf_clear(tp->tr_binbuf);
+        binbuf_restore(tp->tr_binbuf, ac, av);
+    }
+    
 }
 
 static void mtr_read(t_mtr *x, t_symbol *s){
@@ -1049,7 +1078,7 @@ static void *mtr_new(t_symbol *s, int ac, t_atom *av){
                 }
             }
             else if(sym == gensym("@selection")){
-                if(ac && (av)->a_type == A_FLOAT && (av+1)->a_type == A_FLOAT){
+                if(ac > 1 && (av)->a_type == A_FLOAT && (av+1)->a_type == A_FLOAT){
                     mtr_selection(x, atom_getfloat(av), atom_getfloat(av+1));
                     ac--, av++;
                     ac--, av++;
@@ -1116,6 +1145,6 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtr_class, (t_method)mtr_read, gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_write, gensym("write"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_selection, gensym("selection"), A_FLOAT, A_FLOAT, 0);
-	class_addmethod(mtr_class, (t_method)mtr_embtrack, gensym("_track"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_embtrack, gensym("_track"), A_GIMME, 0);
     file_setup(mtr_class, 1);
 }
