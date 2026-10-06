@@ -166,9 +166,14 @@ endoftrack:
  }
  tp->tr_atdelta = 0;
  tp->tr_prevtime = 0.;
- tp->tr_mode = MTR_STEPMODE;
- if(tp->tr_loop)
-     mtrack_play(tp);
+ if(tp->tr_loop){  // loop: restart from the next tick instead of recursing into mtrack_play
+     tp->tr_ixnext = 0;
+     tp->tr_playtime = 0.;
+     tp->tr_mode = MTR_PLAYMODE;
+     clock_delay(tp->tr_clock, tp->tr_clockdelay = 1.);  // nonzero: let Pd advance a tick before retriggering
+ }
+ else
+     tp->tr_mode = MTR_STEPMODE;
 }
 
 /*static void mtrack_donext(t_mtrack *tp){
