@@ -504,6 +504,23 @@ static void mtrack_stop(t_mtrack *tp){
     mtrack_setmode(tp, MTR_STEPMODE);
 }
 
+/* length = total time elapsed since the recording started, including any idle
+   time after the last recorded event. tr_prevtime is the timestamp of the last
+   event (or of the record start if none yet), so elapsed = sum of the recorded
+   deltas + time since tr_prevtime. This must NOT be just mtrack_getduration,
+   since that is what playback already falls back to when tr_length is 0, which
+   would make this message equivalent to stop. Length is stored in tr_length, no
+   EOT marker is added to the binbuf. */
+static void mtrack_definelengthandstop(t_mtrack *tp){
+    if(tp->tr_mode == MTR_RECMODE){
+        double elapsed = mtrack_getduration(tp);
+        if(tp->tr_prevtime > 0.)
+            elapsed += clock_gettimesince(tp->tr_prevtime);
+        tp->tr_length = elapsed > 0 ? elapsed : 0;
+    }
+    mtrack_setmode(tp, MTR_STEPMODE);
+}
+
 static void mtrack_next(t_mtrack *tp){
     if (tp->tr_mode == MTR_STEPMODE)
         mtrack_donext(tp);
@@ -679,6 +696,10 @@ static void mtr_play(t_mtr *x, t_symbol *s, int ac, t_atom *av){
 
 static void mtr_stop(t_mtr *x, t_symbol *s, int ac, t_atom *av){
     mtr_calltracks(x, mtrack_stop, s, ac, av);
+}
+
+static void mtr_definelengthandstop(t_mtr *x, t_symbol *s, int ac, t_atom *av){
+    mtr_calltracks(x, mtrack_definelengthandstop, s, ac, av);
 }
 
 static void mtr_next(t_mtr *x, t_symbol *s, int ac, t_atom *av){
@@ -1140,6 +1161,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtrack_class, (t_method)mtrack_record, gensym("record"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_play, gensym("play"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_stop, gensym("stop"), 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_definelengthandstop, gensym("definelengthandstop"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_next, gensym("next"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_rewind, gensym("rewind"), 0);
     class_addmethod(mtrack_class, (t_method)mtrack_mute, gensym("mute"), 0);
@@ -1161,6 +1183,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtr_class, (t_method)mtr_record, gensym("record"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_play, gensym("play"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_stop, gensym("stop"), A_GIMME, 0);
+    class_addmethod(mtr_class, (t_method)mtr_definelengthandstop, gensym("definelengthandstop"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_next, gensym("next"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_rewind, gensym("rewind"), A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_mute, gensym("mute"), A_GIMME, 0);
