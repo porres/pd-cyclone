@@ -37,6 +37,8 @@ typedef struct _mtrack{
     float          tr_tempo;
     float          tr_sel_start;
     float          tr_sel_end;
+    float          tr_playat;     // pending one-shot start (0..1), < 0 = none
+    float          tr_runstart;   // start position latched for the current run
     float          tr_length;
     double         tr_clockdelay;
     double         tr_prevtime;
@@ -73,6 +75,8 @@ static void mtrack_donext(t_mtrack *tp){
  if(tp->tr_ixnext == 0 && !tp->tr_atdelta){  // start of track (play or step): reset selection clock
      tp->tr_trackdur = mtrack_getduration(tp);
      tp->tr_playtime = 0.;
+     tp->tr_runstart = tp->tr_playat >= 0. ? tp->tr_playat : tp->tr_sel_start;  // playat is consumed here
+     tp->tr_playat = -1.;
  }
  while(1){
      int natoms = binbuf_getnatom(tp->tr_binbuf);
@@ -96,7 +100,7 @@ static void mtrack_donext(t_mtrack *tp){
          double lead = (at0->a_type == A_FLOAT && at0->a_w.w_float > 0.) ? at0->a_w.w_float : 0.;
          double dur = tp->tr_length > 0. ? tp->tr_length : tp->tr_trackdur;
          double span = dur - lead;
-         double selstart = tp->tr_sel_start > 0. ? lead + tp->tr_sel_start * span : 0.;
+         double selstart = tp->tr_runstart > 0. ? lead + tp->tr_runstart * span : 0.;
          double selend = lead + tp->tr_sel_end * span;
          int first = (tp->tr_playtime < selstart);  // first event inside the selection
          if((tp->tr_sel_end < 1. || tp->tr_length > 0.) && newtime > selend)
@@ -653,6 +657,11 @@ static void mtrack_selection(t_mtrack *tp, t_floatarg f1, t_floatarg f2){
     tp->tr_sel_end = end;
 }
 
+static void mtrack_playat(t_mtrack *tp, t_floatarg f){
+    tp->tr_playat = f < 0 ? 0 : f > 1 ? 1 : f;  // one-shot: tr_sel_start/end untouched
+    mtrack_play(tp);
+}
+
 static void mtrack_length(t_mtrack *tp, t_floatarg f){
     tp->tr_length = f > 0 ? f : 0;
 }
@@ -741,6 +750,13 @@ static void mtr_selection(t_mtr *x, t_floatarg f1, t_floatarg f2){
     t_mtrack **tpp = x->x_tracks;
     while(ntracks--)
         mtrack_selection(*tpp++, f1, f2);
+}
+
+static void mtr_playat(t_mtr *x, t_floatarg f){
+    int ntracks = x->x_ntracks;
+    t_mtrack **tpp = x->x_tracks;
+    while(ntracks--)
+        mtrack_playat(*tpp++, f);
 }
 
 static void mtr_length(t_mtr *x, t_floatarg f){
@@ -1091,6 +1107,8 @@ static void *mtr_new(t_symbol *s, int ac, t_atom *av){
                 tp->tr_loop = 0;
                 tp->tr_sel_start = 0.;
                 tp->tr_sel_end = 1.;
+                tp->tr_playat = -1.;
+                tp->tr_runstart = 0.;
                 tp->tr_length = 0.;
                 tp->tr_restarted = 0;
                 tp->tr_atdelta = 0;
@@ -1174,6 +1192,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtrack_class, (t_method)mtrack_trackspeed, gensym("trackspeed"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_loop, gensym("loop"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_selection, gensym("selection"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_playat, gensym("playat"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_length, gensym("length"), A_FLOAT, 0);
     mtr_class = class_new(gensym("mtr"), (t_newmethod)mtr_new,
         (t_method)mtr_free, sizeof(t_mtr), 0, A_GIMME, 0);
@@ -1194,6 +1213,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtr_class, (t_method)mtr_read, gensym("read"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_write, gensym("write"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_selection, gensym("selection"), A_FLOAT, A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_playat, gensym("playat"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_length, gensym("length"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_embtrack, gensym("_track"), A_GIMME, 0);
     file_setup(mtr_class, 1);

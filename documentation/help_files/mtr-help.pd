@@ -1,4 +1,4 @@
-#N canvas 495 25 563 587 10;
+#N canvas 495 38 563 587 10;
 #X obj 3 369 cnv 3 550 3 empty empty inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 427 cnv 3 550 3 empty empty outlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 525 cnv 3 550 3 empty empty arguments 8 12 0 13 #dcdcdc #000000 0;
@@ -15,7 +15,7 @@
 #X text 59 168 recording;
 #X text 68 154 start =>;
 #X text 250 153 <= stop recording and start playing;
-#N canvas 425 25 707 663 All_Messages 0;
+#N canvas 425 38 707 663 All_Messages 0;
 #X text 99 49 delay <float> -;
 #X text 99 79 first <float> -;
 #X text 195 49 in left inlet: sets a delay value in ms for all tracks to start playing. In other inlets: sets a delay time to that track only, f 77;
@@ -78,7 +78,7 @@
 #X text 111 180 @length <float> -;
 #X text 223 152 Sets playback selection from the specified lengyh normalized (0-1). Same if sent as a message to the left inlet but in other inlets set individual selections., f 82;
 #X text 223 180 Sets the length of the track in ms. Same if sent as a message to the left inlet but in other inlets set individual lengths., f 82;
-#X text 206 216 Cyclone won't implement attribute related to "transport" stuff \, like: transport \, sync \, bindto \, autostart \, autostarttime and quantize. There are other attributes that maybe can get into the next releases \, they are: mode and nextmode., f 69;
+#X text 206 216 Cyclone won't implement attributes related to "transport" and dict stuff \, like: transport \, sync \, bindto \, autostart \, autostarttime and quantize (this one simply did not work in MAX or wasn't clear so I didn't bother). There are other attributes that maybe can get into the next releases \, they are: mode and nextmode., f 69;
 #X restore 322 496 pd Attributes;
 #X text 25 223 THIS OBJECT HAS NOT BEEN FULLY UPDATED TO MAX 7!, f 18;
 #X text 139 496 check possible attributes -->;
