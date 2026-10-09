@@ -662,6 +662,11 @@ static void mtrack_playat(t_mtrack *tp, t_floatarg f){
     mtrack_play(tp);
 }
 
+static void mtrack_playatms(t_mtrack *tp, t_floatarg f){
+    double dur = tp->tr_length > 0. ? tp->tr_length : mtrack_getduration(tp);
+    mtrack_playat(tp, dur > 0. ? (t_floatarg)(f / dur) : 0.);
+}
+
 static void mtrack_length(t_mtrack *tp, t_floatarg f){
     tp->tr_length = f > 0 ? f : 0;
 }
@@ -757,6 +762,13 @@ static void mtr_playat(t_mtr *x, t_floatarg f){
     t_mtrack **tpp = x->x_tracks;
     while(ntracks--)
         mtrack_playat(*tpp++, f);
+}
+
+static void mtr_playatms(t_mtr *x, t_floatarg f){
+    int ntracks = x->x_ntracks;
+    t_mtrack **tpp = x->x_tracks;
+    while(ntracks--)
+        mtrack_playatms(*tpp++, f);
 }
 
 static void mtr_length(t_mtr *x, t_floatarg f){
@@ -1193,6 +1205,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtrack_class, (t_method)mtrack_loop, gensym("loop"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_selection, gensym("selection"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_playat, gensym("playat"), A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_playatms, gensym("playatms"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_length, gensym("length"), A_FLOAT, 0);
     mtr_class = class_new(gensym("mtr"), (t_newmethod)mtr_new,
         (t_method)mtr_free, sizeof(t_mtr), 0, A_GIMME, 0);
@@ -1214,6 +1227,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtr_class, (t_method)mtr_write, gensym("write"), A_DEFSYM, 0);
     class_addmethod(mtr_class, (t_method)mtr_selection, gensym("selection"), A_FLOAT, A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_playat, gensym("playat"), A_FLOAT, 0);
+    class_addmethod(mtr_class, (t_method)mtr_playatms, gensym("playatms"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_length, gensym("length"), A_FLOAT, 0);
     class_addmethod(mtr_class, (t_method)mtr_embtrack, gensym("_track"), A_GIMME, 0);
     file_setup(mtr_class, 1);
