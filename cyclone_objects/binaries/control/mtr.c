@@ -377,6 +377,37 @@ static double mtrack_getduration(t_mtrack *tp){
     return(total);
 }
 
+/* dump: print each block's absolute time and payload.  Debug helper. */
+static void mtrack_dump(t_mtrack *tp){
+    int natoms = binbuf_getnatom(tp->tr_binbuf);
+    t_atom *vec = binbuf_getvec(tp->tr_binbuf);
+    double abstime = 0.;
+    int i = 0, block = 0;
+    while(i < natoms){
+        int s, e, j;
+        while(i < natoms && vec[i].a_type == A_SEMI)
+            i++;
+        if(i >= natoms)
+            break;
+        s = i;
+        e = s + 1;
+        while(e < natoms && vec[e].a_type != A_SEMI)
+            e++;
+        if(vec[s].a_type == A_FLOAT && vec[s].a_w.w_float > 0.)
+            abstime += vec[s].a_w.w_float;
+        startpost("[mtr %d] block %d: t=%g  ", tp->tr_id, block, abstime);
+        for(j = s + 1; j < e; j++){
+            if(vec[j].a_type == A_FLOAT)
+                startpost("%g ", vec[j].a_w.w_float);
+            else if(vec[j].a_type == A_SYMBOL)
+                startpost("%s ", vec[j].a_w.w_symbol->s_name);
+        }
+        post("");
+        block++;
+        i = e + 1;
+    }
+}
+
 static void mtrack_setmode(t_mtrack *tp, int newmode){
     if(tp->tr_mode == MTR_PLAYMODE){
         clock_unset(tp->tr_clock);
@@ -1382,6 +1413,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtrack_class, (t_method)mtrack_deleteeventat, gensym("deleteeventat"), A_GIMME, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_cleareventat, gensym("cleareventat"), A_GIMME, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_addevent, gensym("addevent"), A_GIMME, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_dump, gensym("dump"), 0);
     mtr_class = class_new(gensym("mtr"), (t_newmethod)mtr_new,
         (t_method)mtr_free, sizeof(t_mtr), 0, A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_speed, gensym("speed"), A_FLOAT, 0);
