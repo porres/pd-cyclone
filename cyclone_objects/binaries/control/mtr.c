@@ -753,6 +753,96 @@ static void mtrack_cleareventat(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
     mtrack_editeventat(tp, ac, av, 1);
 }
 
+/* addevent <absolute_time_ms> [data...]: inserts a new event at the given
+   absolute time.  Since the binbuf stores relative deltas, the delta of the
+   block containing the target time is split in two: the new block gets
+   (target - block_start) and the old block keeps only (block_end - target).
+   A target past the last block is appended.  An event already sitting exactly
+   at the target time ends up after the new one.  Built in a temp binbuf and
+   copied back with binbuf_add, as in mtrack_editeventat.  NOTE: if in
+   PLAYMODE, playback is stopped after the edit (stale playback state). */
+static void mtrack_addevent(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
+    if(ac < 1 || av->a_type != A_FLOAT)
+        return;
+    double target = av->a_w.w_float;
+    if(target < 0.)
+        target = 0.;
+    int ndata = ac - 1;
+    t_atom *data = av + 1;
+    int natoms = binbuf_getnatom(tp->tr_binbuf);
+    t_atom *vec = binbuf_getvec(tp->tr_binbuf);
+    double abstime = 0.;
+    int i = 0, inserted = 0;
+    t_binbuf *tmp = binbuf_new();
+    while(i < natoms){
+        int s0, e0;
+        while(i < natoms && vec[i].a_type == A_SEMI){  // pass through empty blocks
+            binbuf_add(tmp, 1, vec + i);
+            i++;
+        }
+        if(i >= natoms)
+            break;
+        s0 = i;
+        e0 = s0 + 1;
+        while(e0 < natoms && vec[e0].a_type != A_SEMI)
+            e0++;  // e0 = index of the closing SEMI (or natoms)
+        double delta = (vec[s0].a_type == A_FLOAT && vec[s0].a_w.w_float > 0.)
+                       ? vec[s0].a_w.w_float : 0.;
+        double block_start = abstime;
+        double block_end = abstime + delta;
+        if(!inserted && target <= block_end){
+            t_atom at;
+            float nd = (float)(target - block_start);
+            if(nd < 0.f)
+                nd = 0.f;
+            SETFLOAT(&at, nd);  // new block: delta, payload, SEMI
+            binbuf_add(tmp, 1, &at);
+            if(ndata)
+                binbuf_add(tmp, ndata, data);
+            SETSEMI(&at);
+            binbuf_add(tmp, 1, &at);
+            inserted = 1;
+            float rem = (float)(block_end - target);
+            if(rem < 0.f)
+                rem = 0.f;
+            SETFLOAT(&at, rem);  // old block with the reduced delta
+            binbuf_add(tmp, 1, &at);
+            if(e0 > s0 + 1)
+                binbuf_add(tmp, e0 - (s0 + 1), vec + s0 + 1);
+            if(e0 < natoms)
+                binbuf_add(tmp, 1, vec + e0);
+        }
+        else
+            binbuf_add(tmp, e0 - s0 + (e0 < natoms ? 1 : 0), vec + s0);
+        abstime = block_end;
+        i = e0 + 1;
+    }
+    if(!inserted){  // past the last block: append
+        t_atom at;
+        float nd = (float)(target - abstime);
+        if(nd < 0.f)
+            nd = 0.f;
+        if(natoms && vec[natoms-1].a_type != A_SEMI){  // terminate an unterminated last block
+            SETSEMI(&at);
+            binbuf_add(tmp, 1, &at);
+        }
+        SETFLOAT(&at, nd);
+        binbuf_add(tmp, 1, &at);
+        if(ndata)
+            binbuf_add(tmp, ndata, data);
+        SETSEMI(&at);
+        binbuf_add(tmp, 1, &at);
+    }
+    binbuf_clear(tp->tr_binbuf);
+    binbuf_add(tp->tr_binbuf, binbuf_getnatom(tmp), binbuf_getvec(tmp));
+    if(tp->tr_mode == MTR_PLAYMODE)
+        mtrack_setmode(tp, MTR_STEPMODE);  // stop: playback state is stale after the edit
+    tp->tr_atdelta = 0;
+    tp->tr_ixnext = 0;  // binbuf was rewritten; restart from the top
+    binbuf_free(tmp);
+}
+
 static void mtr_calltracks(t_mtr *x, t_mtrackfn fn, t_symbol *s, int ac, t_atom *av){
     s = NULL;
     int ntracks = x->x_ntracks;
@@ -1291,6 +1381,7 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtrack_class, (t_method)mtrack_length, gensym("length"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_deleteeventat, gensym("deleteeventat"), A_GIMME, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_cleareventat, gensym("cleareventat"), A_GIMME, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_addevent, gensym("addevent"), A_GIMME, 0);
     mtr_class = class_new(gensym("mtr"), (t_newmethod)mtr_new,
         (t_method)mtr_free, sizeof(t_mtr), 0, A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_speed, gensym("speed"), A_FLOAT, 0);
