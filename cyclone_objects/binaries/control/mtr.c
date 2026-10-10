@@ -671,6 +671,88 @@ static void mtrack_length(t_mtrack *tp, t_floatarg f){
     tp->tr_length = f > 0 ? f : 0;
 }
 
+/* Shared worker for deleteeventat / cleareventat.  av[0] = absolute time (ms),
+   av[1..] = optional criteria, which must match the block payload EXACTLY
+   (same count, types and values).  Block layout: delta payload... ;
+   The edited contents are built in a temp binbuf and copied back with
+   binbuf_add (not binbuf_restore, which would reinterpret symbols such as
+   "$1", ";" or "," in the payload).  NOTE: if in PLAYMODE, playback is stopped
+   after the edit, since the vector pointer, tr_atdelta and tr_ixnext are
+   invalidated by the rewrite.  tr_trackdur is recomputed on the next play. */
+static void mtrack_editeventat(t_mtrack *tp, int ac, t_atom *av, int clearonly){
+    if(!ac || av->a_type != A_FLOAT)
+        return;
+    double target = av->a_w.w_float;
+    int ncrit = ac - 1;
+    t_atom *crit = av + 1;
+    int natoms = binbuf_getnatom(tp->tr_binbuf);
+    t_atom *vec = binbuf_getvec(tp->tr_binbuf);
+    double abstime = 0.;
+    int i = 0, edited = 0;
+    t_binbuf *tmp = binbuf_new();
+    while(i < natoms){
+        int s, e, j, match;
+        while(i < natoms && vec[i].a_type == A_SEMI){  // pass through empty blocks
+            binbuf_add(tmp, 1, vec + i);
+            i++;
+        }
+        if(i >= natoms)
+            break;
+        s = i;
+        e = s + 1;
+        while(e < natoms && vec[e].a_type != A_SEMI)
+            e++;  // e = index of the closing SEMI (or natoms)
+        if(vec[s].a_type == A_FLOAT && vec[s].a_w.w_float > 0.)
+            abstime += vec[s].a_w.w_float;
+        // tolerance: deltas are stored as floats, the requested time may not be exact
+        match = (abstime - target <= 0.001 && target - abstime <= 0.001);
+        if(match && ncrit){
+            if(e - (s + 1) != ncrit)
+                match = 0;
+            else for(j = 0; j < ncrit; j++){
+                t_atom *a = vec + s + 1 + j, *b = crit + j;
+                if(a->a_type != b->a_type ||
+                   (a->a_type == A_FLOAT && a->a_w.w_float != b->a_w.w_float) ||
+                   (a->a_type == A_SYMBOL && a->a_w.w_symbol != b->a_w.w_symbol)){
+                    match = 0;
+                    break;
+                }
+            }
+        }
+        if(match){
+            if(clearonly){
+                binbuf_add(tmp, 1, vec + s);  // keep the delta
+                if(e < natoms)
+                    binbuf_add(tmp, 1, vec + e);  // and the SEMI
+            }
+            // deleteeventat: skip delta and payload entirely
+            edited = 1;
+        }
+        else
+            binbuf_add(tmp, e - s + (e < natoms ? 1 : 0), vec + s);
+        i = e + 1;
+    }
+    if(edited){
+        binbuf_clear(tp->tr_binbuf);
+        binbuf_add(tp->tr_binbuf, binbuf_getnatom(tmp), binbuf_getvec(tmp));
+        if(tp->tr_mode == MTR_PLAYMODE)
+            mtrack_setmode(tp, MTR_STEPMODE);  // stop: playback state is stale after the edit
+        tp->tr_atdelta = 0;
+        tp->tr_ixnext = 0;  // binbuf was rewritten; restart from the top
+    }
+    binbuf_free(tmp);
+}
+
+static void mtrack_deleteeventat(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
+    mtrack_editeventat(tp, ac, av, 0);
+}
+
+static void mtrack_cleareventat(t_mtrack *tp, t_symbol *s, int ac, t_atom *av){
+    s = NULL;
+    mtrack_editeventat(tp, ac, av, 1);
+}
+
 static void mtr_calltracks(t_mtr *x, t_mtrackfn fn, t_symbol *s, int ac, t_atom *av){
     s = NULL;
     int ntracks = x->x_ntracks;
@@ -1207,6 +1289,8 @@ CYCLONE_OBJ_API void mtr_setup(void){
     class_addmethod(mtrack_class, (t_method)mtrack_playat, gensym("playat"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_playatms, gensym("playatms"), A_FLOAT, 0);
     class_addmethod(mtrack_class, (t_method)mtrack_length, gensym("length"), A_FLOAT, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_deleteeventat, gensym("deleteeventat"), A_GIMME, 0);
+    class_addmethod(mtrack_class, (t_method)mtrack_cleareventat, gensym("cleareventat"), A_GIMME, 0);
     mtr_class = class_new(gensym("mtr"), (t_newmethod)mtr_new,
         (t_method)mtr_free, sizeof(t_mtr), 0, A_GIMME, 0);
     class_addmethod(mtr_class, (t_method)mtr_speed, gensym("speed"), A_FLOAT, 0);
