@@ -95,7 +95,7 @@ jobs:
       uses: msys2/setup-msys2@v2
       with:
         install: make mingw-w64-x86_64-gcc mingw64/mingw-w64-x86_64-ntldd-git mingw-w64-x86_64-fluidsynth mingw64/mingw-w64-x86_64-cmake unzip curl
-        update: false
+        update: true
 
     - name: Get Pd
       shell: msys2 {0}

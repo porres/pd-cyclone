@@ -29,17 +29,15 @@ Find Cyclone's latest releases at: https://github.com/porres/pd-cyclone/releases
 -------
 ### About Cyclone:
 
-At the time of this release, outdated versions of cyclone (0.1) are available in the long abandoned Pd-extended distribution (which no one should be using now in the 2020's) as well as in Pd-l2ork and Purr Data (both originally based on Pd-Extended but ported to nw.js). If you want an up to date version of Cyclone, use Pd Vanilla or PlugData.
+Cyclone is a legacy library and an important piece of the now long abandoned Pd-Extended (which no one should be using now in the 2020's). You can download Cyclone for Pd Vanilla these days but current Pd forks also carry Cyclone, like Pd-l2ork <https://github.com/pd-l2ork/pd-l2ork> (which is based on Pd-Extended but ported to the nw.js gui front) and PlugData  <https://github.com/timothyschoen/PlugData>
 
-Do you know about PlugData? Cyclone is also part of PlugData by Timothy Schoen, which is a fork of Pd that loads as a standalone or VST with a revamped GUI. ​See: <https://github.com/timothyschoen/PlugData>
-
-The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55, when Cyclone was compatible to MAX 4.0. Cyclone was then incorporated and available in Pd-extended, where it only a had a minor update under the maintenance of Hans-Christoph Steiner in 2013 (0.1-alpha56), right before Pd-extended and Cyclone (by consequence) were abandoned altogether (this 0.1-alpha56 version was also inherited by Pd-l2ork/Purr Data). Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
+The original author of Cyclone (Krzysztof Czaja) abandoned it in 2005 at version 0.1-alpha55, when Cyclone was compatible to MAX 4.0. Cyclone was then incorporated and available in Pd-extended, where it only a had a minor update under the maintenance of Hans-Christoph Steiner in 2013 (0.1-alpha56), right before Pd-extended and Cyclone (by consequence) were abandoned altogether. Under a new maintenance phase by Fred Jan Kraan, 0.1-alpha57 and Cyclone 0.2 beta versions were released, still closely related to the previous '0.1-alpha' releases and mostly compliant to Max 4.0!
 
 Cyclone 0.3-0 was the major overhaul in Cyclone, where almost all of its objects got updated to the latest Max 7 version (Max 7.3.5). Many bugs were also fixed, the documentation was rewritten from scratch and new objects were included. Check the provided **CHANGELOG.txt** file for the details in all version changes.
 
 Currently, Cyclone still hasn't reached full compatibility to "Max 7.3.5". Some functionalities that depend on "transport" or "dictionaries" haven't been implemented and actually will never be. Cyclone is not in much active development these days and the main goal is to maintain the library, and fix bugs (hence avoid including newer things). 
 
-The main current maintainer of Cyclone (Porres) is much busier with developing the ELSE library. Note that this library has alternatives for almost all cyclone objects and many objects in ELSE are actually inspired by MAX/MSP objects that were not cloned in Cyclone. By the way, ELSE is also part of PlugData, therefore, the documentation of Cyclone points to alternatives in ELSE.
+The main current maintainer of Cyclone (Porres) is much busier with developing the ELSE library, which has alternatives for almost all cyclone objects and many objects in ELSE are actually inspired by MAX/MSP objects that were not cloned in Cyclone. By the way, ELSE is also part of PlugData, therefore, the documentation of Cyclone points to alternatives in ELSE.
 
 Some objects in Cyclone are now borrowed from ELSE, like [pink~], [tanh~] and [comment] (this one based on ELSE's [note] and was actually deprecated). These objects are backwards compatible and offer more stuff than the orginal MAX object, so not really fully compatible.
 
