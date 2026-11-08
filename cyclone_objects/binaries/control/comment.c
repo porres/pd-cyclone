@@ -1,4 +1,4 @@
- /* Copyright (c) 2002-2005 krzYszcz and others.
+/* Copyright (c) 2002-2005 krzYszcz and others.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
  * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
@@ -20,7 +20,7 @@
 #include "control/s_cycloneutf8.h"
 
 #define COMMENT_MINSIZE       8
-#define COMMENT_HANDLE_WIDTH  8
+#define COMMENT_HANDLE_WIDTH  4
 #define COMMENT_OUTBUFSIZE    16384
 
 static t_class *comment_class, *commentsink_class, *handle_class, *edit_proxy_class;
@@ -166,10 +166,13 @@ static void comment_draw_handle(t_comment *x){
         comment_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         if(x->x_resized)
             x2 = x1 + x->x_max_pixwidth;
-        char color[32];
-        snprintf(color, sizeof(color), "#%06x", THISGUI->i_selectcolor);
-        sys_vgui("canvas %s -width %d -height %d -bg %s -cursor sb_h_double_arrow\n",
-            ch->h_pathname, COMMENT_HANDLE_WIDTH, x->x_height, color);
+        char fg[32], gop[32], sel[32];
+        snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
+        snprintf(gop, sizeof(gop), "#%06x", THISGUI->i_gopcolor);
+        snprintf(sel, sizeof(sel), "#%06x", THISGUI->i_selectcolor);
+        sys_vgui("canvas %s -width %d -height %d -bg %s -highlightcolor %s -highlightbackground %s -highlightthickness 1 -cursor sb_h_double_arrow\n",
+            ch->h_pathname, COMMENT_HANDLE_WIDTH, x->x_height,
+            x->x_select ? sel : gop, fg, x->x_select ? sel : fg);
         sys_vgui("bind %s <Button> {pdsend [concat %s _click 1 [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
             ch->h_pathname, ch->h_bindsym->s_name, x->x_cv, x->x_cv);
         sys_vgui("bind %s <ButtonRelease> {pdsend [concat %s _click 0 [.x%lx.c canvasx %%x] [.x%lx.c canvasy %%y] \\;]}\n",
@@ -194,7 +197,8 @@ static void comment_draw_inlet(t_comment *x){
             t_canvas *cv = glist_getcanvas(x->x_glist);
             int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
             char color[32];
-            snprintf(color, sizeof(color), "#%06x", THISGUI->i_foregroundcolor);
+            snprintf(color, sizeof(color), "#%06x",
+                x->x_select ? THISGUI->i_selectcolor : THISGUI->i_foregroundcolor);
             sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -fill %s -tags [list %lx_in all%lx]\n",
                      cv, xpos, ypos, xpos+(IOWIDTH),
                      ypos+(IHEIGHT)-1, color, color,
@@ -420,6 +424,23 @@ static void comment_select(t_gobj *z, t_glist *glist, int state){
         x->x_cv, (unsigned long)x, state ? color : x->x_color);
     sys_vgui(".x%lx.c itemconfigure %lx_outline -width 1 -outline %s\n",
              x->x_cv, (unsigned long)x, color);
+#ifndef PDL2ORK
+    if(x->x_edit){
+        t_handle *ch = (t_handle *)x->x_handle;
+        char fg[32], gop[32], sel[32];
+        snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
+        snprintf(gop, sizeof(gop), "#%06x", THISGUI->i_gopcolor);
+        snprintf(sel, sizeof(sel), "#%06x", THISGUI->i_selectcolor);
+        // inlet takes the select color
+        if(x->x_receive == &s_)
+            sys_vgui(".x%lx.c itemconfigure %lx_in -fill %s -outline %s\n",
+                x->x_cv, (unsigned long)x, state ? sel : fg, state ? sel : fg);
+        // resize handle
+        if(ch->h_pathname[0])
+            sys_vgui("%s configure -highlightbackground %s -bg %s\n",
+                ch->h_pathname, state ? sel : fg, state ? sel : gop);
+    }
+#endif
 // A regular rtext should set 'canvas_editing' variable to its canvas, we don't do it coz
 // we get keys via global binding to "#key" (and coz 'canvas_editing' isn't exported).
 }

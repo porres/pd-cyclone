@@ -147,14 +147,14 @@ static void scope_draw_handle(t_scope *x, int state){
     // No-op under HTML5 GUI
 #else
     t_handle *sh = (t_handle *)x->x_handle;
-    char sel[32];
-    snprintf(sel, sizeof(sel), "#%06x", THISGUI->i_selectcolor);
+    char fg[32], gop[32];
+    snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
+    snprintf(gop, sizeof(gop), "#%06x", THISGUI->i_gopcolor);
     // always destroy (otherwise it may already exist)
     sys_vgui("destroy %s\n", sh->h_pathname);
-    if(state){        
-        sys_vgui("canvas %s -width %d -height %d -bg %s -highlightthickness %d -cursor bottom_right_corner\n",
-            sh->h_pathname, HANDLE_SIZE, HANDLE_SIZE,
-            sel, 2);
+    if(state){
+        sys_vgui("canvas %s -width %d -height %d -bg %s -highlightcolor %s -highlightbackground %s -highlightthickness 1 -cursor bottom_right_corner\n",
+            sh->h_pathname, HANDLE_SIZE, HANDLE_SIZE, gop, fg, fg);
         int x1, y1, x2, y2;
         scope_getrect((t_gobj *)x, x->x_glist, &x1, &y1, &x2, &y2);
         sys_vgui(".x%lx.c create window %d %d -anchor nw -width %d -height %d -window %s -tags all%lx\n",
@@ -268,8 +268,10 @@ static void scope_draw_bg(t_scope *x, t_canvas *cv, int x1, int y1, int x2, int 
         glist_istoplevel(x->x_glist)
     );
 #else
-    sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline #%.2x%.2x%.2x -fill #%.2x%.2x%.2x -width 1 -tags {bg%lx all%lx}\n",
-    cv, x1, y1, x2, y2, x->x_bg[0], x->x_bg[1], x->x_bg[2], x->x_bg[0], x->x_bg[1], x->x_bg[2], x, x);
+    char fg[32];
+    snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
+    sys_vgui(".x%lx.c create rectangle %d %d %d %d -outline %s -fill #%.2x%.2x%.2x -width 1 -tags {bg%lx all%lx}\n",
+        cv, x1, y1, x2, y2, fg, x->x_bg[0], x->x_bg[1], x->x_bg[2], x, x);
 #endif
 }
 
@@ -280,12 +282,12 @@ static void scope_draw_inlets(t_scope *x){
         snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
         t_canvas *cv = glist_getcanvas(x->x_glist);
         int xpos = text_xpix(&x->x_obj, x->x_glist), ypos = text_ypix(&x->x_obj, x->x_glist);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill %s -tags {%lx_in1 inlets%lx all%lx}\n",
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill %s -outline %s -tags {%lx_in1 inlets%lx all%lx}\n",
             cv, xpos, ypos, xpos+(IOWIDTH), ypos+(IHEIGHT),
-            fg, x, x, x);
-        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill %s -tags {%lx_in2 inlets%lx all%lx}\n",
+            fg, fg, x, x, x);
+        sys_vgui(".x%lx.c create rectangle %d %d %d %d -fill %s -outline %s -tags {%lx_in2 inlets%lx all%lx}\n",
             cv, xpos+x->x_width, ypos, xpos+x->x_width-(IOWIDTH), ypos+(IHEIGHT),
-            fg, x, x, x);
+            fg, fg, x, x, x);
     }
 #endif
 }
@@ -537,15 +539,25 @@ static void scope_select(t_gobj *z, t_glist *glist, int state){
     else
         gui_vmess("gui_gobj_deselect", "xx", cv, x);
     #else
+        t_handle *sh = (t_handle *)x->x_handle;
         char fg[32], sel[32];
         snprintf(sel, sizeof(sel), "#%06x", THISGUI->i_selectcolor);
         snprintf(fg, sizeof(fg), "#%06x", THISGUI->i_foregroundcolor);
-        if(state)
-            sys_vgui(".x%lx.c itemconfigure bg%lx -outline %s -width 1 -fill #%.2x%.2x%.2x\n",
-                cv, x, sel, x->x_bg[0], x->x_bg[1], x->x_bg[2]);
-        else
-            sys_vgui(".x%lx.c itemconfigure bg%lx -outline %s -width 1 -fill #%.2x%.2x%.2x\n",
-                cv, x, fg, x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+        // outline of the bg: select color + SCOPE_SELBDWIDTH when selected
+        sys_vgui(".x%lx.c itemconfigure bg%lx -outline %s -width %d -fill #%.2x%.2x%.2x\n",
+            cv, x, state ? sel : fg, state ? SCOPE_SELBDWIDTH : 1,
+            x->x_bg[0], x->x_bg[1], x->x_bg[2]);
+        // inlets get the select color too
+        if(x->x_edit && x->x_receive == &s_)
+            sys_vgui(".x%lx.c itemconfigure inlets%lx -fill %s -outline %s\n",
+                cv, x, state ? sel : fg, state ? sel : fg);
+        // resize handle
+        if(x->x_edit){
+            char gop[32];
+            snprintf(gop, sizeof(gop), "#%06x", THISGUI->i_gopcolor);
+            sys_vgui("%s configure -highlightbackground %s -bg %s\n",
+                sh->h_pathname, state ? sel : fg, state ? sel : gop);
+        }
     #endif
 }
 
@@ -1245,7 +1257,7 @@ static void scope_properties(t_gobj *z, t_glist *owner){
         x->x_period, x->x_bufsize,
         x->x_min, x->x_max,
         x->x_delay, x->x_drawstyle,
-        x->x_rcv_raw->s_name, 
+        x->x_rcv_raw->s_name,
         x->x_trigmode, x->x_triglevel,
         SCOPE_MINSIZE, SCOPE_MINSIZE,
         SCOPE_MINPERIOD, SCOPE_MAXPERIOD,
@@ -1630,7 +1642,7 @@ static void *scope_new(t_symbol *s, int ac, t_atom *av){
     if(x->x_receive != &s_)
         pd_bind(&x->x_obj.ob_pd, x->x_receive);
     else
-    	x->x_rcv_raw = gensym("empty");
+        x->x_rcv_raw = gensym("empty");
     x->x_rightinlet = inlet_new((t_object *)x, (t_pd *)x, &s_signal, &s_signal);
     x->x_width = (int)width , x->x_height = (int)height ;
     x->x_period = period < 2 ? 2 : period > 8192 ? 8192 : (int)period;
@@ -1714,7 +1726,7 @@ CYCLONE_OBJ_API void scope_tilde_setup(void){
     #include "scope_dialog.c"
 }
 
-CYCLONE_OBJ_API void Scope_tilde_setup(void){  
+CYCLONE_OBJ_API void Scope_tilde_setup(void){
     scope_class = class_new(gensym("Scope~"), (t_newmethod)scope_new,
             (t_method)scope_free, sizeof(t_scope), 0, A_GIMME, 0);
     class_addmethod(scope_class, nullfn, gensym("signal"), 0);
