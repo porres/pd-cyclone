@@ -170,15 +170,19 @@ nextremote:
 	// if the receiver is not a [receive] (gatom, nbx, etc.), grab directly from it
 	if(x->x_receiver && !(x->x_nonreceive) && (x->x_receiver->te_g.g_pd->c_name != gensym("receive"))){
 		*grabbedp = x->x_receiver; // store the receiver itself in the object buffer
-		*ngraboutp = 1; // they only have one outlet (it could be more flexible for externals)
 		// store the connection list for that outlet
 		obj_starttraverseoutlet(x->x_receiver, &goutp, 0);
-		// Save the raw list, including any tracing proxy, for grab_restore.
-		*grabconsp = magic_outlet_connections(goutp);
-		/* now, we overwrite the outlet's connection list with the connection list
-		   from our [grab]'s 0th outlet. This essentially connects the grabbed receiver
-		   to whatever [grab] is connected to */
-		goutp->o_connections = obj_starttraverseoutlet((t_object *)x, &op, 0);
+		if(goutp){
+			*ngraboutp = 1; // they only have one outlet (it could be more flexible for externals)
+			// Save the raw list, including any tracing proxy, for grab_restore.
+			*grabconsp = magic_outlet_connections(goutp);
+			/* now, we overwrite the outlet's connection list with the connection list
+			   from our [grab]'s 0th outlet. This essentially connects the grabbed receiver
+			   to whatever [grab] is connected to */
+			goutp->o_connections = obj_starttraverseoutlet((t_object *)x, &op, 0);
+		}
+		else // some receivers, like [cnv], have no outlet: there's nothing to grab, but still send to them
+			*ngraboutp = 0;
 		/* this is a flag to let us know we've done the work for this object; otherwise
 		   we get an infinite loop in the grab_bang, grab_float, etc. routines. There's
 		   probably a better way to do this... */
