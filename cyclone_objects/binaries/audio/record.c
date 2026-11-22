@@ -96,9 +96,8 @@ static void record_list(t_record *x, t_symbol *s, int argc, t_atom * argv){
 }
 
 static void record_proxy_draw(t_record_proxy *p){
-    if(p->p_cnv){
-        if(p->p_cnv->x_cybuf->c_playable)
-            cybuf_redraw(p->p_cnv->x_cybuf);
+    if(p->p_cnv && p->p_cnv->x_cybuf && p->p_cnv->x_cybuf->c_playable){
+        cybuf_redraw(p->p_cnv->x_cybuf);
     }
 }
 

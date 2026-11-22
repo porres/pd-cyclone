@@ -59,20 +59,18 @@ static int grab_prep(t_grab *x, t_object *obj){
 	t_outconnect *ocp;  // outlet connection pointer
 	t_object *dummy;
 	int ncons, inno;
-	if(x->x_rcv_name){
+	if(x->x_rcv_name)
 		x->x_receiver = obj;
-		op = obj->ob_outlet;
-	}
-	else
-        op = x->x_rightout;
     /* if receiver isn't a [receive] object, we want to grab its outlet 
        so there's only one "connection." Otherwise we need to count the
        connections to the objects we're going to grab. If there aren't 
        any, there's nothing left to do. */
 	if(x->x_receiver && (x->x_receiver->te_g.g_pd->c_name != gensym("receive")))
 		ncons = 1;
-	else{ // not a [receive] object, grab connections
-        if(!(x->x_tograbbedcon = ocp = magic_outlet_connections(op)))
+	else{ // [receive] or [grab]'s right outlet: traverse the patch connections
+        // Pd's traversal skips tracing proxies, which are not patchable objects.
+        if(!(x->x_tograbbedcon = ocp = obj_starttraverseoutlet(obj, &op,
+            x->x_rcv_name ? 0 : x->x_noutlets)))
             return(0);
         for(ncons = 0; ocp ; ++ncons)
             ocp = magic_outlet_nextconnection(ocp, &dummy, &inno);
@@ -172,13 +170,19 @@ nextremote:
 	// if the receiver is not a [receive] (gatom, nbx, etc.), grab directly from it
 	if(x->x_receiver && !(x->x_nonreceive) && (x->x_receiver->te_g.g_pd->c_name != gensym("receive"))){
 		*grabbedp = x->x_receiver; // store the receiver itself in the object buffer
-		*ngraboutp = 1; // they only have one outlet (it could be more flexible for externals)
 		// store the connection list for that outlet
-		*grabconsp = obj_starttraverseoutlet(x->x_receiver, &goutp, 0);
-		/* now, we overwrite the outlet's connection list with the connection list
-		   from our [grab]'s 0th outlet. This essentially connects the grabbed receiver
-		   to whatever [grab] is connected to */
-		goutp->o_connections = obj_starttraverseoutlet((t_object *)x, &op, 0);
+		obj_starttraverseoutlet(x->x_receiver, &goutp, 0);
+		if(goutp){
+			*ngraboutp = 1; // they only have one outlet (it could be more flexible for externals)
+			// Save the raw list, including any tracing proxy, for grab_restore.
+			*grabconsp = magic_outlet_connections(goutp);
+			/* now, we overwrite the outlet's connection list with the connection list
+			   from our [grab]'s 0th outlet. This essentially connects the grabbed receiver
+			   to whatever [grab] is connected to */
+			goutp->o_connections = obj_starttraverseoutlet((t_object *)x, &op, 0);
+		}
+		else // some receivers, like [cnv], have no outlet: there's nothing to grab, but still send to them
+			*ngraboutp = 0;
 		/* this is a flag to let us know we've done the work for this object; otherwise
 		   we get an infinite loop in the grab_bang, grab_float, etc. routines. There's
 		   probably a better way to do this... */
@@ -216,7 +220,8 @@ nextremote:
 					/* now we get the connection lists for each outlet in turn. */
 					for(int i = 0; i < goutno; i++){
 						// put i'th outlet in goutp, return its connection list and store it
-						*grabconsp++ = obj_starttraverseoutlet(gr, &goutp, i);
+						obj_starttraverseoutlet(gr, &goutp, i);
+						*grabconsp++ = magic_outlet_connections(goutp);
 						/* now replace its connection list with the connection list from our
 						   [grab]'s ith outlet. This essentially connects the grabbed object's
                            ith outlet to whatever [grab]'s ith outlet  is connected to */

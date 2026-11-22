@@ -104,7 +104,10 @@ static void *gate_new(t_symbol *s, int argc, t_atom *argv)
             argc--;
             argv++;
             argnum++;
-        };
+        }
+        else {
+            break;
+        }
     };
 
 	//bounds checking

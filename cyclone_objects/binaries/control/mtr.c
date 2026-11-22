@@ -952,6 +952,9 @@ static void mtr_write(t_mtr *x, t_symbol *s){
 }
 
 static void mtr_free(t_mtr *x){
+    if(x->x_filehandle) {
+        file_free(x->x_filehandle);
+    }
     if(x->x_tracks){
         int ntracks = x->x_ntracks;
         t_mtrack **tpp = x->x_tracks;

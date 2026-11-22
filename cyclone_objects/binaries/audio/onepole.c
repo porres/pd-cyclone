@@ -112,7 +112,7 @@ static void *onepole_new(t_symbol *s, int ac, t_atom *av)
 {
     t_onepole *x = (t_onepole *)pd_new(onepole_class);
     t_float f = 1;
-    t_symbol *sym;
+    t_symbol *sym = NULL;
     switch(ac)
     {
         default:

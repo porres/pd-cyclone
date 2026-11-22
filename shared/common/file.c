@@ -889,6 +889,8 @@ void file_free(t_file *f){
         /* just in case of missing 'restore' */
         embed_gc(f->f_master, ps__C, 0);
     if(f->f_savepanel){
+        if(f->f_savepanel->f_panelclock)
+            clock_free(f->f_savepanel->f_panelclock);
         pd_unbind((t_pd *)f->f_savepanel, f->f_savepanel->f_bindname);
         pd_free((t_pd *)f->f_savepanel);
     }

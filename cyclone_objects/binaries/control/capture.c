@@ -46,6 +46,8 @@ static t_class *capture_class;
 
 static void capture_symbol(t_capture *x, t_symbol *s)
 {
+    if(x->x_head >= x->x_bufsize) return;
+    
     SETSYMBOL(&x->x_buffer[x->x_head], s) ;
     x->x_head = x->x_head + 1;
     //post("%s", x->x_buffer[x->x_head ].a_w.w_symbol->s_name);
@@ -138,7 +140,7 @@ static int capture_formatfloat(t_capture *x, float f, char *buf, int col,
     //not at beginning, have to enter space before
     if (col > 0)
 		*bp++ = ' ', cnt++;
-    cnt += sprintf(bp, fmt, f, precision);
+    cnt += sprintf(bp, fmt, precision, f);
     //if too many columns for ed window, start on new line (instead of space)
     if (col + cnt > maxcol)
 	buf[0] = '\n', col = cnt - 1;  /* assuming col > 0 */
@@ -424,6 +426,8 @@ static void capture_free(t_capture *x)
 
 static void capture_float(t_capture *x, t_float f)
 {
+    if(x->x_head >= x->x_bufsize) return;
+    
     SETFLOAT(&x->x_buffer[x->x_head], f) ;
     //post("%f", x->x_buffer[x->x_head].a_w.w_float);
     x->x_head = x->x_head + 1;
