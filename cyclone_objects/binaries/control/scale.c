@@ -187,15 +187,12 @@ static void *scale_new(t_symbol *s, int ac, t_atom *av){
         }
         else{
             t_int isclassic = strcmp(firstarg->s_name, "@classic") == 0;
-            if(isclassic && ac>=1) {
-                t_symbol *arg = atom_getsymbolarg(1,ac,av);
-                if(arg == &s_) {
-                    t_int dummy = atom_getintarg(1, ac, av);
-                    if(dummy == 1)
-                        x->flag = 1;
-                    ac-=2;
-                    av+=2;
-                }
+            if(isclassic && atom_getsymbolarg(1,ac,av) == &s_) {
+                t_int dummy = atom_getintarg(1, ac, av);
+                if(dummy == 1)
+                    x->flag = 1;
+                ac-=2;
+                av+=2;
             }
             else{
                 ac = 0;

@@ -769,13 +769,11 @@ static void *table_new(t_symbol *s, int argc, t_atom *argv){
         if(argv->a_type == A_SYMBOL){
             t_symbol * curarg = atom_getsymbolarg(0, argc, argv);
             if(!strcmp(curarg->s_name, "@name")){
-                if(argc >= 2){
-                    if((argv+1)->a_type == A_SYMBOL){
-                        name = atom_getsymbolarg(1, argc, argv);
-                        argc-=2;
-                        argv+=2;
-                        first_arg = 1;
-                    }
+                if(argc >= 2 && (argv+1)->a_type == A_SYMBOL){
+                    name = atom_getsymbolarg(1, argc, argv);
+                    argc-=2;
+                    argv+=2;
+                    first_arg = 1;
                 }
                 else
                     goto errstate;
