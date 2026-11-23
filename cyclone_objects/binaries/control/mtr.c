@@ -1052,7 +1052,7 @@ static void *mtr_new(t_symbol *s, int ac, t_atom *av){
                 }
             }
             else if(sym == gensym("@selection")){
-                if(ac && (av)->a_type == A_FLOAT && (av+1)->a_type == A_FLOAT){
+                if(ac >= 2 && (av)->a_type == A_FLOAT && (av+1)->a_type == A_FLOAT){
                     mtr_selection(x, atom_getfloat(av), atom_getfloat(av+1));
                     ac--, av++;
                     ac--, av++;

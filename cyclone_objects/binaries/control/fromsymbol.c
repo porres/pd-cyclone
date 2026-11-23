@@ -72,7 +72,7 @@ static void fromsymbol_separator(t_fromsymbol *x, t_symbol *s, int argc, t_atom 
     int set = 0; //if separator is set
     while(argc){
         t_symbol * cursym = atom_getsymbolarg(0, argc, argv);
-        if(strcmp(cursym->s_name, "@separator")!=0){
+        if(*cursym->s_name && strcmp(cursym->s_name, "@separator")!=0){
             x->x_separator = cursym;
             set = 1;
         };
